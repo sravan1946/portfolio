@@ -1,4 +1,5 @@
 from PIL import Image
+import argparse
 
 def remove_green_background(input_path, output_path):
     img = Image.open(input_path).convert("RGBA")
@@ -28,7 +29,10 @@ def remove_green_background(input_path, output_path):
     print(f"Saved transparent image to {output_path}")
 
 if __name__ == "__main__":
-    remove_green_background(
-        "/home/sravan/.gemini/antigravity/brain/55762623-55d2-416b-8887-d6edf2b3cab0/profile_green_screen_v2_1768424959245.png",
-        "/home/sravan/dev/portfolio/public/profile_subject_v4.png"
-    )
+    parser = argparse.ArgumentParser(description="Remove green background from an image.")
+    parser.add_argument("input_path", help="Path to the input image")
+    parser.add_argument("output_path", help="Path to save the output image")
+    
+    args = parser.parse_args()
+    
+    remove_green_background(args.input_path, args.output_path)
