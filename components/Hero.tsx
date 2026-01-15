@@ -5,7 +5,7 @@ import { ArrowRight, Terminal } from "lucide-react";
 import { PERSONAL_DATA, TECH_STACK } from "@/lib/data";
 import { HackerText } from "./HackerText";
 import { MagneticButton } from "./MagneticButton";
-import { SiCplusplus, SiPython, SiKalilinux, SiFlutter, SiDocker } from "react-icons/si";
+// import { SiCplusplus, SiPython, SiKalilinux, SiFlutter, SiDocker } from "react-icons/si";
 
 export function Hero() {
     return (
@@ -79,12 +79,23 @@ export function Hero() {
                         transition={{ delay: 0.4, duration: 1 }}
                         className="flex justify-center items-center gap-8 md:gap-12 flex-wrap opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
                     >
-                        {/* Manually added some core relevant icons for immediate impact */}
-                        <SiKalilinux size={32} className="text-slate-400 hover:text-[#557C94] transition-colors" title="Kali Linux" />
-                        <SiPython size={32} className="text-slate-400 hover:text-[#3776AB] transition-colors" title="Python" />
-                        <SiCplusplus size={32} className="text-slate-400 hover:text-[#00599C] transition-colors" title="C++" />
-                        <SiFlutter size={32} className="text-slate-400 hover:text-[#02569B] transition-colors" title="Flutter" />
-                        <SiDocker size={32} className="text-slate-400 hover:text-[#2496ED] transition-colors" title="Docker" />
+                        {/* Tech Stack Icons with Full Color on Hover */}
+                        {[
+                            { name: "Kali Linux", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kalilinux/kalilinux-original.svg" },
+                            { name: "Python", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+                            { name: "C++", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
+                            { name: "Flutter", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" },
+                            { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
+                        ].map((tech) => (
+                            <div key={tech.name} className="relative group cursor-pointer">
+                                <img
+                                    src={tech.url}
+                                    alt={tech.name}
+                                    className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-60 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                                    title={tech.name}
+                                />
+                            </div>
+                        ))}
                         {/* Taking a few from the existing stack if available or hardcoding for now to ensure icons exist */}
                     </motion.div>
 

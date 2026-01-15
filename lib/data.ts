@@ -2,7 +2,7 @@ import { Github, Instagram, Linkedin, Layout, Globe, Zap, Layers, Server, Databa
 
 export const PERSONAL_DATA = {
     name: "Sravan Krishna C M",
-    role: "B.Tech CSE & Cybersecurity",
+    role: "Available for Hire",
     bio: "I am a Computer Science student with a deep focus on Cybersecurity, DevOps, and Mobile Development. I engineer secure, resilient systems, build cross-platform applications with Flutter, and automate infrastructure. My work bridges the gap between robust software engineering, seamless operations, and proactive security.",
     email: "sravan.krishna@example.com", // Placeholder
     socials: [
