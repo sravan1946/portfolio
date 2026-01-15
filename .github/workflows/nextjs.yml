@@ -60,8 +60,31 @@ jobs:
           # Automatically inject basePath in your Next.js configuration file and disable
           # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
           #
-          # You may remove this line if you want to manage the configuration yourself.
+          # This action automatically detects:
+          # - Custom domains: basePath = "" (empty, served at root)
+          # - Repository pages: basePath = "/repo-name"
+          # - User/org pages: basePath = "" (empty)
           static_site_generator: next
+      - name: Set BASE_PATH
+        # The configure-pages action automatically detects the correct basePath based on:
+        # - Whether a custom domain is configured (basePath = "")
+        # - Repository vs user/org page configuration
+        # We use its output, with a fallback for repository pages without custom domain
+        run: |
+          # Priority: Use configure-pages output (handles custom domains automatically)
+          # Fallback: Use repository name if it's a repository page
+          if [ -n "${{ steps.pages.outputs.base_path }}" ]; then
+            echo "BASE_PATH=${{ steps.pages.outputs.base_path }}" >> $GITHUB_ENV
+            echo "Using base path from configure-pages: ${{ steps.pages.outputs.base_path }}"
+          elif [ "${{ github.event.repository.name }}" != "${{ github.repository_owner }}.github.io" ]; then
+            # Fallback: repository page without custom domain
+            echo "BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "Using fallback base path: /${{ github.event.repository.name }}"
+          else
+            # User/org page or custom domain (served at root)
+            echo "BASE_PATH=" >> $GITHUB_ENV
+            echo "Using empty base path (custom domain or user page)"
+          fi
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -76,7 +99,9 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         env:
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          # BASE_PATH is set in the previous step, prioritizing configure-pages output
+          # This ensures custom domains work correctly (basePath = "")
+          BASE_PATH: ${{ env.BASE_PATH }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
