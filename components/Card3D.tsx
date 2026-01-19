@@ -54,6 +54,21 @@ export function Card3D() {
                         fill
                         className="object-cover"
                     />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.8)_100%)] opacity-70" />
+
+                    {/* Biometric Scan Effect */}
+                    <motion.div
+                        className="absolute w-full h-1 bg-cyan-400/30 blur-sm z-20"
+                        style={{ top: "0%" }}
+                        animate={{ top: ["0%", "100%", "0%"] }}
+                        transition={{ duration: 5, ease: "linear", repeat: Infinity }}
+                    />
+                    <motion.div
+                        className="absolute w-full h-20 bg-gradient-to-b from-cyan-500/10 to-transparent z-10"
+                        style={{ top: "0%" }}
+                        animate={{ top: ["0%", "100%", "0%"] }}
+                        transition={{ duration: 5, ease: "linear", repeat: Infinity }}
+                    />
                 </motion.div>
 
                 {/* Layer 2: Subject (Faster movement = Pop effect) */}
@@ -65,12 +80,23 @@ export function Card3D() {
                         src="/profile-foreground.png"
                         alt="Sravan"
                         fill
-                        className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 grayscale-[0.7] group-hover:grayscale-0"
+                        className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 grayscale-[0.7] group-hover:grayscale-0 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
                     />
                 </motion.div>
 
                 {/* Grid Overlay (keep this as it is static and nice) */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_4px,6px_100%] pointer-events-none" />
+
+                {/* Spotlight Effect */}
+                <motion.div
+                    className="absolute inset-0 z-30 pointer-events-none mix-blend-overlay"
+                    style={{
+                        background: useTransform(
+                            [mouseX, mouseY],
+                            ([latestX, latestY]: any[]) => `radial-gradient(circle 300px at ${latestX + 200}px ${latestY + 250}px, rgba(255,255,255,0.15), transparent 80%)`
+                        )
+                    }}
+                />
 
             </motion.div>
         </motion.div>
