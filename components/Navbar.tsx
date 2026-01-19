@@ -14,8 +14,8 @@ const navItems = [
 ];
 
 const socials = [
-    { name: "GitHub", icon: Github, href: process.env.NEXT_PUBLIC_GITHUB_URL || "#" },
-    { name: "LinkedIn", icon: Linkedin, href: process.env.NEXT_PUBLIC_LINKEDIN_URL || "#" },
+    { name: "GitHub", icon: Github, href: "https://github.com/sravan1946" },
+    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/sravan-krishna/" },
 ];
 
 export function Navbar() {
@@ -85,7 +85,7 @@ export function Navbar() {
                     </div>
 
                     <a
-                        href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
+                        href={`mailto:sravan@p1ng.me`}
                         className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-white/5 rounded-full transition-all"
                         aria-label="Send Email"
                         data-cursor="email"
@@ -97,7 +97,7 @@ export function Navbar() {
                 {/* CV Button */}
                 <div className="pl-1 sm:pl-2 pr-1 sm:pr-2 border-l border-white/10">
                     <a
-                        href={process.env.NEXT_PUBLIC_RESUME_URL || "#"}
+                        href={"/cv.pdf"}
                         target="_blank"
                         className="group relative flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 text-cyan-400 text-xs font-mono uppercase tracking-widest rounded-full transition-all border border-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] overflow-hidden"
                     >

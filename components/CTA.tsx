@@ -61,7 +61,7 @@ export function CTA() {
     };
 
     const copyToClipboard = () => {
-        const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "example@email.com";
+        const email = "sravan@p1ng.me";
         navigator.clipboard.writeText(email);
         setCopiedEmail(true);
         setTimeout(() => setCopiedEmail(false), 2000);
@@ -99,9 +99,9 @@ export function CTA() {
                     <div className="space-y-6">
                         <div className="flex gap-4">
                             {[
-                                { icon: Github, href: process.env.NEXT_PUBLIC_GITHUB_URL || "#" },
-                                { icon: Linkedin, href: process.env.NEXT_PUBLIC_LINKEDIN_URL || "#" },
-                                { icon: Instagram, href: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "#" },
+                                { icon: Github, href: "https://github.com/sravan1946" },
+                                { icon: Linkedin, href: "https://linkedin.com/in/sravan-krishna/" },
+                                { icon: Instagram, href: "https://instagram.com/sravan_krishna_c_m" },
                             ].map(({ icon: Icon, href }, i) => (
                                 <motion.a
                                     key={i}
@@ -120,7 +120,7 @@ export function CTA() {
                         <div className="p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
                             <div className="flex items-center gap-3">
                                 <Mail className="text-cyan-400" size={20} />
-                                <span className="text-slate-300 font-mono text-sm">{process.env.NEXT_PUBLIC_CONTACT_EMAIL}</span>
+                                <span className="text-slate-300 font-mono text-sm">sravan@p1ng.me</span>
                             </div>
                             <button
                                 onClick={copyToClipboard}

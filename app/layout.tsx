@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_SITE_TITLE || "Hyper-Modern Portfolio",
-  description: process.env.NEXT_PUBLIC_SITE_DESCRIPTION || "A high-performance immersive portfolio.",
+  title: "Sravan's Portfolio",
+  description: "The digital portfolio of Sravan.",
 };
 
 import { CommandMenu } from "@/components/CommandMenu";
