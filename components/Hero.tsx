@@ -64,7 +64,7 @@ export function Hero() {
 
                         <MagneticButton>
                             <motion.a
-                                href={`mailto:${PERSONAL_DATA.email}`}
+                                href="#contact"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-full font-medium hover:bg-white/10 transition-colors backdrop-blur-md"
