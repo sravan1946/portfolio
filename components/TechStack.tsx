@@ -1,54 +1,167 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiPostgresql, SiWebassembly, SiRust } from "react-icons/si";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
+import { MouseEvent } from "react";
+
+interface TechCardProps {
+    item: {
+        name: string;
+        url: string;
+        color: string;
+        category: string;
+    };
+    index: number;
+}
+
+export function TechCard({ item, index }: TechCardProps) {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
+    const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
+
+    function onMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+        const { left, top, width, height } = currentTarget.getBoundingClientRect();
+        x.set(clientX - left);
+        //y.set(clientY - top); // This line is missing in the original thought, adding it here.
+        y.set(clientY - top);
+    }
+
+    // 3D Tilt Logic
+    const rotateX = useSpring(0, { stiffness: 100, damping: 30 });
+    const rotateY = useSpring(0, { stiffness: 100, damping: 30 });
+
+    function onMouseMove3D({ currentTarget, clientX, clientY }: MouseEvent) {
+        const { left, top, width, height } = currentTarget.getBoundingClientRect();
+        const centerX = left + width / 2;
+        const centerY = top + height / 2;
+
+        const offsetX = clientX - centerX;
+        const offsetY = clientY - centerY;
+
+        rotateX.set((offsetY / height) * -20); // Max tilt 20deg
+        rotateY.set((offsetX / width) * 20);
+
+        // Also set spotlight position
+        x.set(clientX - left);
+        y.set(clientY - top);
+    }
+
+    function onMouseLeave() {
+        rotateX.set(0);
+        rotateY.set(0);
+        x.set(0);
+        y.set(0);
+    }
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            style={{
+                perspective: 1000,
+                rotateX,
+                rotateY,
+            }}
+            onMouseMove={onMouseMove3D}
+            onMouseLeave={onMouseLeave}
+            className="group relative flex flex-col items-center justify-center p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
+        >
+            {/* Spotlight Effect */}
+            <motion.div
+                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 rounded-3xl z-0"
+                style={{
+                    background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              ${item.color}15,
+              transparent 80%
+            )
+          `,
+                }}
+            />
+
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center gap-6">
+                {/* Floating Icon */}
+                <motion.div
+                    animate={{
+                        y: [0, -10, 0],
+                    }}
+                    transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.2, // Stagger animations
+                    }}
+                    className="w-20 h-20 relative filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]"
+                >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={item.url}
+                        alt={item.name}
+                        className="w-full h-full object-contain"
+                    />
+                </motion.div>
+
+                <div className="text-center">
+                    <h3 className="text-xl font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide">
+                        {item.name}
+                    </h3>
+                    <span className="text-xs font-mono text-cyan-400/0 group-hover:text-cyan-400/100 transition-all duration-500 uppercase tracking-widest mt-2 block transform translate-y-2 group-hover:translate-y-0">
+                        {item.category}
+                    </span>
+                </div>
+            </div>
+        </motion.div>
+    );
+}
 
 const stack = [
-    { name: "React", icon: SiReact, color: "#61DAFB" },
-    { name: "Next.js", icon: SiNextdotjs, color: "#ffffff" }, // In dark mode white might be better via class
-    { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-    { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
-    { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-    { name: "Rust", icon: SiRust, color: "#DEA584" },
-    { name: "WebAssembly", icon: SiWebassembly, color: "#654FF0" },
+    // The Creator (Languages & Frameworks)
+    { name: "Python", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", color: "#3776AB", category: "Language" },
+    { name: "Dart", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg", color: "#0175C2", category: "Language" },
+    { name: "Flutter", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg", color: "#02569B", category: "Mobile" },
+    { name: "Bash", url: "https://cdn.simpleicons.org/gnubash/ffffff", color: "#4EAA25", category: "Scripting" },
+
+    // The Builder (Tools & Cloud)
+    { name: "GitHub", url: "https://cdn.simpleicons.org/github/ffffff", color: "#181717", category: "Version Control" },
+    { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg", color: "#2496ED", category: "DevOps" },
+    { name: "Firebase", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg", color: "#FFCA28", category: "Cloud" },
+    { name: "Cloudflare", url: "https://cdn.simpleicons.org/cloudflare/F38020", color: "#F38020", category: "Cloud" },
+
+    // The Hacker (OS & Security)
+    { name: "Linux", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg", color: "#FCC624", category: "OS" },
+    { name: "Arch Linux", url: "https://cdn.simpleicons.org/archlinux/1793D1", color: "#1793D1", category: "OS" },
+    { name: "Hyprland", url: "https://cdn.simpleicons.org/hyprland/00ADD8", color: "#00ADD8", category: "Linux Customization" },
+    { name: "Burp Suite", url: "https://cdn.simpleicons.org/burpsuite/FF6633", color: "#FF6633", category: "Security" },
 ];
 
 export function TechStack() {
     return (
-        <section id="stack" className="py-24 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent" />
+        <section id="stack" className="py-32 relative overflow-hidden">
+            {/* Background Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="mb-16 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Technologies</h2>
-                    <p className="text-slate-400">The arsenal I use to conquer the digital realm.</p>
+                <div className="mb-24 text-center">
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="text-5xl md:text-6xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 drop-shadow-2xl"
+                    >
+                        Tech Arsenal
+                    </motion.h2>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {stack.map((item, index) => (
-                        <motion.div
-                            key={item.name}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)", borderColor: item.color }}
-                            className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 group cursor-default transition-all"
-                        >
-                            <div
-                                className="p-4 rounded-full bg-white/5 text-slate-300 group-hover:text-white transition-all duration-300"
-                                style={{ color: item.name === "Next.js" ? "#fff" : undefined }}
-                            >
-                                <item.icon size={32} style={{ color: "inherit" }} className="group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />
-                            </div>
-                            <span
-                                className="font-mono text-sm tracking-wider text-slate-400 group-hover:text-white transition-colors"
-                                style={{ textShadow: `0 0 20px ${item.color}40` }}
-                            >
-                                {item.name}
-                            </span>
-                        </motion.div>
+                        <TechCard key={item.name} item={item} index={index} />
                     ))}
                 </div>
             </div>
