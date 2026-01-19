@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Github, Linkedin, Instagram, Send, CheckCircle2, AlertCircle, Terminal, Copy, Check } from "lucide-react";
+import { Mail, Send, CheckCircle2, AlertCircle, Terminal, Copy, Check } from "lucide-react";
+import { PERSONAL_DATA } from "@/lib/data";
 
 export function CTA() {
     const [formState, setFormState] = useState<"idle" | "submitting" | "success">("idle");
@@ -18,6 +19,9 @@ export function CTA() {
     });
     const [copiedEmail, setCopiedEmail] = useState(false);
 
+
+
+    const socialLinks = PERSONAL_DATA.socials.filter(s => s.name !== "Email");
     const validateForm = () => {
         let text = "";
         let newErrors = { name: "", email: "", message: "" };
@@ -61,8 +65,7 @@ export function CTA() {
     };
 
     const copyToClipboard = () => {
-        const email = "sravan@p1ng.me";
-        navigator.clipboard.writeText(email);
+        navigator.clipboard.writeText(PERSONAL_DATA.email);
         setCopiedEmail(true);
         setTimeout(() => setCopiedEmail(false), 2000);
     };
@@ -98,11 +101,7 @@ export function CTA() {
 
                     <div className="space-y-6">
                         <div className="flex gap-4">
-                            {[
-                                { icon: Github, href: "https://github.com/sravan1946" },
-                                { icon: Linkedin, href: "https://linkedin.com/in/sravan-krishna/" },
-                                { icon: Instagram, href: "https://instagram.com/sravan_krishna_c_m" },
-                            ].map(({ icon: Icon, href }, i) => (
+                            {socialLinks.map(({ icon: Icon, href }, i) => (
                                 <motion.a
                                     key={i}
                                     href={href}

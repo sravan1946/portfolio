@@ -2,15 +2,18 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Terminal } from "lucide-react";
-import { PERSONAL_DATA, TECH_STACK } from "@/lib/data";
+import { PERSONAL_DATA } from "@/lib/data";
 import { HackerText } from "./HackerText";
 import { MagneticButton } from "./MagneticButton";
 // import { SiCplusplus, SiPython, SiKalilinux, SiFlutter, SiDocker } from "react-icons/si";
 
+import { FULL_TECH_STACK } from "@/lib/data";
+
 export function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-            {/* Background enhancement can go here if needed, keeping it clean for now */}
+            {/* Background enhancement */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
             <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
                 <motion.div
@@ -80,13 +83,7 @@ export function Hero() {
                         className="flex justify-center items-center gap-8 md:gap-12 flex-wrap opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
                     >
                         {/* Tech Stack Icons with Full Color on Hover */}
-                        {[
-                            { name: "Kali Linux", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kalilinux/kalilinux-original.svg" },
-                            { name: "Python", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
-                            { name: "C++", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
-                            { name: "Flutter", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" },
-                            { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
-                        ].map((tech) => (
+                        {FULL_TECH_STACK.filter(t => ["Python", "Flutter", "Docker", "Arch Linux", "Burp Suite"].includes(t.name)).map((tech) => (
                             <div key={tech.name} className="relative group cursor-pointer">
                                 <img
                                     src={tech.url}
@@ -96,7 +93,6 @@ export function Hero() {
                                 />
                             </div>
                         ))}
-                        {/* Taking a few from the existing stack if available or hardcoding for now to ensure icons exist */}
                     </motion.div>
 
                 </motion.div>

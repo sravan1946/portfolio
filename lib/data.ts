@@ -1,16 +1,37 @@
-import { Github, Instagram, Linkedin, Layout, Globe, Zap, Layers, Server, Database, Smartphone, Cpu } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail } from "lucide-react";
 
 export const PERSONAL_DATA = {
     name: "Sravan Krishna C M",
-    role: "Available for Hire",
+    role: "System Architect & Security Engineer",
     bio: "I am a Computer Science student with a deep focus on Cybersecurity, DevOps, and Mobile Development. I engineer secure, resilient systems, build cross-platform applications with Flutter, and automate infrastructure. My work bridges the gap between robust software engineering, seamless operations, and proactive security.",
-    email: "sravan.krishna@example.com", // Placeholder
+    email: "sravan@p1ng.me",
     socials: [
         { name: "GitHub", icon: Github, href: "https://github.com/sravan1946" },
         { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/sravan-krishna-c-m" },
         { name: "Instagram", icon: Instagram, href: "https://instagram.com/sravan_krishna_c_m" },
+        { name: "Email", icon: Mail, href: "mailto:sravan@p1ng.me" },
     ],
 };
+
+export const FULL_TECH_STACK = [
+    // The Creator (Languages & Frameworks)
+    { name: "Python", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", color: "#3776AB", category: "Language" },
+    { name: "Dart", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg", color: "#0175C2", category: "Language" },
+    { name: "Flutter", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg", color: "#02569B", category: "Mobile" },
+    { name: "Bash", url: "https://cdn.simpleicons.org/gnubash/ffffff", color: "#4EAA25", category: "Scripting" },
+
+    // The Builder (Tools & Cloud)
+    { name: "GitHub", url: "https://cdn.simpleicons.org/github/ffffff", color: "#181717", category: "Version Control" },
+    { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg", color: "#2496ED", category: "DevOps" },
+    { name: "Firebase", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-plain.svg", color: "#FFCA28", category: "Cloud" },
+    { name: "Cloudflare", url: "https://cdn.simpleicons.org/cloudflare/F38020", color: "#F38020", category: "Cloud" },
+
+    // The Hacker (OS & Security)
+    { name: "Linux", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg", color: "#FCC624", category: "OS" },
+    { name: "Arch Linux", url: "https://cdn.simpleicons.org/archlinux/1793D1", color: "#1793D1", category: "OS" },
+    { name: "Hyprland", url: "https://cdn.simpleicons.org/hyprland/00ADD8", color: "#00ADD8", category: "Linux Customization" },
+    { name: "Burp Suite", url: "https://cdn.simpleicons.org/burpsuite/FF6633", color: "#FF6633", category: "Security" },
+];
 
 export const PROJECTS = [
     {
@@ -41,17 +62,6 @@ export const PROJECTS = [
         tech: ["Three.js", "WebXR", "8th Wall"],
         size: "col-span-1 md:col-span-2",
     },
-];
-
-export const TECH_STACK = [
-    { name: "React", icon: Layout },
-    { name: "Next.js", icon: Globe },
-    { name: "TypeScript", icon: Zap },
-    { name: "Python", icon: Zap }, // Using Zap as placeholder if custom icon not passed, but we use Si icons in components mostly
-    { name: "Flutter", icon: Smartphone },
-    { name: "DevOps", icon: Server },
-    { name: "Cybersecurity", icon: Layers },
-    { name: "WebAssembly", icon: Cpu },
 ];
 
 export const EXPERIENCES = [

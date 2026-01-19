@@ -1,21 +1,17 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Github, Linkedin, Mail, Menu, X } from "lucide-react";
+import { FileText, Menu, X, Mail } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { MagneticButton } from "./MagneticButton";
+import { PERSONAL_DATA } from "@/lib/data";
 
 const navItems = [
     { name: "About", href: "#about" },
     { name: "Projects", href: "#projects" },
     { name: "Stack", href: "#stack" },
     { name: "Experience", href: "#experience" },
-];
-
-const socials = [
-    { name: "GitHub", icon: Github, href: "https://github.com/sravan1946" },
-    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/in/sravan-krishna/" },
 ];
 
 export function Navbar() {
@@ -26,6 +22,8 @@ export function Navbar() {
         // @ts-expect-error - lenis is on window
         window.lenis?.scrollTo(href);
     };
+
+    const socials = PERSONAL_DATA.socials.filter((s) => s.name !== "Email");
 
     return (
         <>
@@ -84,14 +82,7 @@ export function Navbar() {
                         ))}
                     </div>
 
-                    <a
-                        href={`mailto:sravan@p1ng.me`}
-                        className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-white/5 rounded-full transition-all"
-                        aria-label="Send Email"
-                        data-cursor="email"
-                    >
-                        <Mail size={18} />
-                    </a>
+
                 </div>
 
                 {/* CV Button */}
