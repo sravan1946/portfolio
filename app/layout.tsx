@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Sravan's Portfolio",
   description: "The digital portfolio of Sravan.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 import { CommandMenu } from "@/components/CommandMenu";
