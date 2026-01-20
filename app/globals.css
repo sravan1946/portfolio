@@ -9,9 +9,11 @@ html {
   --foreground: #ededed;
 }
 
-/* Force hide cursor on absolutely everything */
-* {
-  cursor: none !important;
+/* Force hide cursor only on devices with a fine pointer (mouse) */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
 }
 
 body {

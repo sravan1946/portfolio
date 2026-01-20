@@ -8,6 +8,18 @@ type CursorPhase = "default" | "link" | "project" | "text" | "code" | "loading" 
 export function CyberCursor() {
     const [phase, setPhase] = useState<CursorPhase>("default");
     const [glitchText, setGlitchText] = useState("");
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            const isTouch = window.matchMedia("(pointer: coarse)").matches;
+            setIsMobile(isTouch);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
@@ -110,6 +122,8 @@ export function CyberCursor() {
             window.removeEventListener("mouseover", handleMouseOver);
         };
     }, [cursorX, cursorY]);
+
+    if (isMobile) return null;
 
     return (
         <motion.div
