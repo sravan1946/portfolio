@@ -58,10 +58,32 @@ export function CTA() {
 
         setFormState("submitting");
 
-        // Simulate network request
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setFormState("success");
-        setFormData({ name: "", email: "", message: "" });
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setFormState("success");
+                setFormData({ name: "", email: "", message: "" });
+            } else {
+                console.error("Submission error:", result);
+                // Ideally handle error state here, but for now we'll just log it
+                // and maybe set back to idle or show an error
+                setFormState("idle");
+                alert("Failed to send message: " + (result.error || "Unknown error"));
+            }
+        } catch (error) {
+            console.error("Network error:", error);
+            setFormState("idle");
+            alert("Something went wrong. Please try again later.");
+        }
     };
 
     const copyToClipboard = () => {
