@@ -35,32 +35,43 @@ export const FULL_TECH_STACK = [
 
 export const PROJECTS = [
     {
-        title: "Neon Nexus",
-        category: "DeFi Dashboard",
-        description: "A high-frequency trading platform with real-time data visualization and sub-millisecond updates.",
-        tech: ["Next.js", "WebSockets", "D3.js"],
+        title: "HelloCare",
+        category: "Health Tech",
+        description: "Say hello to your care. A comprehensive health application built with Flutter.",
+        tech: ["Flutter", "Bloc", "Clean Arch", "Dio", "Dartz", "Firebase"],
         size: "col-span-1 md:col-span-2",
+        url: "https://github.com/Unemployed-Nerds/HelloCare",
+        demoUrl: "https://github.com/Unemployed-Nerds/HelloCare/releases/latest",
+        year: "2024"
     },
     {
-        title: "Vapor Chat",
-        category: "Messaging App",
-        description: "E2E encrypted chat application with vaporwave aesthetics.",
-        tech: ["React Native", "Signal Protocol"],
+        title: "Sravan Cogs",
+        category: "Discord Bot Extensions",
+        description: "Custom cogs for Red-DiscordBot, enhancing server functionality with Python.",
+        tech: ["Python", "Discord.py", "Red-Bot", "AsyncIO", "APIs"],
         size: "col-span-1",
+        url: "https://github.com/sravan1946/sravan-cogs",
+        year: "2023"
     },
     {
-        title: "Glass OS",
-        category: "Web Operating System",
-        description: "A fully functional desktop environment running in the browser using WebAssembly.",
-        tech: ["Rust", "WASM", "WebGL"],
+        title: "LpuLive",
+        category: "University Utility",
+        description: "Unofficial mobile application for university management and student utilities.",
+        tech: ["Flutter", "Dart", "Provider", "Hive", "REST API"],
         size: "col-span-1",
+        url: "https://github.com/sravan1946/LpuLive-unofficial",
+        demoUrl: "https://github.com/sravan1946/LpuLive-unofficial/releases/latest",
+        year: "2023"
     },
     {
-        title: "Aether Lens",
-        category: "AR Commerce",
-        description: "Augmented reality product previews for e-commerce stores.",
-        tech: ["Three.js", "WebXR", "8th Wall"],
+        title: "Portfolio",
+        category: "Web Experience",
+        description: "The interactive 3D portfolio website you are currently viewing.",
+        tech: ["Next.js 14", "TypeScript", "Three.js", "Tailwind", "Framer Motion"],
         size: "col-span-1 md:col-span-2",
+        url: "https://github.com/sravan1946/portfolio",
+        demoUrl: "https://p1ng.me",
+        year: "2024"
     },
 ];
 
