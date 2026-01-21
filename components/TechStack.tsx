@@ -67,7 +67,7 @@ export function TechCard({ item, index }: TechCardProps) {
             }}
             onMouseMove={onMouseMove3D}
             onMouseLeave={onMouseLeave}
-            className="group relative flex flex-col items-center justify-center p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
+            className="group relative flex flex-col items-center justify-center p-2 md:p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
         >
             {/* Spotlight Effect */}
             <motion.div
@@ -84,7 +84,7 @@ export function TechCard({ item, index }: TechCardProps) {
             />
 
             {/* Content */}
-            <div className="relative z-10 flex flex-col items-center gap-6">
+            <div className="relative z-10 flex flex-col items-center gap-2 md:gap-6">
                 {/* Floating Icon */}
                 <motion.div
                     animate={{
@@ -96,7 +96,7 @@ export function TechCard({ item, index }: TechCardProps) {
                         ease: "easeInOut",
                         delay: index * 0.2, // Stagger animations
                     }}
-                    className="w-20 h-20 relative filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]"
+                    className="w-10 h-10 md:w-20 md:h-20 relative filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]"
                 >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -107,10 +107,10 @@ export function TechCard({ item, index }: TechCardProps) {
                 </motion.div>
 
                 <div className="text-center">
-                    <h3 className="text-xl font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide">
+                    <h3 className="text-xs md:text-xl font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide">
                         {item.name}
                     </h3>
-                    <span className="text-xs font-mono text-cyan-400/0 group-hover:text-cyan-400/100 transition-all duration-500 uppercase tracking-widest mt-2 block transform translate-y-2 group-hover:translate-y-0">
+                    <span className="text-[10px] md:text-xs font-mono text-cyan-400/0 group-hover:text-cyan-400/100 transition-all duration-500 uppercase tracking-widest mt-1 md:mt-2 block transform translate-y-2 group-hover:translate-y-0">
                         {item.category}
                     </span>
                 </div>
@@ -143,7 +143,7 @@ export function TechStack() {
                     </motion.h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-8">
                     {stack.map((item, index) => (
                         <TechCard key={item.name} item={item} index={index} />
                     ))}
