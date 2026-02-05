@@ -77,21 +77,21 @@ export const PROJECTS = [
 
 export const EXPERIENCES = [
     {
-        company: "Vapor Inc.",
-        role: "Senior Frontend Engineer",
-        period: "2023 - Present",
-        description: "Led the reconstruction of the core trading platform using Next.js 14 and WebSockets. Improved perceived performance by 40% using optimistic UI updates.",
+        company: "Lovely Professional University",
+        role: "B.Tech. in Computer Science and Engineering",
+        period: "2023 - 2027",
+        description: "Pursuing B.Tech in Computer Science and Engineering, with a focus on System Architecture and Cybersecurity.",
     },
     {
-        company: "Nebula Labs",
-        role: "Creative Developer",
+        company: "Gurukulam Public School",
+        role: "Higher Secondary Education",
         period: "2021 - 2023",
-        description: "Developed immersive 3D web experiences for Fortune 500 clients using Three.js and GSM. Awarded Awwwards implementations.",
+        description: "Completed Higher Secondary education specializing in Computer Science.",
     },
     {
-        company: "Freelance",
-        role: "Full Stack Developer",
-        period: "2019 - 2021",
-        description: "Delivered 15+ custom web applications. Specialized in high-conversion landing pages with complex animations.",
+        company: "Gurukulam Public School",
+        role: "Secondary Education",
+        period: "2010 - 2021",
+        description: "Completed primary and high school education.",
     },
 ];
