@@ -41,7 +41,7 @@ export function Card3D() {
                 className="relative w-full h-full rounded-2xl bg-black/50 border border-white/10 backdrop-blur-sm shadow-2xl overflow-hidden group"
             >
                 {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--cyan-400)]/10 to-[var(--purple-400)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
 
                 {/* Layer 1: Background (Slower movement) */}
                 <motion.div
@@ -58,13 +58,13 @@ export function Card3D() {
 
                     {/* Biometric Scan Effect */}
                     <motion.div
-                        className="absolute w-full h-1 bg-cyan-400/30 blur-sm z-20"
+                        className="absolute w-full h-1 bg-[var(--cyan-400)]/30 blur-sm z-20"
                         style={{ top: "0%" }}
                         animate={{ top: ["0%", "100%", "0%"] }}
                         transition={{ duration: 5, ease: "linear", repeat: Infinity }}
                     />
                     <motion.div
-                        className="absolute w-full h-20 bg-gradient-to-b from-cyan-500/10 to-transparent z-10"
+                        className="absolute w-full h-20 bg-gradient-to-b from-[var(--cyan-400)]/10 to-transparent z-10"
                         style={{ top: "0%" }}
                         animate={{ top: ["0%", "100%", "0%"] }}
                         transition={{ duration: 5, ease: "linear", repeat: Infinity }}

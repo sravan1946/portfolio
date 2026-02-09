@@ -19,11 +19,9 @@ export function CTA() {
     });
     const [copiedEmail, setCopiedEmail] = useState(false);
 
-
-
     const socialLinks = PERSONAL_DATA.socials.filter(s => s.name !== "Email");
+    
     const validateForm = () => {
-        let text = "";
         let newErrors = { name: "", email: "", message: "" };
         let isValid = true;
 
@@ -74,8 +72,6 @@ export function CTA() {
                 setFormData({ name: "", email: "", message: "" });
             } else {
                 console.error("Submission error:", result);
-                // Ideally handle error state here, but for now we'll just log it
-                // and maybe set back to idle or show an error
                 setFormState("idle");
                 alert("Failed to send message: " + (result.error || "Unknown error"));
             }
@@ -93,30 +89,28 @@ export function CTA() {
     };
 
     return (
-        <section id="contact" className="py-40 px-6 relative overflow-hidden">
+        <section id="contact" className="relative overflow-hidden">
             {/* Background Gradients */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px]" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--cyan-400)]/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--purple-400)]/5 rounded-full blur-[120px]" />
             </div>
 
-            <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
+            <div className="container-default grid lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
                 {/* Left Column: Info */}
-                <div
-                    className="flex flex-col justify-between"
-                >
+                <div className="flex flex-col justify-between">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/30 border border-cyan-500/20 text-cyan-400 text-xs font-mono mb-6">
-                            <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse" />
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--cyan-400)]/10 border border-[var(--cyan-400)]/20 text-[var(--cyan-400)] text-xs font-[family-name:var(--font-jetbrains-mono)] mb-6">
+                            <span className="w-2 h-2 rounded-full bg-[var(--cyan-400)] animate-pulse" />
                             OPEN FOR WORK
                         </div>
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-white">
                             Let's build <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--purple-400)] to-[var(--cyan-400)]">
                                 something epic.
                             </span>
                         </h2>
-                        <p className="text-lg text-slate-400 mb-8 max-w-md leading-relaxed">
+                        <p className="text-lg text-[var(--slate-400)] mb-8 max-w-md leading-relaxed">
                             I'm currently accessible for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
                         </p>
                     </div>
@@ -131,7 +125,7 @@ export function CTA() {
                                     rel="noopener noreferrer"
                                     whileHover={{ scale: 1.1, color: "#22d3ee" }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-4 bg-white/5 border border-white/10 rounded-xl text-slate-400 hover:bg-white/10 transition-colors"
+                                    className="p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
                                 >
                                     <Icon size={24} />
                                 </motion.a>
@@ -140,12 +134,12 @@ export function CTA() {
 
                         <div className="p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
                             <div className="flex items-center gap-3">
-                                <Mail className="text-cyan-400" size={20} />
-                                <span className="text-slate-300 font-mono text-sm">sravan@p1ng.me</span>
+                                <Mail className="text-[var(--cyan-400)]" size={20} />
+                                <span className="text-[var(--slate-300)] font-[family-name:var(--font-jetbrains-mono)] text-sm">sravan@p1ng.me</span>
                             </div>
                             <button
                                 onClick={copyToClipboard}
-                                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-slate-400 hover:text-white"
+                                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-[var(--slate-400)] hover:text-white"
                                 title="Copy Email"
                                 data-cursor="copy"
                             >
@@ -156,11 +150,9 @@ export function CTA() {
                 </div>
 
                 {/* Right Column: Terminal Interface (Form) */}
-                <div
-                    className="relative"
-                >
+                <div className="relative">
                     {/* Decorators */}
-                    <div className="absolute -top-10 -right-10 text-slate-800/20 pointer-events-none">
+                    <div className="absolute -top-10 -right-10 text-[var(--slate-800)]/20 pointer-events-none">
                         <Terminal size={240} strokeWidth={0.5} />
                     </div>
 
@@ -172,7 +164,7 @@ export function CTA() {
                                 <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/30" />
                                 <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/30" />
                             </div>
-                            <div className="ml-auto flex items-center gap-2 text-[10px] font-mono text-slate-500">
+                            <div className="ml-auto flex items-center gap-2 text-[10px] font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-500)]">
                                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                                 secure_connection_active
                             </div>
@@ -193,15 +185,15 @@ export function CTA() {
                                             <CheckCircle2 size={48} className="text-green-400" />
                                         </div>
                                         <div>
-                                            <h3 className="text-2xl font-bold text-white font-mono mb-2">Transmission Complete</h3>
-                                            <p className="text-slate-400 font-mono">
+                                            <h3 className="text-2xl font-bold text-white font-[family-name:var(--font-jetbrains-mono)] mb-2">Transmission Complete</h3>
+                                            <p className="text-[var(--slate-400)] font-[family-name:var(--font-jetbrains-mono)]">
                                                 Packet delivered successfully.<br />
                                                 Stand by for acknowledgment sequence.
                                             </p>
                                         </div>
                                         <button
                                             onClick={() => setFormState("idle")}
-                                            className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-sm font-mono text-cyan-400 transition-colors"
+                                            className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] transition-colors"
                                         >
                                             [INITIATE_NEW_SEQUENCE]
                                         </button>
@@ -209,8 +201,8 @@ export function CTA() {
                                 ) : (
                                     <form key="form" onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                                         <div className="space-y-1.5">
-                                            <label htmlFor="name" className="text-sm font-mono text-cyan-400 flex items-center gap-2">
-                                                <span className="text-slate-600">$</span> input.name
+                                            <label htmlFor="name" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] flex items-center gap-2">
+                                                <span className="text-[var(--slate-600)]">$</span> input.name
                                             </label>
                                             <div className="relative group">
                                                 <input
@@ -222,7 +214,7 @@ export function CTA() {
                                                         if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
                                                     }}
                                                     disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-cyan-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-mono`}
+                                                    className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--cyan-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
                                                     placeholder="_"
                                                 />
                                                 {errors.name && (
@@ -235,12 +227,12 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.name && <p className="text-xs text-red-400 font-mono pl-2">{`>> ${errors.name}`}</p>}
+                                            {errors.name && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.name}`}</p>}
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="email" className="text-sm font-mono text-purple-400 flex items-center gap-2">
-                                                <span className="text-slate-600">$</span> input.email
+                                            <label htmlFor="email" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--purple-400)] flex items-center gap-2">
+                                                <span className="text-[var(--slate-600)]">$</span> input.email
                                             </label>
                                             <div className="relative group">
                                                 <input
@@ -252,7 +244,7 @@ export function CTA() {
                                                         if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                                                     }}
                                                     disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-purple-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-mono`}
+                                                    className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--purple-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
                                                     placeholder="_"
                                                 />
                                                 {errors.email && (
@@ -265,12 +257,12 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.email && <p className="text-xs text-red-400 font-mono pl-2">{`>> ${errors.email}`}</p>}
+                                            {errors.email && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.email}`}</p>}
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="message" className="text-sm font-mono text-green-400 flex items-center gap-2">
-                                                <span className="text-slate-600">$</span> input.message
+                                            <label htmlFor="message" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-green-400 flex items-center gap-2">
+                                                <span className="text-[var(--slate-600)]">$</span> input.message
                                             </label>
                                             <div className="relative group">
                                                 <textarea
@@ -282,7 +274,7 @@ export function CTA() {
                                                         if (errors.message) setErrors(prev => ({ ...prev, message: "" }));
                                                     }}
                                                     disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.message ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-green-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-mono resize-none`}
+                                                    className={`w-full bg-black/50 border ${errors.message ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-green-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)] resize-none`}
                                                     placeholder="_"
                                                 />
                                                 {errors.message && (
@@ -295,7 +287,7 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.message && <p className="text-xs text-red-400 font-mono pl-2">{`>> ${errors.message}`}</p>}
+                                            {errors.message && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.message}`}</p>}
                                         </div>
 
                                         <motion.button
@@ -303,13 +295,13 @@ export function CTA() {
                                             disabled={formState === "submitting"}
                                             whileHover={{ scale: 1.01 }}
                                             whileTap={{ scale: 0.99 }}
-                                            className="w-full bg-gradient-to-r from-cyan-900/20 to-purple-900/20 hover:from-cyan-900/40 hover:to-purple-900/40 border border-cyan-500/20 hover:border-cyan-500/50 text-cyan-400 font-mono py-5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden shadow-lg shadow-cyan-900/10"
+                                            className="w-full bg-gradient-to-r from-[var(--cyan-400)]/10 to-[var(--purple-400)]/10 hover:from-[var(--cyan-400)]/20 hover:to-[var(--purple-400)]/20 border border-[var(--cyan-400)]/20 hover:border-[var(--cyan-400)]/50 text-[var(--cyan-400)] font-[family-name:var(--font-jetbrains-mono)] py-5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden shadow-lg shadow-[var(--cyan-400)]/10"
                                             data-cursor="submit"
                                         >
-                                            <div className={`absolute inset-0 bg-cyan-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${formState === "submitting" ? "translate-y-0" : ""}`} />
+                                            <div className={`absolute inset-0 bg-[var(--cyan-400)]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${formState === "submitting" ? "translate-y-0" : ""}`} />
                                             {formState === "submitting" ? (
                                                 <span className="flex items-center gap-3 text-base font-semibold tracking-wide">
-                                                    <span className="w-5 h-5 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin" />
+                                                    <span className="w-5 h-5 border-2 border-[var(--cyan-400)]/30 border-t-[var(--cyan-400)] rounded-full animate-spin" />
                                                     TRANSMITTING...
                                                 </span>
                                             ) : (

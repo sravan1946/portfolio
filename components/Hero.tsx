@@ -5,15 +5,13 @@ import { ArrowRight, Terminal } from "lucide-react";
 import { PERSONAL_DATA } from "@/lib/data";
 import { HackerText } from "./HackerText";
 import { MagneticButton } from "./MagneticButton";
-// import { SiCplusplus, SiPython, SiKalilinux, SiFlutter, SiDocker } from "react-icons/si";
-
 import { FULL_TECH_STACK } from "@/lib/data";
 
 export function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-            {/* Background enhancement */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
+            {/* Background Grid */}
+            <div className="absolute inset-0 grid-pattern pointer-events-none" />
 
             <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
                 <motion.div
@@ -22,7 +20,7 @@ export function Hero() {
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
                     {/* Role Badge */}
-                    <span className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-cyan-400 tracking-widest uppercase mb-8 backdrop-blur-md">
+                    <span className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] tracking-widest uppercase mb-8 backdrop-blur-md">
                         <Terminal size={12} />
                         {PERSONAL_DATA.role}
                     </span>
@@ -31,7 +29,7 @@ export function Hero() {
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50 mb-8 py-2">
                         {PERSONAL_DATA.name.split(" ")[0]} <br className="md:hidden" />
                         <span className="hidden md:inline"> </span>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 relative glitch-text">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--purple-400)] to-[var(--cyan-400)] relative glitch-text">
                             <HackerText text="Krishna" />
                             <motion.span
                                 className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-xl -z-10"
@@ -43,8 +41,8 @@ export function Hero() {
                     </h1>
 
                     {/* Bio / Description */}
-                    <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Computer Science Student specializing in <span className="text-cyan-300 font-medium">Cybersecurity</span>.
+                    <p className="text-lg md:text-xl text-[var(--slate-400)] max-w-2xl mx-auto mb-10 leading-relaxed">
+                        Computer Science Student specializing in <span className="text-[var(--cyan-400)] font-medium">Cybersecurity</span>.
                         Engineering secure systems and exploring the depths of digital defense.
                     </p>
 
@@ -105,10 +103,9 @@ export function Hero() {
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
                 <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
-                    <div className="w-1 h-2 bg-cyan-400 rounded-full" />
+                    <div className="w-1 h-2 bg-[var(--cyan-400)] rounded-full" />
                 </div>
             </motion.div>
         </section>
     );
 }
-

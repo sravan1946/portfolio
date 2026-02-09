@@ -2,6 +2,8 @@
 
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 import { MouseEvent } from "react";
+import { Cpu } from "lucide-react";
+import { FULL_TECH_STACK } from "@/lib/data";
 
 interface TechCardProps {
     item: {
@@ -20,13 +22,6 @@ export function TechCard({ item, index }: TechCardProps) {
     const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
     const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
 
-    function onMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-        const { left, top, width, height } = currentTarget.getBoundingClientRect();
-        x.set(clientX - left);
-        //y.set(clientY - top); // This line is missing in the original thought, adding it here.
-        y.set(clientY - top);
-    }
-
     // 3D Tilt Logic
     const rotateX = useSpring(0, { stiffness: 100, damping: 30 });
     const rotateY = useSpring(0, { stiffness: 100, damping: 30 });
@@ -39,10 +34,9 @@ export function TechCard({ item, index }: TechCardProps) {
         const offsetX = clientX - centerX;
         const offsetY = clientY - centerY;
 
-        rotateX.set((offsetY / height) * -20); // Max tilt 20deg
+        rotateX.set((offsetY / height) * -20);
         rotateY.set((offsetX / width) * 20);
 
-        // Also set spotlight position
         x.set(clientX - left);
         y.set(clientY - top);
     }
@@ -67,19 +61,19 @@ export function TechCard({ item, index }: TechCardProps) {
             }}
             onMouseMove={onMouseMove3D}
             onMouseLeave={onMouseLeave}
-            className="group relative flex flex-col items-center justify-center p-2 md:p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
+            className="group relative flex flex-col items-center justify-center p-2 md:p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
         >
             {/* Spotlight Effect */}
             <motion.div
-                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 rounded-3xl z-0"
+                className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100 rounded-xl z-0"
                 style={{
                     background: useMotionTemplate`
-            radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              ${item.color}15,
-              transparent 80%
-            )
-          `,
+                        radial-gradient(
+                            650px circle at ${mouseX}px ${mouseY}px,
+                            ${item.color}15,
+                            transparent 80%
+                        )
+                    `,
                 }}
             />
 
@@ -94,11 +88,10 @@ export function TechCard({ item, index }: TechCardProps) {
                         duration: 4,
                         repeat: Infinity,
                         ease: "easeInOut",
-                        delay: index * 0.2, // Stagger animations
+                        delay: index * 0.2,
                     }}
                     className="w-10 h-10 md:w-20 md:h-20 relative filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]"
                 >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src={item.url}
                         alt={item.name}
@@ -107,10 +100,10 @@ export function TechCard({ item, index }: TechCardProps) {
                 </motion.div>
 
                 <div className="text-center">
-                    <h3 className="text-xs md:text-xl font-bold text-slate-300 group-hover:text-white transition-colors tracking-wide">
+                    <h3 className="text-xs md:text-lg font-semibold text-[var(--slate-300)] group-hover:text-white transition-colors tracking-wide">
                         {item.name}
                     </h3>
-                    <span className="text-[10px] md:text-xs font-mono text-cyan-400/0 group-hover:text-cyan-400/100 transition-all duration-500 uppercase tracking-widest mt-1 md:mt-2 block transform translate-y-2 group-hover:translate-y-0">
+                    <span className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)]/0 group-hover:text-[var(--cyan-400)]/100 transition-all duration-500 uppercase tracking-widest mt-1 md:mt-2 block transform translate-y-2 group-hover:translate-y-0">
                         {item.category}
                     </span>
                 </div>
@@ -119,32 +112,23 @@ export function TechCard({ item, index }: TechCardProps) {
     );
 }
 
-import { FULL_TECH_STACK } from "@/lib/data";
-
-const stack = FULL_TECH_STACK;
-
 export function TechStack() {
     return (
-        <section id="stack" className="py-32 relative overflow-hidden">
+        <section id="stack" className="relative overflow-hidden">
             {/* Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="mb-24 text-center">
-
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-5xl md:text-6xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 drop-shadow-2xl"
-                    >
-                        Tech Arsenal
-                    </motion.h2>
+            <div className="container-default relative z-10">
+                <div className="section-header section-header--centered">
+                    <span className="section-eyebrow">
+                        <Cpu size={14} />
+                        Tools & Technologies
+                    </span>
+                    <h2 className="section-title">Tech Arsenal</h2>
                 </div>
 
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-8">
-                    {stack.map((item, index) => (
+                <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
+                    {FULL_TECH_STACK.map((item, index) => (
                         <TechCard key={item.name} item={item} index={index} />
                     ))}
                 </div>

@@ -17,7 +17,7 @@ export default function Home() {
       <TechStack />
       <Experience />
       <CTA />
-      <footer className="py-8 text-center text-slate-600 text-sm">
+      <footer className="py-8 text-center text-[var(--slate-600)] text-sm font-[family-name:var(--font-jetbrains-mono)]">
         <p>© {new Date().getFullYear()} Designed & Built with ❤️ and Next.js</p>
       </footer>
     </main>
