@@ -86,6 +86,9 @@ export function Hero() {
                                 <img
                                     src={tech.url}
                                     alt={tech.name}
+                                    width={40}
+                                    height={40}
+                                    loading="lazy"
                                     className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-60 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
                                     title={tech.name}
                                 />

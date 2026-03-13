@@ -9,17 +9,19 @@ import { CTA } from "@/components/CTA";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative">
-      <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <TechStack />
-      <Experience />
-      <CTA />
+    <>
+      <main id="main-content" className="min-h-screen relative">
+        <Navbar />
+        <Hero />
+        <About />
+        <Projects />
+        <TechStack />
+        <Experience />
+        <CTA />
+      </main>
       <footer className="py-8 text-center text-[var(--slate-600)] text-sm font-[family-name:var(--font-jetbrains-mono)]">
-        <p>© {new Date().getFullYear()} Designed & Built with ❤️ and Next.js</p>
+        <p>© {new Date().getFullYear()} Designed & Built with ❤️</p>
       </footer>
-    </main>
+    </>
   );
 }

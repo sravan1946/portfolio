@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Syne, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Sravan's Portfolio",
-  description: "The digital portfolio of Sravan.",
+  description: "Sravan Krishna — Computer Science student & cybersecurity engineer. Explore projects in Flutter, Python, DevOps, and offensive security.",
   icons: {
     icon: "/icon.png",
   },
@@ -36,11 +36,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark cursor-none">
+    <html lang="en" className="dark">
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-screen relative overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-200`}
+        className={`${syne.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground min-h-screen relative overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-200`}
       >
         <SmoothScrolling>
+          <a href="#main-content" className="skip-nav">Skip to content</a>
           <MatrixBackground />
           <GlobalSpotlight />
           <CyberCursor />

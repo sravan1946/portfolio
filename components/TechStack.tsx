@@ -95,6 +95,9 @@ export function TechCard({ item, index }: TechCardProps) {
                     <img
                         src={item.url}
                         alt={item.name}
+                        width={80}
+                        height={80}
+                        loading="lazy"
                         className="w-full h-full object-contain"
                     />
                 </motion.div>

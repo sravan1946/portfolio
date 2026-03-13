@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal as TerminalIcon, X, Minus, Square, Maximize2 } from "lucide-react";
+import { Terminal as TerminalIcon, X } from "lucide-react";
 
 interface Command {
     cmd: string;
@@ -17,7 +17,7 @@ const FILES = {
   "backend": ["Node.js", "PostgreSQL", "Rust"],
   "tools": ["Git", "Docker", "Linux"]
 }`,
-    "contact.md": "Email: sravan.krishna@example.com\nGitHub: github.com/sravan",
+    "contact.md": "Email: sravan@p1ng.me\nGitHub: github.com/sravan1946",
     "secret.log": "ACCESS DENIED. ENCRYPTED. TRY 'sudo access'",
 };
 
@@ -50,6 +50,9 @@ export function Terminal() {
             if (e.altKey && e.key.toLowerCase() === 't') {
                 e.preventDefault();
                 setIsOpen(prev => !prev);
+            }
+            if (e.key === 'Escape') {
+                setIsOpen(false);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -239,7 +242,7 @@ export function Terminal() {
 
             <AnimatePresence>
                 {isOpen && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none p-4">
+            <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none p-4">
                         {/* Backdrop */}
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -255,6 +258,9 @@ export function Terminal() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Terminal"
                             className="w-full max-w-3xl bg-black/90 backdrop-blur-xl border border-white/15 rounded-lg overflow-hidden shadow-2xl font-mono text-sm md:text-base relative pointer-events-auto flex flex-col max-h-[80vh]"
                         >
                             {/* Terminal Header */}
@@ -311,6 +317,7 @@ export function Terminal() {
                                             autoFocus
                                             autoComplete="off"
                                             spellCheck="false"
+                                            aria-label="Terminal command input"
                                         />
                                     </form>
 

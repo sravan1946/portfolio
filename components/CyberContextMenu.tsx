@@ -11,6 +11,8 @@ export function CyberContextMenu() {
 
     useEffect(() => {
         const handleContextMenu = (e: MouseEvent) => {
+            // Allow Shift+Right-click to access native context menu for a11y
+            if (e.shiftKey) return;
             e.preventDefault();
             setVisible(true);
             setPosition({ x: e.clientX, y: e.clientY });

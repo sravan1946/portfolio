@@ -67,7 +67,7 @@ export const PROJECTS = [
         title: "Portfolio",
         category: "Web Experience",
         description: "The interactive 3D portfolio website you are currently viewing.",
-        tech: ["Next.js 14", "TypeScript", "Three.js", "Tailwind", "Framer Motion"],
+        tech: ["Next.js 16", "TypeScript", "Tailwind", "Framer Motion"],
         size: "col-span-1 md:col-span-2",
         url: "https://github.com/sravan1946/portfolio",
         demoUrl: "https://p1ng.me",

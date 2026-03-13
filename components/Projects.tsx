@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink, Terminal, ChevronDown } from "lucide-react";
+import { ArrowUpRight, Github, ExternalLink, Terminal } from "lucide-react";
 import React, { useState } from "react";
 import { PROJECTS } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -81,13 +81,18 @@ const ProjectItem = ({
     index,
     hoveredIndex,
     setHoveredIndex,
+    expandedIndex,
+    setExpandedIndex,
 }: {
     project: typeof PROJECTS[0];
     index: number;
     hoveredIndex: number | null;
     setHoveredIndex: (index: number | null) => void;
+    expandedIndex: number | null;
+    setExpandedIndex: (index: number | null) => void;
 }) => {
     const isHovered = hoveredIndex === index;
+    const isExpanded = expandedIndex === index;
     const isDimmed = hoveredIndex !== null && hoveredIndex !== index;
 
     return (
@@ -106,10 +111,17 @@ const ProjectItem = ({
                 onMouseLeave={() => setHoveredIndex(null)}
                 onFocus={() => setHoveredIndex(index)}
                 onBlur={() => setHoveredIndex(null)}
+                onClick={(e) => {
+                    // On touch/mobile, toggle expanded state instead of relying on hover
+                    if (window.matchMedia('(pointer: coarse)').matches) {
+                        e.preventDefault();
+                        setExpandedIndex(isExpanded ? null : index);
+                    }
+                }}
                 data-cursor="project"
                 className={cn(
                     "group relative border-b border-white/5 py-8 md:py-12 transition-all duration-500 cursor-none",
-                    isDimmed ? "opacity-30 blur-[1px]" : "opacity-100"
+                    isDimmed ? "md:opacity-30 md:blur-[1px]" : "opacity-100"
                 )}
             >
                 {/* Hover Background Gradient */}
@@ -121,7 +133,7 @@ const ProjectItem = ({
                 />
 
                 {/* Holographic Stats Card - Fixed Right Position */}
-                <ProjectStatsCard project={project} hovered={isHovered} />
+                <ProjectStatsCard project={project} hovered={isHovered || isExpanded} />
 
                 <div className="container-default relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start md:items-center">
@@ -167,8 +179,8 @@ const ProjectItem = ({
                 <motion.div
                     initial={false}
                     animate={{
-                        height: isHovered ? "auto" : 0,
-                        opacity: isHovered ? 1 : 0
+                        height: (isHovered || isExpanded) ? "auto" : 0,
+                        opacity: (isHovered || isExpanded) ? 1 : 0
                     }}
                     className="overflow-hidden relative z-10"
                 >
@@ -192,6 +204,7 @@ const ProjectItem = ({
 
 export function Projects() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
     return (
         <section id="projects" className="relative z-10">
@@ -223,6 +236,8 @@ export function Projects() {
                         index={index}
                         hoveredIndex={hoveredIndex}
                         setHoveredIndex={setHoveredIndex}
+                        expandedIndex={expandedIndex}
+                        setExpandedIndex={setExpandedIndex}
                     />
                 ))}
             </div>

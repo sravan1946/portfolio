@@ -41,7 +41,7 @@ function ExperienceCard({ experience, index }: { experience: typeof EXPERIENCES[
             </motion.div>
 
             {/* Card - positioned left on even, right on odd */}
-            <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--cyan-400)]/30 transition-colors duration-300 ${isEven ? 'mr-auto md:mr-auto md:pr-8' : 'ml-auto md:ml-auto md:pl-8'}`}>
+            <div className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--cyan-400)]/30 transition-colors duration-300 ${isEven ? 'md:mr-auto md:ml-0 md:pr-8' : 'md:ml-auto md:pl-8'}`}>
                 {/* Content */}
                 <div className="relative z-10">
                     <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-3">

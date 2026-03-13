@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShieldAlert, Lock, AlertTriangle, ChevronRight } from "lucide-react";
 
 export default function NotFound() {
+    const [errorId] = useState(() => Math.random().toString(36).substring(7).toUpperCase());
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black font-mono text-red-500 select-none">
 
@@ -74,22 +76,11 @@ export default function NotFound() {
                     {/* Bottom Tech Details */}
                     <div className="mt-6 w-full flex justify-between text-[10px] text-red-500/40 font-mono border-t border-red-500/20 pt-2">
                         <span>ERR_CODE: 0x404</span>
-                        <span>ID: {Math.random().toString(36).substring(7).toUpperCase()}</span>
+                        <span>ID: {errorId}</span>
                     </div>
                 </div>
             </motion.div>
 
-            <style jsx global>{`
-        @keyframes scan {
-          0% { top: 0%; opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { top: 100%; opacity: 0; }
-        }
-        .animate-scan {
-          animation: scan 4s linear infinite;
-        }
-      `}</style>
         </div>
     );
 }

@@ -64,11 +64,7 @@ export function MatrixBackground() {
             }
         };
 
-        let animationId: number;
-        const animate = () => {
-            draw();
-            animationId = requestAnimationFrame(animate);
-        }
+
 
         const observer = new IntersectionObserver(
             ([entry]) => {

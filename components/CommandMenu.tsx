@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, X, ArrowRight, Command } from "lucide-react";
+import { X, ArrowRight, Command } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { PERSONAL_DATA } from "@/lib/data";
 
 export function CommandMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState("");
     const router = useRouter();
+    const modalRef = useRef<HTMLDivElement>(null);
 
     // Toggle with Cmd+K
     useEffect(() => {
@@ -17,16 +19,40 @@ export function CommandMenu() {
                 e.preventDefault();
                 setIsOpen((open) => !open);
             }
+            if (e.key === "Escape" && isOpen) {
+                setIsOpen(false);
+            }
         };
         document.addEventListener("keydown", down);
         return () => document.removeEventListener("keydown", down);
-    }, []);
+    }, [isOpen]);
+
+    // Focus trap
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleTab = (e: KeyboardEvent) => {
+            if (e.key !== 'Tab') return;
+            const focusable = modalRef.current?.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusable?.length) return;
+            const first = focusable[0] as HTMLElement;
+            const last = focusable[focusable.length - 1] as HTMLElement;
+            if (e.shiftKey) {
+                if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+            } else {
+                if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        };
+        document.addEventListener('keydown', handleTab);
+        return () => document.removeEventListener('keydown', handleTab);
+    }, [isOpen]);
 
     const commands = [
         { id: "home", label: "Go Home", action: () => { router.push("/"); setIsOpen(false); } },
         { id: "projects", label: "View Projects", action: () => { router.push("#projects"); setIsOpen(false); } },
         { id: "about", label: "About Me", action: () => { router.push("#about"); setIsOpen(false); } },
-        { id: "contact", label: "Contact", action: () => { window.open("mailto:sravan.krishna@example.com", "_self"); setIsOpen(false); } },
+        { id: "contact", label: "Contact", action: () => { window.open(`mailto:${PERSONAL_DATA.email}`, "_self"); setIsOpen(false); } },
     ];
 
     const filteredCommands = commands.filter(cmd =>
@@ -49,9 +75,13 @@ export function CommandMenu() {
                         />
 
                         <motion.div
+                            ref={modalRef}
                             initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Command menu"
                             className="relative w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-[#0a0a0a] shadow-2xl shadow-cyan-500/10"
                         >
                             <div className="flex items-center border-b border-white/10 px-4 py-3">
@@ -62,6 +92,7 @@ export function CommandMenu() {
                                     className="flex-1 bg-transparent text-lg text-white placeholder-slate-500 outline-none"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
+                                    aria-label="Search commands"
                                 />
                                 <button onClick={() => setIsOpen(false)}>
                                     <X className="h-5 w-5 text-slate-500 hover:text-white" />

@@ -117,12 +117,13 @@ export function CTA() {
 
                     <div className="space-y-6">
                         <div className="flex gap-4">
-                            {socialLinks.map(({ icon: Icon, href }, i) => (
+                            {socialLinks.map(({ icon: Icon, href, name }, i) => (
                                 <motion.a
-                                    key={i}
+                                    key={name}
                                     href={href}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label={name}
                                     whileHover={{ scale: 1.1, color: "#22d3ee" }}
                                     whileTap={{ scale: 0.95 }}
                                     className="p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
