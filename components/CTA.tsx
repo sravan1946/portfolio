@@ -215,7 +215,10 @@ export function CTA() {
                                                     }}
                                                     disabled={formState === "submitting"}
                                                     className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--cyan-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
-                                                    placeholder="_"
+                                                    placeholder="Enter your name"
+                                                    aria-label="Your Name"
+                                                    aria-required="true"
+                                                    aria-invalid={!!errors.name}
                                                 />
                                                 {errors.name && (
                                                     <motion.div
@@ -227,7 +230,7 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.name && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.name}`}</p>}
+                                            {errors.name && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.name}`}</p>}
                                         </div>
 
                                         <div className="space-y-1.5">
@@ -245,7 +248,10 @@ export function CTA() {
                                                     }}
                                                     disabled={formState === "submitting"}
                                                     className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--purple-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
-                                                    placeholder="_"
+                                                    placeholder="your@email.com"
+                                                    aria-label="Email Address"
+                                                    aria-required="true"
+                                                    aria-invalid={!!errors.email}
                                                 />
                                                 {errors.email && (
                                                     <motion.div
@@ -257,7 +263,7 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.email && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.email}`}</p>}
+                                            {errors.email && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.email}`}</p>}
                                         </div>
 
                                         <div className="space-y-1.5">
@@ -275,7 +281,10 @@ export function CTA() {
                                                     }}
                                                     disabled={formState === "submitting"}
                                                     className={`w-full bg-black/50 border ${errors.message ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-green-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)] resize-none`}
-                                                    placeholder="_"
+                                                    placeholder="Project details..."
+                                                    aria-label="Message Context"
+                                                    aria-required="true"
+                                                    aria-invalid={!!errors.message}
                                                 />
                                                 {errors.message && (
                                                     <motion.div
@@ -287,7 +296,7 @@ export function CTA() {
                                                     </motion.div>
                                                 )}
                                             </div>
-                                            {errors.message && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2">{`>> ${errors.message}`}</p>}
+                                            {errors.message && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.message}`}</p>}
                                         </div>
 
                                         <motion.button

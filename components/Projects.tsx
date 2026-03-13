@@ -104,6 +104,8 @@ const ProjectItem = ({
                 transition={{ delay: index * 0.1 }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(index)}
+                onBlur={() => setHoveredIndex(null)}
                 data-cursor="project"
                 className={cn(
                     "group relative border-b border-white/5 py-8 md:py-12 transition-all duration-500 cursor-none",

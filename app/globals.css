@@ -12,6 +12,7 @@ html {
   /* Brand colors - Cyan */
   --cyan-400: #22d3ee;
   --cyan-500: #06b6d4;
+  --cyan-700: #0e7490;
   --cyan-glow: rgba(34, 211, 238, 0.5);
   --cyan-glow-subtle: rgba(34, 211, 238, 0.2);
   
@@ -49,11 +50,10 @@ html {
   --radius-full: 9999px;
 }
 
-/* Force hide cursor only on devices with a fine pointer (mouse) */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
+/* Safe cursor hiding - only active when custom cursor is ready */
+.cursor-none-active,
+.cursor-none-active * {
+  cursor: none !important;
 }
 
 body {

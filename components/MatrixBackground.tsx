@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 export function MatrixBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -30,12 +31,16 @@ export function MatrixBackground() {
             drops[i] = Math.random() * -100; // Start above screen
         }
 
+        // Initialize colors from tokens
+        const style = getComputedStyle(document.documentElement);
+        const colorBright = style.getPropertyValue('--cyan-400').trim() || "#22d3ee";
+        const colorDim = style.getPropertyValue('--cyan-700').trim() || "#0e7490";
+
         const draw = () => {
             // Semi-transparent black to create trail effect
             ctx.fillStyle = "rgba(3, 7, 18, 0.05)";
             ctx.fillRect(0, 0, width, height);
 
-            ctx.fillStyle = "#0f0"; // Fallback
             ctx.font = `${fontSize}px monospace`;
 
             for (let i = 0; i < drops.length; i++) {
@@ -44,7 +49,7 @@ export function MatrixBackground() {
 
                 // Color logic: Some are bright cyan, some are purple/dim
                 const isBright = Math.random() > 0.95;
-                ctx.fillStyle = isBright ? "#22d3ee" : "#0e7490"; // cyan-400 vs cyan-700
+                ctx.fillStyle = isBright ? colorBright : colorDim;
 
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
@@ -65,8 +70,23 @@ export function MatrixBackground() {
             animationId = requestAnimationFrame(animate);
         }
 
-        // Throttling frames for "digital" feel + performance
-        const interval = setInterval(draw, 33); // ~30FPS
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (!timerRef.current) {
+                        timerRef.current = setInterval(draw, 33);
+                    }
+                } else {
+                    if (timerRef.current) {
+                        clearInterval(timerRef.current);
+                        timerRef.current = null;
+                    }
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        observer.observe(canvas);
 
         const handleResize = () => {
             width = canvas.width = window.innerWidth;
@@ -83,7 +103,8 @@ export function MatrixBackground() {
         window.addEventListener("resize", handleResize);
 
         return () => {
-            clearInterval(interval);
+            if (timerRef.current) clearInterval(timerRef.current);
+            observer.disconnect();
             window.removeEventListener("resize", handleResize);
         };
     }, []);

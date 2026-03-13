@@ -14,11 +14,21 @@ export function CyberCursor() {
         const checkMobile = () => {
             const isTouch = window.matchMedia("(pointer: coarse)").matches;
             setIsMobile(isTouch);
+            
+            // Apply cursor-none-active only on non-touch devices
+            if (!isTouch) {
+                document.documentElement.classList.add("cursor-none-active");
+            } else {
+                document.documentElement.classList.remove("cursor-none-active");
+            }
         };
 
         checkMobile();
         window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+            document.documentElement.classList.remove("cursor-none-active");
+        };
     }, []);
 
     const cursorX = useMotionValue(-100);
