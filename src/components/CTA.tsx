@@ -96,7 +96,7 @@ export function CTA() {
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--green-400)]/3 rounded-full blur-[120px]" />
             </div>
 
-            <div className="container-default grid lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
+            <div className="container-default grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 relative z-10">
                 {/* Left Column: Info */}
                 <div className="flex flex-col justify-between">
                     <div>
@@ -104,19 +104,19 @@ export function CTA() {
                             <span className="w-2 h-2 rounded-full bg-[var(--green-400)] animate-pulse" />
                             OPEN FOR WORK
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-white">
+                        <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-4 sm:mb-6 text-white">
                             Let's build <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--green-400)] to-[var(--green-400)]">
                                 something epic.
                             </span>
                         </h2>
-                        <p className="text-lg text-[var(--slate-400)] mb-8 max-w-md leading-relaxed">
+                        <p className="text-base sm:text-lg text-[var(--slate-400)] mb-6 sm:mb-8 max-w-md leading-relaxed">
                             I'm currently accessible for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
                         </p>
                     </div>
 
                     <div className="space-y-6">
-                        <div className="flex gap-4">
+                        <div className="flex gap-3 sm:gap-4 flex-wrap">
                             {socialLinks.map(({ icon: Icon, href, name }) => (
                                 <motion.a
                                     key={name}
@@ -126,17 +126,17 @@ export function CTA() {
                                     aria-label={name}
                                     whileHover={{ scale: 1.1, color: "#4ade80" }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
+                                    className="p-3 sm:p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
                                 >
                                     <Icon size={24} />
                                 </motion.a>
                             ))}
                         </div>
 
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
+                        <div className="p-3 sm:p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
                             <div className="flex items-center gap-3">
                                 <Mail className="text-[var(--green-400)]" size={20} />
-                                <span className="text-[var(--slate-300)] font-[family-name:var(--font-jetbrains-mono)] text-sm">sravan@p1ng.me</span>
+                                <span className="text-[var(--slate-300)] font-[family-name:var(--font-jetbrains-mono)] text-xs sm:text-sm truncate">sravan@p1ng.me</span>
                             </div>
                             <button
                                 onClick={copyToClipboard}
@@ -153,7 +153,7 @@ export function CTA() {
                 {/* Right Column: Terminal Interface (Form) */}
                 <div className="relative">
                     {/* Decorators */}
-                    <div className="absolute -top-10 -right-10 text-[var(--slate-800)]/20 pointer-events-none">
+                    <div className="hidden sm:block absolute -top-10 -right-10 text-[var(--slate-800)]/20 pointer-events-none">
                         <Terminal size={240} strokeWidth={0.5} />
                     </div>
 
@@ -171,7 +171,7 @@ export function CTA() {
                             </div>
                         </div>
 
-                        <div className="p-8 md:p-10 flex-grow flex flex-col justify-center">
+                        <div className="p-5 sm:p-8 md:p-10 flex-grow flex flex-col justify-center">
                             <AnimatePresence mode="wait">
                                 {formState === "success" ? (
                                     <motion.div
@@ -200,7 +200,7 @@ export function CTA() {
                                         </button>
                                     </motion.div>
                                 ) : (
-                                    <form key="form" onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                                    <form key="form" onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 md:space-y-8">
                                         <div className="space-y-1.5">
                                             <label htmlFor="name" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] flex items-center gap-2">
                                                 <span className="text-[var(--slate-600)]">$</span> input.name

@@ -152,16 +152,16 @@ function TechCard({ item, index }: TechCardProps) {
             tabIndex={0}
             role="button"
             aria-label={`${item.name} - ${item.category}. Click to reveal a fact.`}
-            className="group relative outline-none focus-visible:ring-4 focus-visible:ring-[var(--green-400)] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505]"
+            className={`group relative outline-none focus-visible:ring-4 focus-visible:ring-[var(--green-400)] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505] ${showFact ? 'z-50' : 'z-10 hover:z-20'}`}
         >
             <motion.div
                 animate={{
                     scale: isClicked ? 0.98 : 1,
                 }}
                 transition={{ duration: 0.1 }}
-                className="relative p-6 md:p-8 bg-[#050505] border-2 border-[#1a1a1a] transition-all duration-300 hover:border-[var(--green-400)] hover:-translate-y-2 hover:translate-x-[-4px] hover:shadow-[6px_6px_0px_0px_var(--green-400)] group"
+                className="relative p-4 sm:p-6 md:p-8 bg-[#050505] border-2 border-[#1a1a1a] transition-all duration-300 hover:border-[var(--green-400)] hover:-translate-y-2 hover:translate-x-[-4px] hover:shadow-[6px_6px_0px_0px_var(--green-400)] group"
             >
-                <div className="relative z-10 flex flex-col items-start gap-4">
+                <div className="relative z-10 flex flex-col items-start gap-3 sm:gap-4">
                     <motion.div
                         animate={{
                             y: [0, -4, 0],
@@ -173,7 +173,7 @@ function TechCard({ item, index }: TechCardProps) {
                             ease: "easeInOut",
                             delay: index * 0.15,
                         }}
-                        className="w-14 h-14 md:w-16 md:h-16 relative"
+                        className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 relative"
                     >
                         <img
                             src={item.url}
@@ -186,7 +186,7 @@ function TechCard({ item, index }: TechCardProps) {
                     </motion.div>
 
                     <div className="text-left mt-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white tracking-widest uppercase">
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-widest uppercase">
                             {item.name}
                         </h3>
                         <motion.span
@@ -208,7 +208,7 @@ function TechCard({ item, index }: TechCardProps) {
                             animate={{ opacity: 1, y: 12 }}
                             exit={{ opacity: 0, y: -5 }}
                             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                            className="absolute z-50 top-full left-[-4px] right-[-4px] bg-[#050505] border-2 border-[var(--green-400)] p-3 shadow-[6px_6px_0px_0px_var(--green-400)] pointer-events-none"
+                            className="absolute z-50 top-full left-0 right-0 sm:left-[-4px] sm:right-[-4px] bg-[#050505] border-2 border-[var(--green-400)] p-2 sm:p-3 shadow-[4px_4px_0px_0px_var(--green-400)] sm:shadow-[6px_6px_0px_0px_var(--green-400)] pointer-events-none"
                         >
                             <div className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] flex items-start gap-2 text-left">
                                 <span className="text-[var(--green-400)] font-black mt-0.5">{">_"}</span>
@@ -266,7 +266,7 @@ function TechCategory({
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                 {techs.map((item, idx) => (
                     <TechCard
                         key={item.name}

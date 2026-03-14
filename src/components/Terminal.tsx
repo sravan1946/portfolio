@@ -44,6 +44,25 @@ export function Terminal() {
         }
     }, [isOpen]);
 
+    // Prevent scrolling when terminal is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+            // @ts-expect-error - lenis is on window
+            if (window.lenis) window.lenis.stop();
+        } else {
+            document.body.style.overflow = "unset";
+            // @ts-expect-error - lenis is on window
+            if (window.lenis) window.lenis.start();
+        }
+        
+        return () => {
+            document.body.style.overflow = "unset";
+            // @ts-expect-error - lenis is on window
+            if (window.lenis) window.lenis.start();
+        };
+    }, [isOpen]);
+
     // Keyboard shortcut to toggle (Alt + T)
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -234,15 +253,15 @@ export function Terminal() {
             {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 p-4 bg-black/40 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-cyan-900/40 hover:border-cyan-400 transition-all shadow-lg group"
+                className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 bg-black/40 backdrop-blur-md border border-white/20 rounded-full text-white hover:bg-cyan-900/40 hover:border-cyan-400 transition-all shadow-lg group"
                 aria-label="Toggle Terminal"
             >
-                <TerminalIcon className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition-transform" />
+                <TerminalIcon className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400 group-hover:scale-110 transition-transform" />
             </button>
 
             <AnimatePresence>
                 {isOpen && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none p-4">
+            <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none p-2 sm:p-4">
                         {/* Backdrop */}
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -261,7 +280,7 @@ export function Terminal() {
                             role="dialog"
                             aria-modal="true"
                             aria-label="Terminal"
-                            className="w-full max-w-3xl bg-black/90 backdrop-blur-xl border border-white/15 rounded-lg overflow-hidden shadow-2xl font-mono text-sm md:text-base relative pointer-events-auto flex flex-col max-h-[80vh]"
+                            className="w-full max-w-3xl bg-black/90 backdrop-blur-xl border border-white/15 rounded-lg overflow-hidden shadow-2xl font-mono text-xs sm:text-sm md:text-base relative pointer-events-auto flex flex-col max-h-[85vh] sm:max-h-[80vh]"
                         >
                             {/* Terminal Header */}
                             <div
@@ -284,7 +303,7 @@ export function Terminal() {
 
                             {/* Terminal Body */}
                             <div
-                                className="p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 min-h-[300px]"
+                                className="p-4 sm:p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex-1 min-h-[250px] sm:min-h-[300px]"
                                 onClick={() => inputRef.current?.focus()}
                             >
                                 {history.map((entry, i) => (

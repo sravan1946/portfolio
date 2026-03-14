@@ -41,7 +41,7 @@ export default function App() {
           <Experience />
           <CTA />
         </main>
-        <footer className="py-8 text-center text-[var(--slate-600)] text-sm" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
+        <footer className="py-6 sm:py-8 text-center text-[var(--slate-600)] text-xs sm:text-sm px-4" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
           <p>© {new Date().getFullYear()} Designed & Built with ❤️</p>
         </footer>
         <Terminal />

@@ -9,7 +9,7 @@ export function About() {
     return (
         <section id="about" className="relative overflow-hidden">
             <div className="container-default">
-                <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+                <div className="flex flex-col md:flex-row items-center gap-8 sm:gap-12 md:gap-20">
                     {/* Image Column */}
                     <div className="w-full md:w-1/2 flex justify-center md:justify-end">
                         <Card3D />
@@ -23,7 +23,7 @@ export function About() {
                         transition={{ duration: 0.8 }}
                         className="w-full md:w-1/2"
                     >
-                        <div className="section-header mb-8">
+                        <div className="section-header mb-6 sm:mb-8">
                             <span className="section-eyebrow">
                                 <User size={14} />
                                 About Me
@@ -31,7 +31,7 @@ export function About() {
                             <h2 className="section-title">Who I Am</h2>
                         </div>
 
-                        <div className="space-y-6 text-lg text-[var(--slate-400)] leading-relaxed">
+                        <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-[var(--slate-400)] leading-relaxed">
                             <p>
                                 I'm a Computer Science student with a passion for <span className="text-[var(--green-400)]">building</span> and <span className="text-[var(--green-400)]">breaking</span> things.
                             </p>

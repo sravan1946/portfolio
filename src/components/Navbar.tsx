@@ -28,7 +28,7 @@ export function Navbar() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-                className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-4 px-2 py-2 rounded-full border border-white/10 bg-black/50 backdrop-blur-xl shadow-lg shadow-[var(--green-400)]/5 max-w-[95vw] sm:max-w-none"
+                className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 sm:gap-2 md:gap-4 px-2 py-2 rounded-full border border-white/10 bg-black/50 backdrop-blur-xl shadow-lg shadow-[var(--green-400)]/5 max-w-[calc(100vw-2rem)] sm:max-w-[95vw] md:max-w-none"
             >
                 {/* Desktop Nav Items */}
                 <div className="hidden md:flex items-center gap-1 pl-4 pr-2">
@@ -81,7 +81,7 @@ export function Navbar() {
                 </div>
 
                 {/* CV Button */}
-                <div className="pl-1 sm:pl-2 pr-1 sm:pr-2 border-l border-white/10">
+                <div className="pl-1 pr-1 sm:pl-2 sm:pr-2 border-l border-white/10">
                     <a
                         href={"/cv.pdf"}
                         target="_blank"
@@ -101,7 +101,7 @@ export function Navbar() {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-x-4 top-24 z-40 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/10 md:hidden flex flex-col gap-4 shadow-2xl shadow-[var(--green-400)]/10"
+                        className="fixed inset-x-3 sm:inset-x-4 top-20 sm:top-24 z-40 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/10 md:hidden flex flex-col gap-4 shadow-2xl shadow-[var(--green-400)]/10"
                     >
                         <div className="flex flex-col gap-2">
                             {navItems.map((item) => (
@@ -112,7 +112,7 @@ export function Navbar() {
                                         e.preventDefault();
                                         scrollToSection(item.href);
                                     }}
-                                    className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--slate-300)] hover:bg-white/5 hover:text-white transition-colors"
+                                    className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--slate-300)] hover:bg-white/5 hover:text-white transition-colors active:bg-white/10"
                                 >
                                     {item.name}
                                 </a>

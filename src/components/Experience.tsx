@@ -25,7 +25,7 @@ function ExperienceCard({ experience, index }: { experience: typeof EXPERIENCES[
         >
             {/* Timeline dot - positioned on the line */}
             <motion.div 
-                className="absolute left-5 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[var(--slate-950)] shadow z-10"
+                className="absolute left-3 sm:left-5 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/10 bg-[var(--slate-950)] shadow z-10"
             >
                 <motion.div 
                     className="w-3 h-3 bg-[var(--green-400)] rounded-full"
@@ -41,14 +41,14 @@ function ExperienceCard({ experience, index }: { experience: typeof EXPERIENCES[
             </motion.div>
 
             {/* Card - positioned left on even, right on odd */}
-            <div className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--green-400)]/30 transition-colors duration-300 ${isEven ? 'md:mr-auto md:ml-0 md:pr-8' : 'md:ml-auto md:pl-8'}`}>
+            <div className={`w-[calc(100%-3rem)] sm:w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-4 sm:p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--green-400)]/30 transition-colors duration-300 ${isEven ? 'md:mr-auto md:ml-0 md:pr-8' : 'md:ml-auto md:pl-8'}`}>
                 {/* Content */}
                 <div className="relative z-10">
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
-                        <h3 className="font-semibold text-xl text-white">
+                    <div className="flex flex-col gap-1 sm:gap-0 sm:flex-row justify-between sm:items-center mb-3">
+                        <h3 className="font-semibold text-lg sm:text-xl text-white">
                             {experience.company}
                         </h3>
-                        <span className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] border border-[var(--green-400)]/20 px-2 py-1 rounded bg-[var(--green-400)]/5 mt-2 sm:mt-0">
+                        <span className="text-[10px] sm:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] border border-[var(--green-400)]/20 px-2 py-0.5 sm:py-1 rounded bg-[var(--green-400)]/5 mt-1 sm:mt-0 self-start sm:self-auto">
                             {experience.period}
                         </span>
                     </div>
@@ -105,7 +105,7 @@ export function Experience() {
                 {/* Timeline container */}
                 <div className="relative">
                     {/* Timeline line - centered */}
-                    <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 z-0">
+                    <div className="absolute left-3 sm:left-5 md:left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 z-0">
                         {/* Background line */}
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--slate-800)] to-transparent" />
                         
@@ -119,7 +119,7 @@ export function Experience() {
                     </div>
 
                     {/* Cards container */}
-                    <div className="space-y-12 relative z-10">
+                    <div className="space-y-8 sm:space-y-12 relative z-10">
                         {EXPERIENCES.map((experience, index) => (
                             <ExperienceCard 
                                 key={experience.company + experience.period} 

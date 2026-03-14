@@ -26,7 +26,7 @@ export function Card3D() {
     return (
         <motion.div
             style={{ perspective: 1000 }}
-            className="relative w-72 h-72 md:w-[420px] md:h-[500px]"
+            className="relative w-72 h-[320px] sm:w-[320px] sm:h-[400px] md:w-[420px] md:h-[500px]"
             onMouseMove={onMouseMove}
             onMouseLeave={() => {
                 x.set(0);
