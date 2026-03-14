@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, ExternalLink, Terminal, Package, Star, Archive, GitBranch, ChevronRight } from "lucide-react";
+import { Github, ExternalLink, Terminal, Package, Star, Archive, GitBranch } from "lucide-react";
 import { PROJECTS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -153,82 +153,6 @@ const ProjectRow = ({
     );
 };
 
-const ProjectDetail = ({ project, isVisible }: { project: typeof PROJECTS[0]; isVisible: boolean }) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{
-                opacity: isVisible ? 1 : 0,
-                scale: isVisible ? 1 : 0.95,
-            }}
-            transition={{ duration: 0.2 }}
-            className={cn(
-                "hidden lg:block fixed right-8 top-1/2 -translate-y-1/2 w-[380px] z-50 transition-opacity duration-200",
-                !isVisible && "pointer-events-none"
-            )}
-        >
-            <div className="glass-card p-6 rounded-xl border border-[var(--green-400)]/20 shadow-[0_0_50px_rgba(74,222,128,0.1)]">
-                {/* Terminal header */}
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/10">
-                    <Terminal className="w-4 h-4 text-[var(--green-400)]" />
-                    <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs text-[var(--green-400)]">PROJECT_INFO</span>
-                </div>
-
-                {/* Project title */}
-                <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-                <p className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-500)] mb-4">
-                    {project.category} • {project.year}
-                </p>
-
-                {/* Description */}
-                <p className="text-sm text-[var(--slate-300)] leading-relaxed mb-6">
-                    {project.description}
-                </p>
-
-                {/* Tech list */}
-                <div className="mb-6">
-                    <span className="font-[family-name:var(--font-jetbrains-mono)] text-[10px] text-[var(--slate-500)] uppercase tracking-wider block mb-2">
-                        Dependencies
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                        {project.tech.map((t) => (
-                            <span
-                                key={t}
-                                className="text-[11px] px-2 py-1 rounded bg-[var(--green-400)]/10 text-[var(--green-400)] border border-[var(--green-400)]/20 font-[family-name:var(--font-jetbrains-mono)]"
-                            >
-                                {t}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2">
-                    <a
-                        href={project.url}
-                        target="_blank"
-                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-white/5 hover:bg-[var(--green-400)]/20 border border-white/10 hover:border-[var(--green-400)]/50 text-[var(--slate-300)] hover:text-white transition-all group"
-                    >
-                        <Github className="w-4 h-4" />
-                        <span className="text-xs font-semibold uppercase tracking-wider">Code</span>
-                        <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
-                    {project.demoUrl && (
-                        <a
-                            href={project.demoUrl}
-                            target="_blank"
-                            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[var(--green-400)]/10 hover:bg-[var(--green-400)]/20 border border-[var(--green-400)]/30 hover:border-[var(--green-400)]/50 text-[var(--green-400)] hover:text-white transition-all group"
-                        >
-                            <ExternalLink className="w-4 h-4" />
-                            <span className="text-xs font-semibold uppercase tracking-wider">Demo</span>
-                            <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                    )}
-                </div>
-            </div>
-        </motion.div>
-    );
-};
 
 export function Projects() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -275,10 +199,6 @@ export function Projects() {
                 </div>
             </div>
 
-            {/* Floating detail card */}
-            {hoveredIndex !== null && (
-                <ProjectDetail project={PROJECTS[hoveredIndex]} isVisible={hoveredIndex !== null} />
-            )}
 
             {/* Footer */}
             <motion.div
