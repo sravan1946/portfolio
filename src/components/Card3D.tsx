@@ -1,7 +1,4 @@
-"use client";
-
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import Image from "next/image";
 import React from "react";
 
 export function Card3D() {
@@ -48,11 +45,10 @@ export function Card3D() {
                     style={{ x: bgX, y: bgY, scale: 1.1 }}
                     className="absolute inset-0 z-0"
                 >
-                    <Image
+                    <img
                         src="/profile-background.png"
                         alt="Background"
-                        fill
-                        className="object-cover"
+                        className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.8)_100%)] opacity-70" />
 
@@ -76,11 +72,10 @@ export function Card3D() {
                     style={{ x: imageX, y: imageY, scale: 1.1 }}
                     className="absolute inset-0 z-10"
                 >
-                    <Image
+                    <img
                         src="/profile-foreground.png"
                         alt="Sravan"
-                        fill
-                        className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 grayscale-[0.7] group-hover:grayscale-0 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-500 grayscale-[0.7] group-hover:grayscale-0 drop-shadow-[0_5px_15px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)]"
                     />
                 </motion.div>
 

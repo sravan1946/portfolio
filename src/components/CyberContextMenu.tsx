@@ -1,8 +1,6 @@
-"use client";
-
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, RotateCw, Terminal as TerminalIcon, Home, Briefcase, User, Copy, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, RotateCw, Home, Briefcase, User, Copy } from "lucide-react";
 
 export function CyberContextMenu() {
     const [visible, setVisible] = useState(false);

@@ -117,7 +117,7 @@ export function CTA() {
 
                     <div className="space-y-6">
                         <div className="flex gap-4">
-                            {socialLinks.map(({ icon: Icon, href, name }, i) => (
+                            {socialLinks.map(({ icon: Icon, href, name }) => (
                                 <motion.a
                                     key={name}
                                     href={href}

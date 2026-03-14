@@ -1,8 +1,5 @@
-"use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Menu, X } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 import { MagneticButton } from "./MagneticButton";
 import { PERSONAL_DATA } from "@/lib/data";
@@ -36,10 +33,10 @@ export function Navbar() {
                 {/* Desktop Nav Items */}
                 <div className="hidden md:flex items-center gap-1 pl-4 pr-2">
                     {navItems.map((item) => (
-                        <Link
+                        <a
                             key={item.name}
                             href={item.href}
-                            onClick={(e) => {
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                                 e.preventDefault();
                                 scrollToSection(item.href);
                             }}
@@ -48,7 +45,7 @@ export function Navbar() {
                                 {item.name}
                                 <span className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-[var(--green-400)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </MagneticButton>
-                        </Link>
+                        </a>
                     ))}
                 </div>
 
@@ -108,17 +105,17 @@ export function Navbar() {
                     >
                         <div className="flex flex-col gap-2">
                             {navItems.map((item) => (
-                                <Link
+                                <a
                                     key={item.name}
                                     href={item.href}
-                                    onClick={(e) => {
+                                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                                         e.preventDefault();
                                         scrollToSection(item.href);
                                     }}
                                     className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--slate-300)] hover:bg-white/5 hover:text-white transition-colors"
                                 >
                                     {item.name}
-                                </Link>
+                                </a>
                             ))}
                         </div>
 

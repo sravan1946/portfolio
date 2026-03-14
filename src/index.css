@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-}
-
 :root {
   /* Core colors */
   --background: #030712;
@@ -49,6 +45,14 @@ html {
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
+  
+  /* Fonts */
+  --font-chakra-petch: 'Chakra Petch', system-ui, sans-serif;
+  --font-jetbrains-mono: 'JetBrains Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Safe cursor hiding - only active when custom cursor is ready */
@@ -60,7 +64,7 @@ html {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-chakra-petch), system-ui, sans-serif;
+  font-family: var(--font-chakra-petch);
   overflow-x: hidden;
 }
 

@@ -1,11 +1,8 @@
-"use client";
-
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink, Terminal } from "lucide-react";
-import React, { useState } from "react";
+import { Github, ExternalLink, Terminal } from "lucide-react";
+import { useState } from "react";
 import { PROJECTS } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; hovered: boolean }) => {
     return (
@@ -45,7 +42,7 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
 
                 {/* Actions */}
                 <div className="flex gap-2">
-                    <Link
+                    <a
                         href={project.url}
                         target="_blank"
                         onClick={(e) => e.stopPropagation()}
@@ -53,10 +50,10 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                     >
                         <Github className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         <span className="text-xs font-semibold uppercase tracking-wider">Code</span>
-                    </Link>
+                    </a>
 
                     {project.demoUrl && (
-                        <Link
+                        <a
                             href={project.demoUrl}
                             target="_blank"
                             onClick={(e) => e.stopPropagation()}
@@ -64,7 +61,7 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                         >
                             <ExternalLink className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                             <span className="text-xs font-semibold uppercase tracking-wider">Demo</span>
-                        </Link>
+                        </a>
                     )}
                 </div>
 
@@ -82,7 +79,7 @@ const ProjectItem = ({
     hoveredIndex,
     setHoveredIndex,
     expandedIndex,
-    setExpandedIndex,
+    setExpandedIndex: _setExpandedIndex,
 }: {
     project: typeof PROJECTS[0];
     index: number;
@@ -96,7 +93,7 @@ const ProjectItem = ({
     const isDimmed = hoveredIndex !== null && hoveredIndex !== index;
 
     return (
-        <Link
+        <a
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
@@ -198,7 +195,7 @@ const ProjectItem = ({
                     </div>
                 </motion.div>
             </motion.div>
-        </Link>
+        </a>
     );
 };
 

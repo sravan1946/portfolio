@@ -1,15 +1,11 @@
-"use client";
-
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Command } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { PERSONAL_DATA } from "@/lib/data";
 
 export function CommandMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState("");
-    const router = useRouter();
     const modalRef = useRef<HTMLDivElement>(null);
 
     // Toggle with Cmd+K
@@ -49,9 +45,9 @@ export function CommandMenu() {
     }, [isOpen]);
 
     const commands = [
-        { id: "home", label: "Go Home", action: () => { router.push("/"); setIsOpen(false); } },
-        { id: "projects", label: "View Projects", action: () => { router.push("#projects"); setIsOpen(false); } },
-        { id: "about", label: "About Me", action: () => { router.push("#about"); setIsOpen(false); } },
+        { id: "home", label: "Go Home", action: () => { window.location.href = "/"; setIsOpen(false); } },
+        { id: "projects", label: "View Projects", action: () => { window.location.hash = "#projects"; setIsOpen(false); } },
+        { id: "about", label: "About Me", action: () => { window.location.hash = "#about"; setIsOpen(false); } },
         { id: "contact", label: "Contact", action: () => { window.open(`mailto:${PERSONAL_DATA.email}`, "_self"); setIsOpen(false); } },
     ];
 
