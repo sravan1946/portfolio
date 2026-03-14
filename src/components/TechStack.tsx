@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
-import { useState, useCallback, useMemo } from "react";
-import { Cpu, Terminal, Shield, Wrench, Code2, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
+import { Cpu, Terminal, Shield, Wrench, Code2 } from "lucide-react";
 import { FULL_TECH_STACK } from "@/lib/data";
 
 const TECH_FACTS: Record<string, string[]> = {
@@ -79,86 +79,89 @@ interface TechCardProps {
 }
 
 function TechCard({ item, index }: TechCardProps) {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
     const [isClicked, setIsClicked] = useState(false);
     const [showFact, setShowFact] = useState(false);
     const [factIndex, setFactIndex] = useState(0);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const mouseX = useSpring(x, { stiffness: 400, damping: 25 });
-    const mouseY = useSpring(y, { stiffness: 400, damping: 25 });
+    const facts = useMemo(() => TECH_FACTS[item.name] || ["Systems ready."], [item.name]);
 
-    const rotateX = useSpring(0, { stiffness: 150, damping: 20 });
-    const rotateY = useSpring(0, { stiffness: 150, damping: 20 });
+    // Typing effect logic
+    const [typedText, setTypedText] = useState("");
 
-    function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-        const { currentTarget, clientX, clientY } = e;
-        const rect = currentTarget.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        rotateX.set(((clientY - centerY) / rect.height) * -12);
-        rotateY.set(((clientX - centerX) / rect.width) * 12);
-        x.set(clientX - rect.left);
-        y.set(clientY - rect.top);
+    useEffect(() => {
+        if (!showFact) {
+            setTypedText("");
+            return;
+        }
+
+        let i = 0;
+        const text = facts[factIndex];
+        setTypedText("");
+
+        const timer = setInterval(() => {
+            setTypedText(text.slice(0, i + 1));
+            i++;
+            if (i >= text.length) clearInterval(timer);
+        }, 20); // Fast typing speed
+
+        return () => clearInterval(timer);
+    }, [showFact, factIndex, facts]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
+
+    function onMouseEnter() {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+        }
     }
 
     function onMouseLeave() {
-        rotateX.set(0);
-        rotateY.set(0);
-        x.set(0);
-        y.set(0);
-        setTimeout(() => setShowFact(false), 400);
+        timeoutRef.current = setTimeout(() => {
+            setShowFact(false);
+        }, 1000); // Stay for 1 seconds
     }
 
     const handleClick = useCallback(() => {
         setIsClicked(true);
-        const facts = TECH_FACTS[item.name] || ["Click to reveal secrets..."];
         setFactIndex(prev => (prev + 1) % facts.length);
         setShowFact(true);
         setTimeout(() => setIsClicked(false), 120);
-    }, [item.name]);
-
-    const facts = TECH_FACTS[item.name] || ["Click to reveal secrets..."];
-    const currentFact = facts[factIndex];
+    }, [facts.length]);
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ 
-                delay: index * 0.05, 
+            transition={{
+                delay: index * 0.05,
                 duration: 0.4,
                 ease: [0.25, 0.1, 0.25, 1]
             }}
-            style={{ perspective: 1000, rotateX, rotateY }}
-            onMouseMove={onMouseMove}
+            onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={handleClick}
             onKeyDown={(e) => e.key === 'Enter' && handleClick()}
             tabIndex={0}
             role="button"
             aria-label={`${item.name} - ${item.category}. Click to reveal a fact.`}
-            className="group relative cursor-pointer outline-none"
+            className="group relative outline-none focus-visible:ring-4 focus-visible:ring-[var(--green-400)] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505]"
         >
             <motion.div
                 animate={{
-                    scale: isClicked ? 0.96 : 1,
+                    scale: isClicked ? 0.98 : 1,
                 }}
                 transition={{ duration: 0.1 }}
-                className="relative p-4 md:p-6 rounded-xl border border-white/[0.08] bg-[#080808]/60 backdrop-blur-sm transition-colors duration-300 hover:border-white/[0.15]"
+                className="relative p-6 md:p-8 bg-[#050505] border-2 border-[#1a1a1a] transition-all duration-300 hover:border-[var(--green-400)] hover:-translate-y-2 hover:translate-x-[-4px] hover:shadow-[6px_6px_0px_0px_var(--green-400)] group"
             >
-                <motion.div
-                    className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-xl z-0"
-                    style={{
-                        background: useMotionTemplate`
-                            radial-gradient(650px circle at ${mouseX}px ${mouseY}px, ${item.color}18, transparent 80%)
-                        `,
-                    }}
-                />
-
-                <div className="relative z-10 flex flex-col items-center gap-3">
+                <div className="relative z-10 flex flex-col items-start gap-4">
                     <motion.div
                         animate={{
                             y: [0, -4, 0],
@@ -178,34 +181,17 @@ function TechCard({ item, index }: TechCardProps) {
                             width={64}
                             height={64}
                             loading="lazy"
-                            className="w-full h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 ease-out"
+                            className="w-full h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                         />
-                        
-                        <AnimatePresence mode="wait">
-                            {showFact && (
-                                <motion.div
-                                    initial={{ scale: 0, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    exit={{ scale: 0, opacity: 0 }}
-                                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                                    className="absolute -top-1 -right-1"
-                                >
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-yellow-400/50 blur-md rounded-full" />
-                                        <Sparkles className="relative w-4 h-4 text-yellow-400" />
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
                     </motion.div>
 
-                    <div className="text-center">
-                        <h3 className="text-sm md:text-base font-semibold text-[var(--slate-400)] group-hover:text-white transition-colors duration-300 tracking-wide">
+                    <div className="text-left mt-2">
+                        <h3 className="text-lg md:text-xl font-bold text-white tracking-widest uppercase">
                             {item.name}
                         </h3>
-                        <motion.span 
-                            className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)]/70 block mt-1.5 uppercase tracking-widest"
-                            animate={{ 
+                        <motion.span
+                            className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-400)] block mt-1 uppercase tracking-wider"
+                            animate={{
                                 opacity: showFact ? 1 : 0.6,
                                 y: showFact ? 0 : 2
                             }}
@@ -218,37 +204,35 @@ function TechCard({ item, index }: TechCardProps) {
                 <AnimatePresence mode="wait">
                     {showFact && (
                         <motion.div
-                            initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                            transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                            className="absolute -bottom-14 left-1/2 -translate-x-1/2 w-44 md:w-52 bg-[#0c0c0c] border border-[var(--green-400)]/25 rounded-lg p-2.5 z-50 shadow-2xl shadow-black/50"
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 12 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                            className="absolute z-50 top-full left-[-4px] right-[-4px] bg-[#050505] border-2 border-[var(--green-400)] p-3 shadow-[6px_6px_0px_0px_var(--green-400)] pointer-events-none"
                         >
-                            <div className="text-[11px] md:text-xs text-[var(--slate-400)] font-[family-name:var(--font-jetbrains-mono)] leading-relaxed">
-                                <span className="text-[var(--green-400)]">▸ </span>
-                                {currentFact}
+                            <div className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] flex items-start gap-2 text-left">
+                                <span className="text-[var(--green-400)] font-black mt-0.5">{">_"}</span>
+                                <span className="leading-relaxed whitespace-pre-wrap text-white">
+                                    {typedText}
+                                    <span className="inline-block w-1.5 h-3.5 bg-[var(--green-400)] ml-0.5 align-middle animate-pulse" />
+                                </span>
                             </div>
-                            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-[#0c0c0c] border-t border-l border-[var(--green-400)]/25 rotate-45" />
                         </motion.div>
                     )}
                 </AnimatePresence>
             </motion.div>
-
-            <motion.div
-                className="absolute inset-0 rounded-xl -z-10 bg-gradient-to-b from-[var(--green-400)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-            />
         </motion.div>
     );
 }
 
-function TechCategory({ 
-    title, 
-    icon: Icon, 
-    description, 
-    techs, 
-    index 
-}: { 
-    title: string; 
+function TechCategory({
+    title,
+    icon: Icon,
+    description,
+    techs,
+    index
+}: {
+    title: string;
     icon: React.ElementType;
     description: string;
     techs: typeof FULL_TECH_STACK;
@@ -284,9 +268,9 @@ function TechCategory({
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
                 {techs.map((item, idx) => (
-                    <TechCard 
-                        key={item.name} 
-                        item={item} 
+                    <TechCard
+                        key={item.name}
+                        item={item}
                         index={idx}
                     />
                 ))}
