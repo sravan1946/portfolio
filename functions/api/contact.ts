@@ -1,24 +1,23 @@
-export function onRequestPost({ request, env }) {
-  return async () => {
-    try {
-      const { name, email, message } = await request.json();
+export async function onRequestPost({ request, env }) {
+  try {
+    const { name, email, message } = await request.json();
 
-      if (!name || !email || !message) {
-        return new Response(JSON.stringify({ error: 'Missing required fields' }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
+    if (!name || !email || !message) {
+      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
-      const resendApiKey = env.RESEND_API_KEY;
-      if (!resendApiKey) {
-        return new Response(JSON.stringify({ error: 'RESEND_API_KEY not configured' }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
+    const resendApiKey = env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      return new Response(JSON.stringify({ error: 'RESEND_API_KEY not configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
-      const emailHtml = `<!DOCTYPE html>
+    const emailHtml = `<!DOCTYPE html>
 <html>
 <head>
     <style>
@@ -64,42 +63,41 @@ export function onRequestPost({ request, env }) {
 </body>
 </html>`;
 
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${resendApiKey}`
-        },
-        body: JSON.stringify({
-          from: 'Portfolio Contact <contact@mail.p1ng.me>',
-          to: ['sravan@p1ng.me'],
-          subject: `New Contact Form Submission from ${name}`,
-          text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-          html: emailHtml,
-          reply_to: email
-        })
-      });
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${resendApiKey}`
+      },
+      body: JSON.stringify({
+        from: 'Portfolio Contact <contact@mail.p1ng.me>',
+        to: ['sravan@p1ng.me'],
+        subject: `New Contact Form Submission from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+        html: emailHtml,
+        reply_to: email
+      })
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        console.error('Resend error:', data);
-        return new Response(JSON.stringify({ error: data.message || 'Failed to send email' }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-
-      return new Response(JSON.stringify({ success: true, data }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    } catch (error) {
-      console.error('Internal server error:', error);
-      return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    if (!response.ok) {
+      console.error('Resend error:', data);
+      return new Response(JSON.stringify({ error: data.message || 'Failed to send email' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-  };
+
+    return new Response(JSON.stringify({ success: true, data }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Internal server error:', error);
+    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }
