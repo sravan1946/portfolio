@@ -37,41 +37,45 @@ export const PROJECTS = [
     {
         title: "HelloCare",
         category: "Health Tech",
-        description: "Say hello to your care. A comprehensive health application built with Flutter.",
+        description: "A comprehensive healthcare management mobile application built with Flutter. Empowers patients to securely store, manage, and share medical records with AI-powered insights.",
         tech: ["Flutter", "Bloc", "Clean Arch", "Dio", "Dartz", "Firebase"],
-        size: "col-span-1 md:col-span-2",
         url: "https://github.com/Unemployed-Nerds/HelloCare",
         demoUrl: "https://github.com/Unemployed-Nerds/HelloCare/releases/latest",
-        year: "2024"
+        year: "2024",
+        status: "maintained" as const,
+        stars: 1
     },
     {
         title: "Sravan Cogs",
-        category: "Discord Bot Extensions",
-        description: "Custom cogs for Red-DiscordBot, enhancing server functionality with Python.",
+        category: "Discord Bot",
+        description: "A collection of custom cogs for Red-DiscordBot including moderation tools, music, economy, and server management features.",
         tech: ["Python", "Discord.py", "Red-Bot", "AsyncIO", "APIs"],
-        size: "col-span-1",
         url: "https://github.com/sravan1946/sravan-cogs",
-        year: "2023"
+        year: "2023",
+        status: "archived" as const,
+        stars: 8
     },
     {
         title: "LpuLive",
-        category: "University Utility",
-        description: "Unofficial mobile application for university management and student utilities.",
+        category: "Communication",
+        description: "An unofficial open-source chat application for university students. Built to ensure secure and transparent communication within the community.",
         tech: ["Flutter", "Dart", "Provider", "Hive", "REST API"],
-        size: "col-span-1",
         url: "https://github.com/sravan1946/LpuLive-unofficial",
         demoUrl: "https://github.com/sravan1946/LpuLive-unofficial/releases/latest",
-        year: "2023"
+        year: "2023",
+        status: "maintained" as const,
+        stars: 1
     },
     {
         title: "Portfolio",
-        category: "Web Experience",
-        description: "The interactive 3D portfolio website you are currently viewing.",
-        tech: ["Next.js 16", "TypeScript", "Tailwind", "Framer Motion"],
-        size: "col-span-1 md:col-span-2",
+        category: "Web",
+        description: "Interactive 3D portfolio with terminal aesthetics, cyberpunk theme, custom cursor, and smooth animations.",
+        tech: ["React", "TypeScript", "Tailwind", "Framer Motion"],
         url: "https://github.com/sravan1946/portfolio",
         demoUrl: "https://p1ng.me",
-        year: "2024"
+        year: "2024",
+        status: "maintained" as const,
+        stars: 0
     },
 ];
 

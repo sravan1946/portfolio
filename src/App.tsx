@@ -1,10 +1,4 @@
-import { CommandMenu } from "@/components/CommandMenu";
-import { CyberCursor } from "@/components/CyberCursor";
-import { MatrixBackground } from "@/components/MatrixBackground";
-import { Terminal } from "@/components/Terminal";
-import { CyberContextMenu } from "@/components/CyberContextMenu";
-import { GlobalSpotlight } from "@/components/GlobalSpotlight";
-import { SmoothScrolling } from "@/components/SmoothScrolling";
+import { lazy, Suspense } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
@@ -13,30 +7,46 @@ import { TechStack } from "@/components/TechStack";
 import { Experience } from "@/components/Experience";
 import { CTA } from "@/components/CTA";
 
+const SmoothScrolling = lazy(() => import("@/components/SmoothScrolling").then(m => ({ default: m.SmoothScrolling })));
+const MatrixBackground = lazy(() => import("@/components/MatrixBackground").then(m => ({ default: m.MatrixBackground })));
+const GlobalSpotlight = lazy(() => import("@/components/GlobalSpotlight").then(m => ({ default: m.GlobalSpotlight })));
+const CyberCursor = lazy(() => import("@/components/CyberCursor").then(m => ({ default: m.CyberCursor })));
+const CyberContextMenu = lazy(() => import("@/components/CyberContextMenu").then(m => ({ default: m.CyberContextMenu })));
+const Terminal = lazy(() => import("@/components/Terminal").then(m => ({ default: m.Terminal })));
+const CommandMenu = lazy(() => import("@/components/CommandMenu").then(m => ({ default: m.CommandMenu })));
+
+function LoadingFallback() {
+  return <div className="fixed inset-0 bg-[#030712] z-[9999] flex items-center justify-center">
+    <div className="text-[var(--green-400)] font-mono animate-pulse">Initializing...</div>
+  </div>;
+}
+
 export default function App() {
   return (
-    <SmoothScrolling>
-      <a href="#main-content" className="skip-nav">Skip to content</a>
-      <MatrixBackground />
-      <GlobalSpotlight />
-      <CyberCursor />
-      <CyberContextMenu />
-      <div className="noise-overlay" />
-      <div className="scanline" />
-      <main id="main-content" className="min-h-screen relative">
-        <Navbar />
-        <Hero />
-        <About />
-        <Projects />
-        <TechStack />
-        <Experience />
-        <CTA />
-      </main>
-      <footer className="py-8 text-center text-[var(--slate-600)] text-sm" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
-        <p>© {new Date().getFullYear()} Designed & Built with ❤️</p>
-      </footer>
-      <Terminal />
-      <CommandMenu />
-    </SmoothScrolling>
+    <Suspense fallback={<LoadingFallback />}>
+      <SmoothScrolling>
+        <a href="#main-content" className="skip-nav">Skip to content</a>
+        <MatrixBackground />
+        <GlobalSpotlight />
+        <CyberCursor />
+        <CyberContextMenu />
+        <div className="noise-overlay" />
+        <div className="scanline" />
+        <main id="main-content" className="min-h-screen relative">
+          <Navbar />
+          <Hero />
+          <About />
+          <Projects />
+          <TechStack />
+          <Experience />
+          <CTA />
+        </main>
+        <footer className="py-8 text-center text-[var(--slate-600)] text-sm" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
+          <p>© {new Date().getFullYear()} Designed & Built with ❤️</p>
+        </footer>
+        <Terminal />
+        <CommandMenu />
+      </SmoothScrolling>
+    </Suspense>
   );
 }

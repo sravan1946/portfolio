@@ -267,6 +267,16 @@ section {
   top: 0;
 }
 
+/* Content visibility for performance - skip rendering off-screen content */
+@media (min-width: 768px) {
+  #projects,
+  #tech-stack,
+  #experience {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 800px;
+  }
+}
+
 /* 404 page scan animation */
 @keyframes scan {
   0% { top: 0%; opacity: 0; }
