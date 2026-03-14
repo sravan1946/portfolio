@@ -28,12 +28,12 @@ function ExperienceCard({ experience, index }: { experience: typeof EXPERIENCES[
                 className="absolute left-5 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-[var(--slate-950)] shadow z-10"
             >
                 <motion.div 
-                    className="w-3 h-3 bg-[var(--cyan-400)] rounded-full"
+                    className="w-3 h-3 bg-[var(--green-400)] rounded-full"
                     animate={{ 
                         boxShadow: [
-                            "0 0 0px rgba(34,211,238,0.4)",
-                            "0 0 10px rgba(34,211,238,0.6)",
-                            "0 0 0px rgba(34,211,238,0.4)"
+                            "0 0 0px rgba(74,222,128,0.4)",
+                            "0 0 10px rgba(74,222,128,0.6)",
+                            "0 0 0px rgba(74,222,128,0.4)"
                         ]
                     }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -41,14 +41,14 @@ function ExperienceCard({ experience, index }: { experience: typeof EXPERIENCES[
             </motion.div>
 
             {/* Card - positioned left on even, right on odd */}
-            <div className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--cyan-400)]/30 transition-colors duration-300 ${isEven ? 'md:mr-auto md:ml-0 md:pr-8' : 'md:ml-auto md:pl-8'}`}>
+            <div className={`w-[calc(100%-4rem)] ml-auto md:w-[calc(50%-3rem)] p-6 rounded-xl bg-white/5 border border-white/10 hover:border-[var(--green-400)]/30 transition-colors duration-300 ${isEven ? 'md:mr-auto md:ml-0 md:pr-8' : 'md:ml-auto md:pl-8'}`}>
                 {/* Content */}
                 <div className="relative z-10">
                     <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                         <h3 className="font-semibold text-xl text-white">
                             {experience.company}
                         </h3>
-                        <span className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] border border-[var(--cyan-400)]/20 px-2 py-1 rounded bg-[var(--cyan-400)]/5 mt-2 sm:mt-0">
+                        <span className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] border border-[var(--green-400)]/20 px-2 py-1 rounded bg-[var(--green-400)]/5 mt-2 sm:mt-0">
                             {experience.period}
                         </span>
                     </div>
@@ -109,9 +109,9 @@ export function Experience() {
                         {/* Background line */}
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--slate-800)] to-transparent" />
                         
-                        {/* Animated cyan line */}
+                        {/* Animated green line */}
                         <motion.div
-                            className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--cyan-400)] to-transparent origin-top"
+                            className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--green-400)] to-transparent origin-top"
                             initial={{ scaleY: 0 }}
                             animate={isInView ? { scaleY: 1 } : {}}
                             transition={{ duration: 2, ease: "easeOut" }}

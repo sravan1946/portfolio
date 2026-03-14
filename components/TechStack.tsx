@@ -61,7 +61,7 @@ export function TechCard({ item, index }: TechCardProps) {
             }}
             onMouseMove={onMouseMove3D}
             onMouseLeave={onMouseLeave}
-            className="group relative flex flex-col items-center justify-center p-2 md:p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-colors duration-500 hover:border-white/20"
+            className="group relative flex flex-col items-center justify-center p-2 md:p-8 rounded-xl border border-white/10 bg-[#0a0a0a] transition-colors duration-500 hover:border-[var(--green-400)]/30"
         >
             {/* Spotlight Effect */}
             <motion.div
@@ -106,7 +106,7 @@ export function TechCard({ item, index }: TechCardProps) {
                     <h3 className="text-xs md:text-lg font-semibold text-[var(--slate-300)] group-hover:text-white transition-colors tracking-wide">
                         {item.name}
                     </h3>
-                    <span className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)]/0 group-hover:text-[var(--cyan-400)]/100 transition-all duration-500 uppercase tracking-widest mt-1 md:mt-2 block transform translate-y-2 group-hover:translate-y-0">
+                    <span className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)]/0 group-hover:text-[var(--green-400)]/100 transition-all duration-500 uppercase tracking-widest mt-1 md:mt-2 block transform translate-y-2 group-hover:translate-y-0">
                         {item.category}
                     </span>
                 </div>
@@ -119,7 +119,7 @@ export function TechStack() {
     return (
         <section id="stack" className="relative overflow-hidden">
             {/* Background Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(74,222,128,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(74,222,128,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
             <div className="container-default relative z-10">
                 <div className="section-header section-header--centered">
@@ -130,7 +130,7 @@ export function TechStack() {
                     <h2 className="section-title">Tech Arsenal</h2>
                 </div>
 
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-3 md:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
                     {FULL_TECH_STACK.map((item, index) => (
                         <TechCard key={item.name} item={item} index={index} />
                     ))}

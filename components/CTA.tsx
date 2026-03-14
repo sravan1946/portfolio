@@ -92,21 +92,21 @@ export function CTA() {
         <section id="contact" className="relative overflow-hidden">
             {/* Background Gradients */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--cyan-400)]/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--purple-400)]/5 rounded-full blur-[120px]" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--green-400)]/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--green-400)]/3 rounded-full blur-[120px]" />
             </div>
 
             <div className="container-default grid lg:grid-cols-2 gap-12 lg:gap-20 relative z-10">
                 {/* Left Column: Info */}
                 <div className="flex flex-col justify-between">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--cyan-400)]/10 border border-[var(--cyan-400)]/20 text-[var(--cyan-400)] text-xs font-[family-name:var(--font-jetbrains-mono)] mb-6">
-                            <span className="w-2 h-2 rounded-full bg-[var(--cyan-400)] animate-pulse" />
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--green-400)]/10 border border-[var(--green-400)]/20 text-[var(--green-400)] text-xs font-[family-name:var(--font-jetbrains-mono)] mb-6">
+                            <span className="w-2 h-2 rounded-full bg-[var(--green-400)] animate-pulse" />
                             OPEN FOR WORK
                         </div>
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-white">
                             Let's build <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--purple-400)] to-[var(--cyan-400)]">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--green-400)] to-[var(--green-400)]">
                                 something epic.
                             </span>
                         </h2>
@@ -124,7 +124,7 @@ export function CTA() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label={name}
-                                    whileHover={{ scale: 1.1, color: "#22d3ee" }}
+                                    whileHover={{ scale: 1.1, color: "#4ade80" }}
                                     whileTap={{ scale: 0.95 }}
                                     className="p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
                                 >
@@ -135,7 +135,7 @@ export function CTA() {
 
                         <div className="p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
                             <div className="flex items-center gap-3">
-                                <Mail className="text-[var(--cyan-400)]" size={20} />
+                                <Mail className="text-[var(--green-400)]" size={20} />
                                 <span className="text-[var(--slate-300)] font-[family-name:var(--font-jetbrains-mono)] text-sm">sravan@p1ng.me</span>
                             </div>
                             <button
@@ -194,7 +194,7 @@ export function CTA() {
                                         </div>
                                         <button
                                             onClick={() => setFormState("idle")}
-                                            className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] transition-colors"
+                                            className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] transition-colors"
                                         >
                                             [INITIATE_NEW_SEQUENCE]
                                         </button>
@@ -202,7 +202,7 @@ export function CTA() {
                                 ) : (
                                     <form key="form" onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                                         <div className="space-y-1.5">
-                                            <label htmlFor="name" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] flex items-center gap-2">
+                                            <label htmlFor="name" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] flex items-center gap-2">
                                                 <span className="text-[var(--slate-600)]">$</span> input.name
                                             </label>
                                             <div className="relative group">
@@ -215,7 +215,7 @@ export function CTA() {
                                                         if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
                                                     }}
                                                     disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--cyan-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
+                                                    className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--green-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
                                                     placeholder="Enter your name"
                                                     aria-label="Your Name"
                                                     aria-required="true"
@@ -235,7 +235,7 @@ export function CTA() {
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="email" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--purple-400)] flex items-center gap-2">
+                                            <label htmlFor="email" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] flex items-center gap-2">
                                                 <span className="text-[var(--slate-600)]">$</span> input.email
                                             </label>
                                             <div className="relative group">
@@ -248,7 +248,7 @@ export function CTA() {
                                                         if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                                                     }}
                                                     disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--purple-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
+                                                    className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--green-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
                                                     placeholder="your@email.com"
                                                     aria-label="Email Address"
                                                     aria-required="true"
@@ -305,13 +305,13 @@ export function CTA() {
                                             disabled={formState === "submitting"}
                                             whileHover={{ scale: 1.01 }}
                                             whileTap={{ scale: 0.99 }}
-                                            className="w-full bg-gradient-to-r from-[var(--cyan-400)]/10 to-[var(--purple-400)]/10 hover:from-[var(--cyan-400)]/20 hover:to-[var(--purple-400)]/20 border border-[var(--cyan-400)]/20 hover:border-[var(--cyan-400)]/50 text-[var(--cyan-400)] font-[family-name:var(--font-jetbrains-mono)] py-5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden shadow-lg shadow-[var(--cyan-400)]/10"
+                                            className="w-full bg-gradient-to-r from-[var(--green-400)]/10 to-[var(--green-400)]/10 hover:from-[var(--green-400)]/20 hover:to-[var(--green-400)]/20 border border-[var(--green-400)]/20 hover:border-[var(--green-400)]/50 text-[var(--green-400)] font-[family-name:var(--font-jetbrains-mono)] py-5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden shadow-lg shadow-[var(--green-400)]/10"
                                             data-cursor="submit"
                                         >
-                                            <div className={`absolute inset-0 bg-[var(--cyan-400)]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${formState === "submitting" ? "translate-y-0" : ""}`} />
+                                            <div className={`absolute inset-0 bg-[var(--green-400)]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${formState === "submitting" ? "translate-y-0" : ""}`} />
                                             {formState === "submitting" ? (
                                                 <span className="flex items-center gap-3 text-base font-semibold tracking-wide">
-                                                    <span className="w-5 h-5 border-2 border-[var(--cyan-400)]/30 border-t-[var(--cyan-400)] rounded-full animate-spin" />
+                                                    <span className="w-5 h-5 border-2 border-[var(--green-400)]/30 border-t-[var(--green-400)] rounded-full animate-spin" />
                                                     TRANSMITTING...
                                                 </span>
                                             ) : (

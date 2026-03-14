@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Terminal } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PERSONAL_DATA } from "@/lib/data";
 import { HackerText } from "./HackerText";
 import { MagneticButton } from "./MagneticButton";
@@ -19,20 +19,14 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    {/* Role Badge */}
-                    <span className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] tracking-widest uppercase mb-8 backdrop-blur-md">
-                        <Terminal size={12} />
-                        {PERSONAL_DATA.role}
-                    </span>
-
                     {/* Main Headline */}
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50 mb-8 py-2">
                         {PERSONAL_DATA.name.split(" ")[0]} <br className="md:hidden" />
                         <span className="hidden md:inline"> </span>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--purple-400)] to-[var(--cyan-400)] relative glitch-text">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--green-400)] to-[var(--green-400)] relative">
                             <HackerText text="Krishna" />
                             <motion.span
-                                className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-xl -z-10"
+                                className="absolute -inset-1 bg-gradient-to-r from-green-500/10 to-green-500/10 blur-xl -z-10"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.5, duration: 1 }}
@@ -42,7 +36,7 @@ export function Hero() {
 
                     {/* Bio / Description */}
                     <p className="text-lg md:text-xl text-[var(--slate-400)] max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Computer Science Student specializing in <span className="text-[var(--cyan-400)] font-medium">Cybersecurity</span>.
+                        Computer Science Student specializing in <span className="text-[var(--green-400)] font-medium">Cybersecurity</span>.
                         Engineering secure systems and exploring the depths of digital defense.
                     </p>
 
@@ -53,7 +47,7 @@ export function Hero() {
                                 href="#projects"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-cyan-50 transition-colors flex items-center gap-2"
+                                className="px-8 py-4 bg-[var(--green-400)] text-black rounded-full font-medium hover:bg-[var(--green-500)] transition-colors flex items-center gap-2"
                             >
                                 View My Work
                                 <ArrowRight size={18} />
@@ -78,7 +72,7 @@ export function Hero() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4, duration: 1 }}
-                        className="flex justify-center items-center gap-8 md:gap-12 flex-wrap opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
+                        className="flex justify-center items-center gap-6 md:gap-8 flex-wrap opacity-40 grayscale hover:grayscale-0 transition-all duration-500"
                     >
                         {/* Tech Stack Icons with Full Color on Hover */}
                         {FULL_TECH_STACK.filter(t => ["Python", "Flutter", "Docker", "Arch Linux", "Burp Suite"].includes(t.name)).map((tech) => (
@@ -89,7 +83,7 @@ export function Hero() {
                                     width={40}
                                     height={40}
                                     loading="lazy"
-                                    className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-60 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110"
+                                    className="w-6 h-6 md:w-8 md:h-8 object-contain opacity-60 grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"
                                     title={tech.name}
                                 />
                             </div>
@@ -98,17 +92,6 @@ export function Hero() {
 
                 </motion.div>
             </div>
-
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-10 left-1/2 -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-                <div className="w-6 h-10 rounded-full border border-white/20 flex justify-center pt-2">
-                    <div className="w-1 h-2 bg-[var(--cyan-400)] rounded-full" />
-                </div>
-            </motion.div>
         </section>
     );
 }

@@ -19,12 +19,12 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-50 hidden md:block w-[300px]"
         >
-            <div className="glass-card p-5 shadow-[0_0_30px_rgba(34,211,238,0.15)] relative group/card">
+            <div className="glass-card p-5 shadow-[0_0_30px_rgba(74,222,128,0.1)] relative group/card">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-3">
                     <div className="flex gap-2 items-center">
-                        <Terminal className="w-4 h-4 text-[var(--cyan-400)]" />
-                        <span className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--cyan-400)] font-bold tracking-widest">COMMAND CENTER</span>
+                        <Terminal className="w-4 h-4 text-[var(--green-400)]" />
+                        <span className="text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] font-bold tracking-widest">COMMAND CENTER</span>
                     </div>
                     <span className="text-[10px] font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-500)] border border-white/10 px-1.5 py-0.5 rounded">
                         {project.year}
@@ -36,7 +36,7 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                     <span className="text-[10px] uppercase text-[var(--slate-500)] font-[family-name:var(--font-jetbrains-mono)] mb-2 block tracking-wider">Technologies</span>
                     <div className="flex flex-wrap gap-1.5">
                         {project.tech.map((t) => (
-                            <span key={t} className="text-[11px] px-2 py-1 rounded-sm bg-[var(--cyan-400)]/10 text-[var(--cyan-400)] border border-[var(--cyan-400)]/20 font-[family-name:var(--font-jetbrains-mono)]">
+                            <span key={t} className="text-[11px] px-2 py-1 rounded-sm bg-[var(--green-400)]/10 text-[var(--green-400)] border border-[var(--green-400)]/20 font-[family-name:var(--font-jetbrains-mono)]">
                                 {t}
                             </span>
                         ))}
@@ -49,7 +49,7 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                         href={project.url}
                         target="_blank"
                         onClick={(e) => e.stopPropagation()}
-                        className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-[var(--cyan-400)]/20 border border-white/10 hover:border-[var(--cyan-400)]/50 text-[var(--slate-300)] hover:text-white py-2 rounded-lg transition-all duration-300 group/btn"
+                        className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-[var(--green-400)]/20 border border-white/10 hover:border-[var(--green-400)]/50 text-[var(--slate-300)] hover:text-white py-2 rounded-lg transition-all duration-300 group/btn"
                     >
                         <Github className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         <span className="text-xs font-semibold uppercase tracking-wider">Code</span>
@@ -60,7 +60,7 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                             href={project.demoUrl}
                             target="_blank"
                             onClick={(e) => e.stopPropagation()}
-                            className="flex-1 flex items-center justify-center gap-2 bg-[var(--cyan-400)]/10 hover:bg-[var(--cyan-400)]/20 border border-[var(--cyan-400)]/20 hover:border-[var(--cyan-400)]/50 text-[var(--cyan-400)] hover:text-white py-2 rounded-lg transition-all duration-300 group/btn"
+                            className="flex-1 flex items-center justify-center gap-2 bg-[var(--green-400)]/10 hover:bg-[var(--green-400)]/20 border border-[var(--green-400)]/20 hover:border-[var(--green-400)]/50 text-[var(--green-400)] hover:text-white py-2 rounded-lg transition-all duration-300 group/btn"
                         >
                             <ExternalLink className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                             <span className="text-xs font-semibold uppercase tracking-wider">Demo</span>
@@ -69,8 +69,8 @@ const ProjectStatsCard = ({ project, hovered }: { project: typeof PROJECTS[0]; h
                 </div>
 
                 {/* Decorative corners */}
-                <div className="absolute -top-px -left-px w-3 h-3 border-t border-l border-[var(--cyan-400)]" />
-                <div className="absolute -bottom-px -right-px w-3 h-3 border-b border-r border-[var(--cyan-400)]" />
+                <div className="absolute -top-px -left-px w-3 h-3 border-t border-l border-[var(--green-400)]" />
+                <div className="absolute -bottom-px -right-px w-3 h-3 border-b border-r border-[var(--green-400)]" />
             </div>
         </motion.div>
     );
@@ -111,13 +111,6 @@ const ProjectItem = ({
                 onMouseLeave={() => setHoveredIndex(null)}
                 onFocus={() => setHoveredIndex(index)}
                 onBlur={() => setHoveredIndex(null)}
-                onClick={(e) => {
-                    // On touch/mobile, toggle expanded state instead of relying on hover
-                    if (window.matchMedia('(pointer: coarse)').matches) {
-                        e.preventDefault();
-                        setExpandedIndex(isExpanded ? null : index);
-                    }
-                }}
                 data-cursor="project"
                 className={cn(
                     "group relative border-b border-white/5 py-8 md:py-12 transition-all duration-500 cursor-none",
@@ -127,7 +120,7 @@ const ProjectItem = ({
                 {/* Hover Background Gradient */}
                 <div
                     className={cn(
-                        "absolute inset-0 bg-gradient-to-r from-[var(--cyan-400)]/5 via-[var(--purple-400)]/5 to-transparent opacity-0 transition-opacity duration-500",
+                        "absolute inset-0 bg-gradient-to-r from-[var(--green-400)]/5 to-transparent opacity-0 transition-opacity duration-500",
                         isHovered && "opacity-100"
                     )}
                 />
@@ -135,11 +128,11 @@ const ProjectItem = ({
                 {/* Holographic Stats Card - Fixed Right Position */}
                 <ProjectStatsCard project={project} hovered={isHovered || isExpanded} />
 
-                <div className="container-default relative z-10">
+                    <div className="container-default relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-start md:items-center">
                         {/* Index & Title - Left Aligned */}
                         <div className="md:col-span-5 flex items-center gap-4 md:gap-8">
-                            <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm md:text-base text-[var(--slate-500)] group-hover:text-[var(--cyan-400)] transition-colors w-8">
+                            <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm md:text-base text-[var(--slate-500)] group-hover:text-[var(--green-400)] transition-colors w-8">
                                 0{index + 1}
                             </span>
                             <h3
@@ -157,7 +150,7 @@ const ProjectItem = ({
                             <span className="text-[10px] font-[family-name:var(--font-jetbrains-mono)] uppercase tracking-widest text-[var(--slate-500)]">
                                 Category
                             </span>
-                            <span className="text-sm md:text-base font-medium text-[var(--slate-300)] group-hover:text-[var(--cyan-400)] transition-colors">
+                            <span className="text-sm md:text-base font-medium text-[var(--slate-300)] group-hover:text-[var(--green-400)] transition-colors">
                                 {project.category}
                             </span>
                         </div>
@@ -175,26 +168,33 @@ const ProjectItem = ({
                     </div>
                 </div>
 
-                {/* Expanded Content (Mobile Friendly) */}
+                {/* Project Description - Always visible on mobile */}
+                <div className="md:hidden pt-2 pb-4">
+                    <p className="text-[var(--slate-400)] text-sm leading-relaxed">
+                        {project.description}
+                    </p>
+                    <div className="mt-3 flex gap-2 flex-wrap">
+                        {project.tech.map(t => (
+                            <span key={t} className="text-[10px] px-2 py-1 rounded bg-white/5 text-[var(--slate-300)] border border-white/10">
+                                {t}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Expanded Content (Desktop Only - Hover) */}
                 <motion.div
                     initial={false}
                     animate={{
                         height: (isHovered || isExpanded) ? "auto" : 0,
                         opacity: (isHovered || isExpanded) ? 1 : 0
                     }}
-                    className="overflow-hidden relative z-10"
+                    className="overflow-hidden relative z-10 hidden md:block"
                 >
                     <div className="pt-4 md:pt-6 container-default">
-                        <p className="max-w-xl text-[var(--slate-400)] text-sm md:text-base leading-relaxed border-l-2 border-[var(--cyan-400)]/30 pl-4">
+                        <p className="max-w-xl text-[var(--slate-400)] text-sm md:text-base leading-relaxed border-l-2 border-[var(--green-400)]/30 pl-4">
                             {project.description}
                         </p>
-                        <div className="mt-4 flex gap-2 md:hidden flex-wrap">
-                            {project.tech.map(t => (
-                                <span key={t} className="text-[10px] px-2 py-1 rounded bg-white/5 text-[var(--slate-300)] border border-white/10">
-                                    {t}
-                                </span>
-                            ))}
-                        </div>
                     </div>
                 </motion.div>
             </motion.div>
