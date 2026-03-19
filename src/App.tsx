@@ -6,6 +6,7 @@ import { Projects } from "@/components/Projects";
 import { TechStack } from "@/components/TechStack";
 import { Experience } from "@/components/Experience";
 import { CTA } from "@/components/CTA";
+import { Footer } from "@/components/Footer";
 
 const SmoothScrolling = lazy(() => import("@/components/SmoothScrolling").then(m => ({ default: m.SmoothScrolling })));
 const MatrixBackground = lazy(() => import("@/components/MatrixBackground").then(m => ({ default: m.MatrixBackground })));
@@ -41,9 +42,7 @@ export default function App() {
           <Experience />
           <CTA />
         </main>
-        <footer className="py-6 sm:py-8 text-center text-[var(--slate-600)] text-xs sm:text-sm px-4" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
-          <p>© {new Date().getFullYear()} Designed & Built with ❤️</p>
-        </footer>
+        <Footer />
         <Terminal />
         <CommandMenu />
       </SmoothScrolling>
