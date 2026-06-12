@@ -1,84 +1,68 @@
-"use client";
-
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Send, CheckCircle2, AlertCircle, Terminal, Copy, Check } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Check, Copy, Mail, Send } from "lucide-react";
 import { PERSONAL_DATA } from "@/lib/data";
+import { cn } from "@/lib/utils";
+
+type Field = "name" | "email" | "message";
+
+const inputClass = (hasError: boolean) =>
+    cn(
+        "w-full rounded-[var(--radius-sm)] border bg-[var(--slate-950)] px-4 py-3 font-[family-name:var(--font-mono)] text-sm text-[var(--ink)] transition-colors focus:outline-none",
+        hasError
+            ? "border-[var(--red)]/60 focus:border-[var(--red)]"
+            : "border-[var(--line-strong)] focus:border-[var(--accent-line)]"
+    );
 
 export function CTA() {
+    const reduced = useReducedMotion();
     const [formState, setFormState] = useState<"idle" | "submitting" | "success">("idle");
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: ""
-    });
-    const [errors, setErrors] = useState({
-        name: "",
-        email: "",
-        message: ""
-    });
+    const [formData, setFormData] = useState<Record<Field, string>>({ name: "", email: "", message: "" });
+    const [errors, setErrors] = useState<Record<Field, string>>({ name: "", email: "", message: "" });
+    const [submitError, setSubmitError] = useState("");
     const [copiedEmail, setCopiedEmail] = useState(false);
 
-    const socialLinks = PERSONAL_DATA.socials.filter(s => s.name !== "Email");
-    
+    const socialLinks = PERSONAL_DATA.socials.filter((s) => s.name !== "Email");
+
+    const setField = (field: Field) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+        if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
+    };
+
     const validateForm = () => {
-        let newErrors = { name: "", email: "", message: "" };
-        let isValid = true;
-
-        if (!formData.name.trim()) {
-            newErrors.name = "ERR_NAME_REQUIRED";
-            isValid = false;
-        }
-
-        if (!formData.email.trim()) {
-            newErrors.email = "ERR_EMAIL_REQUIRED";
-            isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = "ERR_INVALID_FORMAT";
-            isValid = false;
-        }
-
-        if (!formData.message.trim()) {
-            newErrors.message = "ERR_MSG_EMPTY";
-            isValid = false;
-        } else if (formData.message.length < 10) {
-            newErrors.message = "ERR_MSG_TOO_SHORT_MIN_10_CHARS";
-            isValid = false;
-        }
-
+        const newErrors: Record<Field, string> = { name: "", email: "", message: "" };
+        if (!formData.name.trim()) newErrors.name = "ERR_NAME_REQUIRED";
+        if (!formData.email.trim()) newErrors.email = "ERR_EMAIL_REQUIRED";
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "ERR_INVALID_FORMAT";
+        if (!formData.message.trim()) newErrors.message = "ERR_MSG_EMPTY";
+        else if (formData.message.length < 10) newErrors.message = "ERR_MSG_TOO_SHORT_MIN_10_CHARS";
         setErrors(newErrors);
-        return isValid;
+        return !newErrors.name && !newErrors.email && !newErrors.message;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validateForm()) return;
-
+        setSubmitError("");
         setFormState("submitting");
 
         try {
             const response = await fetch("/api/contact", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
-
             const result = await response.json();
-
             if (response.ok) {
                 setFormState("success");
                 setFormData({ name: "", email: "", message: "" });
             } else {
-                console.error("Submission error:", result);
                 setFormState("idle");
-                alert("Failed to send message: " + (result.error || "Unknown error"));
+                setSubmitError(result.error || "Something went wrong. Try again, or email me directly.");
             }
-        } catch (error) {
-            console.error("Network error:", error);
+        } catch {
             setFormState("idle");
-            alert("Something went wrong. Please try again later.");
+            setSubmitError("Network error. Try again, or email me directly.");
         }
     };
 
@@ -88,240 +72,194 @@ export function CTA() {
         setTimeout(() => setCopiedEmail(false), 2000);
     };
 
+    const fieldError = (field: Field) =>
+        errors[field] && (
+            <p className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--red)]" role="alert">
+                &gt;&gt; {errors[field]}
+            </p>
+        );
+
     return (
-        <section id="contact" className="relative overflow-hidden">
-            {/* Background Gradients */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--green-400)]/5 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--green-400)]/3 rounded-full blur-[120px]" />
-            </div>
-
-            <div className="container-default grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 relative z-10">
-                {/* Left Column: Info */}
-                <div className="flex flex-col justify-between">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--green-400)]/10 border border-[var(--green-400)]/20 text-[var(--green-400)] text-xs font-[family-name:var(--font-jetbrains-mono)] mb-6">
-                            <span className="w-2 h-2 rounded-full bg-[var(--green-400)] animate-pulse" />
-                            OPEN FOR WORK
-                        </div>
-                        <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tighter mb-4 sm:mb-6 text-white">
-                            Let's build <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--green-400)] to-[var(--green-400)]">
-                                something epic.
-                            </span>
-                        </h2>
-                        <p className="text-base sm:text-lg text-[var(--slate-400)] mb-6 sm:mb-8 max-w-md leading-relaxed">
-                            I'm currently accessible for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-                        </p>
-                    </div>
-
-                    <div className="space-y-6">
-                        <div className="flex gap-3 sm:gap-4 flex-wrap">
-                            {socialLinks.map(({ icon: Icon, href, name }) => (
-                                <motion.a
-                                    key={name}
-                                    href={href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={name}
-                                    whileHover={{ scale: 1.1, color: "#4ade80" }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="p-3 sm:p-4 bg-white/5 border border-white/10 rounded-xl text-[var(--slate-400)] hover:bg-white/10 transition-colors"
-                                >
-                                    <Icon size={24} />
-                                </motion.a>
-                            ))}
-                        </div>
-
-                        <div className="p-3 sm:p-4 bg-white/5 border border-white/10 rounded-xl flex items-center justify-between max-w-md group">
-                            <div className="flex items-center gap-3">
-                                <Mail className="text-[var(--green-400)]" size={20} />
-                                <span className="text-[var(--slate-300)] font-[family-name:var(--font-jetbrains-mono)] text-xs sm:text-sm truncate">sravan@p1ng.me</span>
-                            </div>
-                            <button
-                                onClick={copyToClipboard}
-                                className="p-2 hover:bg-white/10 rounded-lg transition-colors text-[var(--slate-400)] hover:text-white"
-                                title="Copy Email"
-                                data-cursor="copy"
-                            >
-                                {copiedEmail ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
-                            </button>
-                        </div>
-                    </div>
+        <section id="contact">
+            <div className="container-default">
+                <div className="section-head">
+                    <h2>Contact</h2>
+                    <a href={`mailto:${PERSONAL_DATA.email}`} className="section-meta transition-colors hover:text-[var(--accent)]">
+                        {PERSONAL_DATA.email}
+                    </a>
                 </div>
 
-                {/* Right Column: Terminal Interface (Form) */}
-                <div className="relative">
-                    {/* Decorators */}
-                    <div className="hidden sm:block absolute -top-10 -right-10 text-[var(--slate-800)]/20 pointer-events-none">
-                        <Terminal size={240} strokeWidth={0.5} />
-                    </div>
-
-                    <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden shadow-2xl relative z-10 h-full flex flex-col">
-                        {/* Terminal Header */}
-                        <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/5 shrink-0">
-                            <div className="flex gap-1.5">
-                                <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/30" />
-                                <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/30" />
-                                <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/30" />
-                            </div>
-                            <div className="ml-auto flex items-center gap-2 text-[10px] font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-500)]">
-                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                secure_connection_active
-                            </div>
+                <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+                    {/* Left: pitch + direct channels */}
+                    <div className="flex flex-col gap-8">
+                        <div>
+                            <p className="inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] text-[var(--accent)]">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+                                open to collaborate
+                            </p>
+                            <h3 className="mt-5 max-w-[24ch] text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
+                                Got a project, a CTF team, or a bug worth reporting?
+                            </h3>
+                            <p className="mt-4 max-w-[48ch] text-base leading-relaxed text-[var(--ink-muted)]">
+                                Send a message and it lands straight in my inbox. Questions, collaborations,
+                                or just saying hi all count.
+                            </p>
                         </div>
 
-                        <div className="p-5 sm:p-8 md:p-10 flex-grow flex flex-col justify-center">
-                            <AnimatePresence mode="wait">
+                        <div className="mt-auto space-y-5">
+                            <div className="flex max-w-md items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--line-strong)] bg-[var(--surface)]/60 px-4 py-3">
+                                <div className="flex min-w-0 items-center gap-3">
+                                    <Mail className="shrink-0 text-[var(--accent)]" size={17} />
+                                    <span className="truncate font-[family-name:var(--font-mono)] text-xs text-[var(--ink-muted)] sm:text-sm">
+                                        {PERSONAL_DATA.email}
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={copyToClipboard}
+                                    className="rounded-[var(--radius-sm)] p-2 text-[var(--ink-faint)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--ink)]"
+                                    aria-label="Copy email address"
+                                >
+                                    {copiedEmail ? <Check size={16} className="text-[var(--accent)]" /> : <Copy size={16} />}
+                                </button>
+                            </div>
+
+                            <div className="flex gap-2">
+                                {socialLinks.map(({ icon: Icon, href, name }) => (
+                                    <a
+                                        key={name}
+                                        href={href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label={name}
+                                        className="rounded-[var(--radius-sm)] border border-[var(--line)] p-3 text-[var(--ink-muted)] transition-colors hover:border-[var(--accent-line)] hover:text-[var(--accent)]"
+                                    >
+                                        <Icon size={18} />
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right: terminal form */}
+                    <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--line-strong)] bg-[var(--surface)]/60">
+                        <div className="flex items-center justify-between border-b border-[var(--line)] px-4 py-2.5">
+                            <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--ink-faint)]">
+                                sravan@p1ng<span className="text-[var(--ink-faint)]">:</span>
+                                <span className="text-[var(--accent)]">~/contact</span>
+                            </span>
+                            <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--ink-faint)]">mail.send</span>
+                        </div>
+
+                        <div className="p-5 sm:p-8">
+                            <AnimatePresence mode="wait" initial={false}>
                                 {formState === "success" ? (
                                     <motion.div
                                         key="success"
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.95 }}
-                                        className="h-full flex flex-col items-center justify-center text-center space-y-6 min-h-[400px]"
+                                        initial={reduced ? false : { opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={reduced ? undefined : { opacity: 0 }}
+                                        className="flex min-h-[360px] flex-col items-start justify-center gap-4 font-[family-name:var(--font-mono)]"
                                     >
-                                        <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center relative">
-                                            <div className="absolute inset-0 border border-green-500/20 rounded-full animate-ping opacity-20" />
-                                            <CheckCircle2 size={48} className="text-green-400" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-2xl font-bold text-white font-[family-name:var(--font-jetbrains-mono)] mb-2">Transmission Complete</h3>
-                                            <p className="text-[var(--slate-400)] font-[family-name:var(--font-jetbrains-mono)]">
-                                                Packet delivered successfully.<br />
-                                                Stand by for acknowledgment sequence.
-                                            </p>
-                                        </div>
+                                        <p className="text-sm text-[var(--accent)]">✓ message sent</p>
+                                        <p className="text-sm leading-relaxed text-[var(--ink-muted)]">
+                                            Thanks for reaching out. I read everything and I'll get back to you soon.
+                                        </p>
                                         <button
                                             onClick={() => setFormState("idle")}
-                                            className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] transition-colors"
+                                            className="btn btn-outline mt-2"
                                         >
-                                            [INITIATE_NEW_SEQUENCE]
+                                            send another message
                                         </button>
                                     </motion.div>
                                 ) : (
-                                    <form key="form" onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 md:space-y-8">
+                                    <motion.form
+                                        key="form"
+                                        initial={reduced ? false : { opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={reduced ? undefined : { opacity: 0 }}
+                                        onSubmit={handleSubmit}
+                                        className="space-y-5"
+                                    >
                                         <div className="space-y-1.5">
-                                            <label htmlFor="name" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] flex items-center gap-2">
-                                                <span className="text-[var(--slate-600)]">$</span> input.name
+                                            <label htmlFor="name" className="block font-[family-name:var(--font-mono)] text-xs text-[var(--accent)]">
+                                                <span className="text-[var(--ink-faint)]">$ </span>name
                                             </label>
-                                            <div className="relative group">
-                                                <input
-                                                    type="text"
-                                                    id="name"
-                                                    value={formData.name}
-                                                    onChange={(e) => {
-                                                        setFormData(prev => ({ ...prev, name: e.target.value }));
-                                                        if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
-                                                    }}
-                                                    disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.name ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--green-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
-                                                    placeholder="Enter your name"
-                                                    aria-label="Your Name"
-                                                    aria-required="true"
-                                                    aria-invalid={!!errors.name}
-                                                />
-                                                {errors.name && (
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: -10 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        className="absolute right-3 top-3.5 text-red-400"
-                                                    >
-                                                        <AlertCircle size={18} />
-                                                    </motion.div>
-                                                )}
-                                            </div>
-                                            {errors.name && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.name}`}</p>}
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                autoComplete="name"
+                                                value={formData.name}
+                                                onChange={setField("name")}
+                                                disabled={formState === "submitting"}
+                                                className={inputClass(!!errors.name)}
+                                                placeholder="your name"
+                                                aria-required="true"
+                                                aria-invalid={!!errors.name}
+                                            />
+                                            {fieldError("name")}
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="email" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-[var(--green-400)] flex items-center gap-2">
-                                                <span className="text-[var(--slate-600)]">$</span> input.email
+                                            <label htmlFor="email" className="block font-[family-name:var(--font-mono)] text-xs text-[var(--accent)]">
+                                                <span className="text-[var(--ink-faint)]">$ </span>email
                                             </label>
-                                            <div className="relative group">
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    value={formData.email}
-                                                    onChange={(e) => {
-                                                        setFormData(prev => ({ ...prev, email: e.target.value }));
-                                                        if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
-                                                    }}
-                                                    disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.email ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-[var(--green-400)]/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)]`}
-                                                    placeholder="your@email.com"
-                                                    aria-label="Email Address"
-                                                    aria-required="true"
-                                                    aria-invalid={!!errors.email}
-                                                />
-                                                {errors.email && (
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: -10 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        className="absolute right-3 top-3.5 text-red-400"
-                                                    >
-                                                        <AlertCircle size={18} />
-                                                    </motion.div>
-                                                )}
-                                            </div>
-                                            {errors.email && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.email}`}</p>}
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                autoComplete="email"
+                                                value={formData.email}
+                                                onChange={setField("email")}
+                                                disabled={formState === "submitting"}
+                                                className={inputClass(!!errors.email)}
+                                                placeholder="you@example.com"
+                                                aria-required="true"
+                                                aria-invalid={!!errors.email}
+                                            />
+                                            {fieldError("email")}
                                         </div>
 
                                         <div className="space-y-1.5">
-                                            <label htmlFor="message" className="text-sm font-[family-name:var(--font-jetbrains-mono)] text-green-400 flex items-center gap-2">
-                                                <span className="text-[var(--slate-600)]">$</span> input.message
+                                            <label htmlFor="message" className="block font-[family-name:var(--font-mono)] text-xs text-[var(--accent)]">
+                                                <span className="text-[var(--ink-faint)]">$ </span>message
                                             </label>
-                                            <div className="relative group">
-                                                <textarea
-                                                    id="message"
-                                                    rows={6}
-                                                    value={formData.message}
-                                                    onChange={(e) => {
-                                                        setFormData(prev => ({ ...prev, message: e.target.value }));
-                                                        if (errors.message) setErrors(prev => ({ ...prev, message: "" }));
-                                                    }}
-                                                    disabled={formState === "submitting"}
-                                                    className={`w-full bg-black/50 border ${errors.message ? "border-red-500/50 focus:border-red-500" : "border-white/10 focus:border-green-500/50"} rounded-lg px-4 py-3.5 text-base text-white focus:outline-none focus:bg-white/5 transition-all font-[family-name:var(--font-jetbrains-mono)] resize-none`}
-                                                    placeholder="Project details..."
-                                                    aria-label="Message Context"
-                                                    aria-required="true"
-                                                    aria-invalid={!!errors.message}
-                                                />
-                                                {errors.message && (
-                                                    <motion.div
-                                                        initial={{ opacity: 0, x: -10 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        className="absolute right-3 top-3.5 text-red-400"
-                                                    >
-                                                        <AlertCircle size={18} />
-                                                    </motion.div>
-                                                )}
-                                            </div>
-                                            {errors.message && <p className="text-xs text-red-400 font-[family-name:var(--font-jetbrains-mono)] pl-2" role="alert">{`>> ${errors.message}`}</p>}
+                                            <textarea
+                                                id="message"
+                                                rows={6}
+                                                value={formData.message}
+                                                onChange={setField("message")}
+                                                disabled={formState === "submitting"}
+                                                className={cn(inputClass(!!errors.message), "resize-none")}
+                                                placeholder="what's on your mind?"
+                                                aria-required="true"
+                                                aria-invalid={!!errors.message}
+                                            />
+                                            {fieldError("message")}
                                         </div>
 
-                                        <motion.button
+                                        {submitError && (
+                                            <p className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--red)]" role="alert">
+                                                &gt;&gt; {submitError}
+                                            </p>
+                                        )}
+
+                                        <button
                                             type="submit"
                                             disabled={formState === "submitting"}
-                                            whileHover={{ scale: 1.01 }}
-                                            whileTap={{ scale: 0.99 }}
-                                            className="w-full bg-gradient-to-r from-[var(--green-400)]/10 to-[var(--green-400)]/10 hover:from-[var(--green-400)]/20 hover:to-[var(--green-400)]/20 border border-[var(--green-400)]/20 hover:border-[var(--green-400)]/50 text-[var(--green-400)] font-[family-name:var(--font-jetbrains-mono)] py-5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden shadow-lg shadow-[var(--green-400)]/10"
-                                            data-cursor="submit"
+                                            className="btn btn-solid w-full disabled:cursor-not-allowed disabled:opacity-60"
                                         >
-                                            <div className={`absolute inset-0 bg-[var(--green-400)]/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${formState === "submitting" ? "translate-y-0" : ""}`} />
                                             {formState === "submitting" ? (
-                                                <span className="flex items-center gap-3 text-base font-semibold tracking-wide">
-                                                    <span className="w-5 h-5 border-2 border-[var(--green-400)]/30 border-t-[var(--green-400)] rounded-full animate-spin" />
-                                                    TRANSMITTING...
-                                                </span>
+                                                <>
+                                                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--accent-ink)]/30 border-t-[var(--accent-ink)]" aria-hidden="true" />
+                                                    sending...
+                                                </>
                                             ) : (
-                                                <div className="flex items-center gap-3 text-base font-semibold tracking-wide">
-                                                    <span>EXECUTE_TRANSMISSION</span>
-                                                    <Send size={18} className="group-hover:translate-x-1 transition-transform" />
-                                                </div>
+                                                <>
+                                                    send message
+                                                    <Send size={14} />
+                                                </>
                                             )}
-                                        </motion.button>
-                                    </form>
+                                        </button>
+                                    </motion.form>
                                 )}
                             </AnimatePresence>
                         </div>

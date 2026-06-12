@@ -1,142 +1,127 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Menu, X } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Github, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { MagneticButton } from "./MagneticButton";
 import { PERSONAL_DATA } from "@/lib/data";
+import { scrollToHash } from "@/lib/utils";
 
 const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Stack", href: "#stack" },
-    { name: "Experience", href: "#experience" },
+    { name: "about", href: "#about" },
+    { name: "projects", href: "#projects" },
+    { name: "stack", href: "#stack" },
+    { name: "education", href: "#education" },
 ];
 
 export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const reduced = useReducedMotion();
 
-    const scrollToSection = (href: string) => {
+    const handleNav = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
         setIsMobileMenuOpen(false);
-        // @ts-expect-error - lenis is on window
-        window.lenis?.scrollTo(href);
+        scrollToHash(href);
     };
 
-    const socials = PERSONAL_DATA.socials.filter((s) => s.name !== "Email");
+    const github = PERSONAL_DATA.socials.find((s) => s.name === "GitHub");
 
     return (
-        <>
-            <motion.nav
-                initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-                className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 sm:gap-2 md:gap-4 px-2 py-2 rounded-full border border-white/10 bg-black/50 backdrop-blur-xl shadow-lg shadow-[var(--green-400)]/5 max-w-[calc(100vw-2rem)] sm:max-w-[95vw] md:max-w-none"
-            >
-                {/* Desktop Nav Items */}
-                <div className="hidden md:flex items-center gap-1 pl-4 pr-2">
+        <header className="fixed inset-x-0 top-0 z-[var(--z-nav)] border-b border-[var(--line)] bg-[var(--bg)]/85 backdrop-blur-sm">
+            <nav className="container-default flex h-14 items-center justify-between" aria-label="Main">
+                {/* Logotype */}
+                <a
+                    href="#main-content"
+                    onClick={(e) => handleNav(e, "#main-content")}
+                    className="flex items-baseline gap-0.5 font-[family-name:var(--font-mono)] text-[13px] font-bold"
+                >
+                    <span className="text-[var(--accent)]">sravan@p1ng</span>
+                    <span className="text-[var(--ink-faint)]">:~</span>
+                    <span className="caret ml-1 !h-[0.9em] !w-[0.45em]" aria-hidden="true" />
+                </a>
+
+                {/* Desktop nav */}
+                <div className="hidden items-center gap-7 md:flex">
                     {navItems.map((item) => (
                         <a
                             key={item.name}
                             href={item.href}
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                                e.preventDefault();
-                                scrollToSection(item.href);
-                            }}
+                            onClick={(e) => handleNav(e, item.href)}
+                            className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-muted)] transition-colors hover:text-[var(--ink)]"
                         >
-                            <MagneticButton className="px-4 py-2 text-sm text-[var(--slate-300)] hover:text-white transition-colors relative group">
-                                {item.name}
-                                <span className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-[var(--green-400)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </MagneticButton>
+                            {item.name}
                         </a>
                     ))}
-                </div>
 
-                {/* Mobile Menu Toggle */}
-                <div className="md:hidden pl-3 pr-1">
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="text-[var(--slate-300)] hover:text-white p-1"
-                        aria-label="Toggle menu"
-                    >
-                        {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-                    </button>
-                </div>
+                    <span className="h-4 w-px bg-[var(--line-strong)]" aria-hidden="true" />
 
-                <div className="h-6 w-px bg-white/10 hidden md:block" />
-
-                {/* Socials */}
-                <div className="flex items-center gap-1 sm:gap-2 pr-1 sm:pr-2">
-                    <div className="hidden md:flex md:items-center md:gap-2">
-                        {socials.map((item) => (
-                            <a
-                                key={item.name}
-                                href={item.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 text-[var(--slate-400)] hover:text-[var(--green-400)] hover:bg-white/5 rounded-full transition-all"
-                                aria-label={item.name}
-                            >
-                                <item.icon size={18} />
-                            </a>
-                        ))}
-                    </div>
-                </div>
-
-                {/* CV Button */}
-                <div className="pl-1 pr-1 sm:pl-2 sm:pr-2 border-l border-white/10">
-                    <a
-                        href={"/cv.pdf"}
-                        target="_blank"
-                        className="group relative flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-[var(--green-400)]/10 to-[var(--green-400)]/10 hover:from-[var(--green-400)]/20 hover:to-[var(--green-400)]/20 text-[var(--green-400)] text-xs font-[family-name:var(--font-jetbrains-mono)] uppercase tracking-widest rounded-full transition-all border border-[var(--green-400)]/20 hover:border-[var(--green-400)]/50 hover:shadow-[0_0_15px_rgba(74,222,128,0.2)] overflow-hidden"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                        <FileText size={14} className="transition-transform duration-300" />
-                        <span className="font-bold">CV</span>
+                    <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="mono-link">
+                        cv
                     </a>
+                    {github && (
+                        <a
+                            href={github.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="GitHub profile"
+                            className="text-[var(--ink-muted)] transition-colors hover:text-[var(--accent)]"
+                        >
+                            <Github size={16} />
+                        </a>
+                    )}
                 </div>
-            </motion.nav>
 
-            {/* Mobile Menu Overlay */}
+                {/* Mobile toggle */}
+                <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="p-2 text-[var(--ink-muted)] hover:text-[var(--ink)] md:hidden"
+                    aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+                    aria-expanded={isMobileMenuOpen}
+                >
+                    {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+                </button>
+            </nav>
+
+            {/* Mobile menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-x-3 sm:inset-x-4 top-20 sm:top-24 z-40 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/10 md:hidden flex flex-col gap-4 shadow-2xl shadow-[var(--green-400)]/10"
+                        initial={reduced ? false : { opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={reduced ? undefined : { opacity: 0, height: 0 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="overflow-hidden border-t border-[var(--line)] bg-[var(--bg)] md:hidden"
                     >
-                        <div className="flex flex-col gap-2">
+                        <div className="container-default flex flex-col py-3">
                             {navItems.map((item) => (
                                 <a
                                     key={item.name}
                                     href={item.href}
-                                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                                        e.preventDefault();
-                                        scrollToSection(item.href);
-                                    }}
-                                    className="px-4 py-3 rounded-lg text-sm font-medium text-[var(--slate-300)] hover:bg-white/5 hover:text-white transition-colors active:bg-white/10"
+                                    onClick={(e) => handleNav(e, item.href)}
+                                    className="py-3 font-[family-name:var(--font-mono)] text-sm text-[var(--ink-muted)] transition-colors hover:text-[var(--ink)]"
                                 >
+                                    <span className="text-[var(--ink-faint)]">./</span>
                                     {item.name}
                                 </a>
                             ))}
-                        </div>
-
-                        <div className="h-px bg-white/10" />
-
-                        <div className="flex justify-center gap-4">
-                            {socials.map((item) => (
-                                <a
-                                    key={item.name}
-                                    href={item.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-3 text-[var(--slate-400)] hover:text-[var(--green-400)] hover:bg-white/5 rounded-full transition-all"
-                                >
-                                    <item.icon size={20} />
+                            <div className="mt-2 flex items-center gap-5 border-t border-[var(--line)] pt-4 pb-1">
+                                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="mono-link">
+                                    cv
                                 </a>
-                            ))}
+                                {PERSONAL_DATA.socials.map((s) => (
+                                    <a
+                                        key={s.name}
+                                        href={s.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label={s.name}
+                                        className="text-[var(--ink-muted)] transition-colors hover:text-[var(--accent)]"
+                                    >
+                                        <s.icon size={17} />
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </>
+        </header>
     );
 }

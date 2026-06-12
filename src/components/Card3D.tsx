@@ -35,11 +35,8 @@ export function Card3D() {
         >
             <motion.div
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="relative w-full h-full rounded-2xl bg-black/50 border border-white/10 backdrop-blur-sm shadow-2xl overflow-hidden group"
+                className="relative w-full h-full rounded-[var(--radius-md)] bg-black/50 border border-[var(--line-strong)] shadow-2xl overflow-hidden group"
             >
-                {/* Background Elements */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-[var(--green-400)]/10 to-[var(--green-400)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
-
                 {/* Layer 1: Background (Slower movement) */}
                 <motion.div
                     style={{ x: bgX, y: bgY, scale: 1.1 }}
@@ -47,24 +44,10 @@ export function Card3D() {
                 >
                     <img
                         src="/profile-background.png"
-                        alt="Background"
+                        alt=""
                         className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.8)_100%)] opacity-70" />
-
-                    {/* Biometric Scan Effect */}
-                    <motion.div
-                        className="absolute w-full h-1 bg-[var(--green-400)]/30 blur-sm z-20"
-                        style={{ top: "0%" }}
-                        animate={{ top: ["0%", "100%", "0%"] }}
-                        transition={{ duration: 5, ease: "linear", repeat: Infinity }}
-                    />
-                    <motion.div
-                        className="absolute w-full h-20 bg-gradient-to-b from-[var(--green-400)]/10 to-transparent z-10"
-                        style={{ top: "0%" }}
-                        animate={{ top: ["0%", "100%", "0%"] }}
-                        transition={{ duration: 5, ease: "linear", repeat: Infinity }}
-                    />
                 </motion.div>
 
                 {/* Layer 2: Subject (Faster movement = Pop effect) */}
@@ -79,8 +62,8 @@ export function Card3D() {
                     />
                 </motion.div>
 
-                {/* Grid Overlay (keep this as it is static and nice) */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_4px,6px_100%] pointer-events-none" />
+                {/* Subtle CRT line overlay */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.18)_50%)] z-20 bg-[length:100%_4px] pointer-events-none" />
 
                 {/* Spotlight Effect */}
                 <motion.div

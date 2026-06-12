@@ -1,57 +1,42 @@
-"use client";
-
-import { Github, Linkedin, Instagram, Mail } from "lucide-react";
 import { PERSONAL_DATA } from "@/lib/data";
+import { scrollToHash } from "@/lib/utils";
 
 export function Footer() {
-    const socialLinks = PERSONAL_DATA.socials;
     const currentYear = new Date().getFullYear();
 
-    const scrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        // @ts-expect-error - lenis is on window
-        window.lenis?.scrollTo("#main-content", { duration: 1.2 });
-    };
-
     return (
-        <footer className="border-t border-white/5 py-8 sm:py-10">
-            <div className="container-default">
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-                    {/* Left: Copyright */}
-                    <div className="flex items-center gap-2 text-[var(--slate-500)] font-[family-name:var(--font-jetbrains-mono)] text-xs">
-                        <span className="text-[var(--green-400)]">$</span>
-                        <span>© {currentYear} Sravan Krishna C M</span>
-                    </div>
+        <footer className="border-t border-[var(--line)] py-8">
+            <div className="container-default flex flex-col items-center justify-between gap-6 sm:flex-row">
+                {/* Left: sign-off */}
+                <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-faint)]">
+                    <span className="text-[var(--accent)]">$</span> exit
+                    <span className="mx-2 text-[var(--line-strong)]">·</span>© {currentYear} Sravan Krishna C M
+                </p>
 
-                    {/* Center: Social Links */}
-                    <div className="flex items-center gap-3">
-                        {socialLinks.map((social) => {
-                            const Icon = social.icon;
-                            return (
-                                <a
-                                    key={social.name}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-3 text-[var(--slate-500)] hover:text-[var(--green-400)] focus-visible:text-[var(--green-400)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--green-400)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] rounded-lg transition-colors"
-                                    aria-label={social.name}
-                                >
-                                    <Icon size={20} />
-                                </a>
-                            );
-                        })}
-                    </div>
-
-                    {/* Right: Back to top */}
-                    <a
-                        href="#main-content"
-                        onClick={scrollToTop}
-                        className="text-[var(--slate-500)] hover:text-[var(--green-400)] focus-visible:text-[var(--green-400)] font-[family-name:var(--font-jetbrains-mono)] text-xs transition-colors flex items-center gap-1.5 group"
-                    >
-                        <span className="group-hover:translate-x-0.5 transition-transform">&larr;</span>
-                        <span>top</span>
-                    </a>
+                {/* Center: socials */}
+                <div className="flex items-center gap-1">
+                    {PERSONAL_DATA.socials.map((social) => (
+                        <a
+                            key={social.name}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="rounded-[var(--radius-sm)] p-2.5 text-[var(--ink-faint)] transition-colors hover:text-[var(--accent)] focus-visible:text-[var(--accent)]"
+                            aria-label={social.name}
+                        >
+                            <social.icon size={18} />
+                        </a>
+                    ))}
                 </div>
+
+                {/* Right: back to top */}
+                <a
+                    href="#main-content"
+                    onClick={(e) => { e.preventDefault(); scrollToHash("#main-content"); }}
+                    className="mono-link"
+                >
+                    cd ~
+                </a>
             </div>
         </footer>
     );

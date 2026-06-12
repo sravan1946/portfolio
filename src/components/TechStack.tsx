@@ -1,8 +1,5 @@
-"use client";
-
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { Cpu, Terminal, Shield, Wrench, Code2 } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { FULL_TECH_STACK } from "@/lib/data";
 
 const TECH_FACTS: Record<string, string[]> = {
@@ -68,277 +65,129 @@ const TECH_FACTS: Record<string, string[]> = {
     ],
 };
 
-interface TechCardProps {
-    item: {
-        name: string;
-        url: string;
-        color: string;
-        category: string;
-    };
-    index: number;
-}
-
-function TechCard({ item, index }: TechCardProps) {
-    const [isClicked, setIsClicked] = useState(false);
-    const [showFact, setShowFact] = useState(false);
-    const [factIndex, setFactIndex] = useState(0);
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    const facts = useMemo(() => TECH_FACTS[item.name] || ["Systems ready."], [item.name]);
-
-    // Typing effect logic
-    const [typedText, setTypedText] = useState("");
+/** Types out a fact like terminal output. */
+function TypedFact({ text }: { text: string }) {
+    const reduced = useReducedMotion();
+    const [count, setCount] = useState(reduced ? text.length : 0);
 
     useEffect(() => {
-        if (!showFact) {
-            setTypedText("");
+        if (reduced) {
+            setCount(text.length);
             return;
         }
-
-        let i = 0;
-        const text = facts[factIndex];
-        setTypedText("");
-
+        setCount(0);
         const timer = setInterval(() => {
-            setTypedText(text.slice(0, i + 1));
-            i++;
-            if (i >= text.length) clearInterval(timer);
-        }, 20); // Fast typing speed
-
+            setCount((c) => {
+                if (c + 1 >= text.length) clearInterval(timer);
+                return c + 1;
+            });
+        }, 16);
         return () => clearInterval(timer);
-    }, [showFact, factIndex, facts]);
-
-    // Cleanup timeout on unmount
-    useEffect(() => {
-        return () => {
-            if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        };
-    }, []);
-
-    function onMouseEnter() {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-            timeoutRef.current = null;
-        }
-    }
-
-    function onMouseLeave() {
-        timeoutRef.current = setTimeout(() => {
-            setShowFact(false);
-        }, 1000); // Stay for 1 seconds
-    }
-
-    const handleClick = useCallback(() => {
-        setIsClicked(true);
-        setFactIndex(prev => (prev + 1) % facts.length);
-        setShowFact(true);
-        setTimeout(() => setIsClicked(false), 120);
-    }, [facts.length]);
+    }, [text, reduced]);
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{
-                delay: index * 0.05,
-                duration: 0.4,
-                ease: [0.25, 0.1, 0.25, 1]
+        <span className="text-[var(--ink-muted)]">
+            {text.slice(0, count)}
+            {count < text.length && <span className="caret !h-[0.85em] !w-[0.4em]" aria-hidden="true" />}
+        </span>
+    );
+}
+
+function StackItem({ item }: { item: (typeof FULL_TECH_STACK)[0] }) {
+    const facts = TECH_FACTS[item.name] ?? ["Systems ready."];
+    const [factIndex, setFactIndex] = useState(-1);
+    const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const reduced = useReducedMotion();
+
+    useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
+
+    const open = factIndex >= 0;
+
+    return (
+        <li
+            onMouseEnter={() => { if (hideTimer.current) clearTimeout(hideTimer.current); }}
+            onMouseLeave={() => {
+                hideTimer.current = setTimeout(() => setFactIndex(-1), 1500);
             }}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onClick={handleClick}
-            onKeyDown={(e) => e.key === 'Enter' && handleClick()}
-            tabIndex={0}
-            role="button"
-            aria-label={`${item.name} - ${item.category}. Click to reveal a fact.`}
-            className={`group relative outline-none focus-visible:ring-4 focus-visible:ring-[var(--green-400)] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505] ${showFact ? 'z-50' : 'z-10 hover:z-20'}`}
         >
-            <motion.div
-                animate={{
-                    scale: isClicked ? 0.98 : 1,
-                }}
-                transition={{ duration: 0.1 }}
-                className="relative p-4 sm:p-6 md:p-8 bg-[#050505] border-2 border-[#1a1a1a] transition-all duration-300 hover:border-[var(--green-400)] hover:-translate-y-2 hover:translate-x-[-4px] hover:shadow-[6px_6px_0px_0px_var(--green-400)] group"
+            <button
+                onClick={() => setFactIndex((i) => (i + 1) % facts.length)}
+                aria-label={`${item.name}. Activate for a fact.`}
+                aria-expanded={open}
+                className="group flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-2 py-2 -mx-2 text-left transition-colors hover:bg-[var(--accent-tint)]"
             >
-                <div className="relative z-10 flex flex-col items-start gap-3 sm:gap-4">
-                    <motion.div
-                        animate={{
-                            y: [0, -4, 0],
-                            scale: showFact ? 1.08 : 1,
-                        }}
-                        transition={{
-                            duration: 2.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: index * 0.15,
-                        }}
-                        className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 relative"
+                <img
+                    src={item.url}
+                    alt=""
+                    width={20}
+                    height={20}
+                    loading="lazy"
+                    className="h-5 w-5 object-contain grayscale opacity-60 transition-all duration-200 group-hover:grayscale-0 group-hover:opacity-100"
+                />
+                <span className="font-[family-name:var(--font-mono)] text-[13px] text-[var(--ink-muted)] transition-colors group-hover:text-[var(--ink)]">
+                    {item.name.toLowerCase()}
+                </span>
+                <span className="ml-auto font-[family-name:var(--font-mono)] text-[10px] text-[var(--ink-faint)] opacity-0 transition-opacity group-hover:opacity-100">
+                    {item.category.toLowerCase()}
+                </span>
+            </button>
+
+            <AnimatePresence initial={false}>
+                {open && (
+                    <motion.p
+                        initial={reduced ? false : { opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={reduced ? undefined : { opacity: 0, height: 0 }}
+                        transition={{ duration: 0.15, ease: "easeOut" }}
+                        className="overflow-hidden pl-10 pr-2 font-[family-name:var(--font-mono)] text-[11px] leading-relaxed"
                     >
-                        <img
-                            src={item.url}
-                            alt={item.name}
-                            width={64}
-                            height={64}
-                            loading="lazy"
-                            className="w-full h-full object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
-                        />
-                    </motion.div>
-
-                    <div className="text-left mt-2">
-                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-widest uppercase">
-                            {item.name}
-                        </h3>
-                        <motion.span
-                            className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] text-[var(--slate-400)] block mt-1 uppercase tracking-wider"
-                            animate={{
-                                opacity: showFact ? 1 : 0.6,
-                                y: showFact ? 0 : 2
-                            }}
-                        >
-                            {item.category}
-                        </motion.span>
-                    </div>
-                </div>
-
-                <AnimatePresence mode="wait">
-                    {showFact && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -5 }}
-                            animate={{ opacity: 1, y: 12 }}
-                            exit={{ opacity: 0, y: -5 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                            className="absolute z-50 top-full left-0 right-0 sm:left-[-4px] sm:right-[-4px] bg-[#050505] border-2 border-[var(--green-400)] p-2 sm:p-3 shadow-[4px_4px_0px_0px_var(--green-400)] sm:shadow-[6px_6px_0px_0px_var(--green-400)] pointer-events-none"
-                        >
-                            <div className="text-[10px] md:text-xs font-[family-name:var(--font-jetbrains-mono)] flex items-start gap-2 text-left">
-                                <span className="text-[var(--green-400)] font-black mt-0.5">{">_"}</span>
-                                <span className="leading-relaxed whitespace-pre-wrap text-white">
-                                    {typedText}
-                                    <span className="inline-block w-1.5 h-3.5 bg-[var(--green-400)] ml-0.5 align-middle animate-pulse" />
-                                </span>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </motion.div>
-        </motion.div>
+                        <span className="text-[var(--accent)]">❯ </span>
+                        <TypedFact text={facts[factIndex]} />
+                    </motion.p>
+                )}
+            </AnimatePresence>
+        </li>
     );
 }
 
-function TechCategory({
-    title,
-    icon: Icon,
-    description,
-    techs,
-    index
-}: {
-    title: string;
-    icon: React.ElementType;
-    description: string;
-    techs: typeof FULL_TECH_STACK;
-    index: number;
-}) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: index * 0.15, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-10 md:mb-14"
-        >
-            <div className="flex items-center gap-3 mb-5">
-                <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.15 + 0.2, type: "spring", stiffness: 400, damping: 20 }}
-                    className="w-9 h-9 rounded-lg bg-[var(--green-400)]/8 border border-[var(--green-400)]/15 flex items-center justify-center"
-                >
-                    <Icon className="w-4 h-4 text-[var(--green-400)]" />
-                </motion.div>
-                <div>
-                    <h3 className="text-base md:text-lg font-bold text-white uppercase tracking-wider">
-                        {title}
-                    </h3>
-                    <p className="text-xs md:text-sm text-[var(--slate-500)] font-[family-name:var(--font-jetbrains-mono)]">
-                        {description}
-                    </p>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-                {techs.map((item, idx) => (
-                    <TechCard
-                        key={item.name}
-                        item={item}
-                        index={idx}
-                    />
-                ))}
-            </div>
-        </motion.div>
-    );
-}
+const GROUPS = [
+    {
+        title: "languages & frameworks",
+        names: ["Python", "Dart", "Flutter", "Bash"],
+    },
+    {
+        title: "infra & cloud",
+        names: ["GitHub", "Docker", "Firebase", "Cloudflare"],
+    },
+    {
+        title: "os & security",
+        names: ["Linux", "Arch Linux", "Hyprland", "Burp Suite"],
+    },
+];
 
 export function TechStack() {
-    const categories = [
-        {
-            title: "The Creator",
-            icon: Code2,
-            description: "Languages & Frameworks",
-            techs: FULL_TECH_STACK.filter(t => ["Python", "Dart", "Flutter", "Bash"].includes(t.name)),
-        },
-        {
-            title: "The Builder",
-            icon: Wrench,
-            description: "Tools & Cloud",
-            techs: FULL_TECH_STACK.filter(t => ["GitHub", "Docker", "Firebase", "Cloudflare"].includes(t.name)),
-        },
-        {
-            title: "The Hacker",
-            icon: Shield,
-            description: "OS & Security",
-            techs: FULL_TECH_STACK.filter(t => ["Linux", "Arch Linux", "Hyprland", "Burp Suite"].includes(t.name)),
-        },
-    ];
-
     return (
-        <section id="stack" className="relative overflow-hidden">
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(74,222,128,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(74,222,128,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
-
-            <div className="container-default relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="section-header section-header--centered"
-                >
-                    <span className="section-eyebrow">
-                        <Cpu size={14} />
-                        Tools & Technologies
-                    </span>
-                    <h2 className="section-title">Tech Arsenal</h2>
-                </motion.div>
-
-                <div className="space-y-2">
-                    {categories.map((cat, idx) => (
-                        <TechCategory
-                            key={cat.title}
-                            {...cat}
-                            index={idx}
-                        />
-                    ))}
+        <section id="stack">
+            <div className="container-default">
+                <div className="section-head">
+                    <h2>Stack</h2>
+                    <span className="section-meta">click anything for a hot take</span>
                 </div>
 
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-10 text-center text-xs text-[var(--slate-600)] font-[family-name:var(--font-jetbrains-mono)]"
-                >
-                    // built with chaos & curiosity
-                </motion.p>
+                <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-14">
+                    {GROUPS.map((group) => (
+                        <div key={group.title}>
+                            <h3 className="mb-4 border-b border-[var(--line)] pb-2 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.04em] text-[var(--accent)]">
+                                {group.title}
+                            </h3>
+                            <ul className="space-y-1">
+                                {FULL_TECH_STACK.filter((t) => group.names.includes(t.name)).map((item) => (
+                                    <StackItem key={item.name} item={item} />
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
     );

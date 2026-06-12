@@ -1,48 +1,38 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { User } from "lucide-react";
-import { PERSONAL_DATA } from "@/lib/data";
 import { Card3D } from "./Card3D";
 
 export function About() {
     return (
-        <section id="about" className="relative overflow-hidden">
+        <section id="about">
             <div className="container-default">
-                <div className="flex flex-col md:flex-row items-center gap-8 sm:gap-12 md:gap-20">
-                    {/* Image Column */}
-                    <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <Card3D />
+                <div className="section-head">
+                    <h2>About</h2>
+                    <span className="section-meta">~/about</span>
+                </div>
+
+                <div className="flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-16 lg:gap-20">
+                    <div className="max-w-[58ch] space-y-5 text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg md:flex-1">
+                        <p>
+                            I'm a Computer Science student with a passion for{" "}
+                            <span className="text-[var(--accent)]">building</span> and{" "}
+                            <span className="text-[var(--accent)]">breaking</span> things.
+                        </p>
+                        <p>
+                            I spend most of my time coding: automating tasks with{" "}
+                            <span className="font-medium text-[var(--ink)]">Python</span>, building apps with{" "}
+                            <span className="font-medium text-[var(--ink)]">Flutter</span>, and deep-diving into{" "}
+                            <span className="font-medium text-[var(--ink)]">DevOps</span>.
+                        </p>
+                        <p>
+                            Away from the keyboard I'm usually elbow-deep in hardware: wiring sensors to{" "}
+                            <span className="text-[var(--accent)]">Arduinos</span> or taking laptops apart to see
+                            how they tick. A builder at heart, exploring{" "}
+                            <span className="text-[var(--accent)]">security</span> one project at a time.
+                        </p>
                     </div>
 
-                    {/* Content Column */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full md:w-1/2"
-                    >
-                        <div className="section-header mb-6 sm:mb-8">
-                            <span className="section-eyebrow">
-                                <User size={14} />
-                                About Me
-                            </span>
-                            <h2 className="section-title">Who I Am</h2>
-                        </div>
-
-                        <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-[var(--slate-400)] leading-relaxed">
-                            <p>
-                                I'm a Computer Science student with a passion for <span className="text-[var(--green-400)]">building</span> and <span className="text-[var(--green-400)]">breaking</span> things.
-                            </p>
-                            <p>
-                                I spend most of my time coding. I love automating tasks with <span className="text-white font-medium">Python</span>, building apps with <span className="text-white font-medium">Flutter</span>, and deep-diving into <span className="text-white font-medium">DevOps</span>.
-                            </p>
-                            <p>
-                                When I'm away from the keyboard, I'm usually tinkering with hardware. You'll find me messing with <span className="text-[var(--green-400)]">Arduinos</span>, wiring up sensors, or taking apart laptops to see how they tick. I'm a builder at heart, exploring <span className="text-[var(--green-400)]">security</span> and tech one project at a time.
-                            </p>
-                        </div>
-                    </motion.div>
+                    <div className="shrink-0">
+                        <Card3D />
+                    </div>
                 </div>
             </div>
         </section>
