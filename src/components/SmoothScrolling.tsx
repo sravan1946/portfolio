@@ -2,7 +2,6 @@
 
 import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
-import { publishScroll } from "@/world/scrollBus";
 
 export function SmoothScrolling({ children }: { children: ReactNode }) {
     useEffect(() => {
@@ -14,11 +13,6 @@ export function SmoothScrolling({ children }: { children: ReactNode }) {
             smoothWheel: true,
             wheelMultiplier: 1,
             touchMultiplier: 2,
-        });
-
-        // Feed the 3D camera rig (no-op when the world isn't mounted).
-        lenis.on("scroll", (e: { scroll: number; limit: number; velocity: number }) => {
-            publishScroll(e.limit > 0 ? e.scroll / e.limit : 0, e.velocity);
         });
 
         function raf(time: number) {

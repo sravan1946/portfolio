@@ -1,103 +1,95 @@
-import { ExternalLink, Github } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { PROJECTS } from "@/lib/data";
-import { cn } from "@/lib/utils";
 
-function StatusBadge({ status }: { status: "maintained" | "archived" | "deprecated" }) {
-    const config = {
-        maintained: { dot: "bg-[var(--accent)]", text: "text-[var(--accent)]" },
-        archived: { dot: "bg-[var(--ink-faint)]", text: "text-[var(--ink-faint)]" },
-        deprecated: { dot: "bg-[var(--red)]", text: "text-[var(--red)]" },
-    }[status];
-
+function ProjectRow({ project, index }: { project: (typeof PROJECTS)[0]; index: number }) {
     return (
-        <span className={cn("inline-flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[11px]", config.text)}>
-            <span className={cn("h-1.5 w-1.5 rounded-full", config.dot)} aria-hidden="true" />
-            {status}
-        </span>
-    );
-}
+        <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block border-t border-[var(--line-on-blue)] transition-colors duration-300 hover:bg-[var(--coral)] focus-visible:bg-[var(--coral)]"
+        >
+            <div className="container-default grid grid-cols-[auto_1fr_auto] items-baseline gap-x-5 py-7 transition-colors duration-300 group-hover:text-[var(--ink)] sm:gap-x-8 sm:py-9">
+                <span className="margin-note text-[var(--coral)] transition-colors duration-300 group-hover:text-[var(--ink)]">
+                    {String(index + 1).padStart(2, "0")}
+                </span>
 
-function ProjectRow({ project }: { project: (typeof PROJECTS)[0] }) {
-    return (
-        <article className="group relative grid gap-2 border-t border-[var(--line)] py-7 transition-colors duration-200 hover:bg-[var(--accent-tint)] sm:py-8 md:grid-cols-[6.5rem_1fr] md:gap-x-8 md:px-4 md:-mx-4">
-            {/* Year gutter */}
-            <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-faint)] md:pt-1.5">
-                {project.year}
-            </p>
-
-            <div>
-                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                    <h3 className="font-[family-name:var(--font-mono)] text-lg font-bold text-[var(--ink)] transition-colors group-hover:text-[var(--accent)] sm:text-xl">
-                        {/* Stretched link: the whole row opens the repo */}
-                        <a href={project.url} target="_blank" rel="noopener noreferrer" className="after:absolute after:inset-0">
-                            {project.title}
-                        </a>
+                <div className="min-w-0">
+                    <h3 className="font-[family-name:var(--font-display)] text-[clamp(1.7rem,4.5vw,3rem)] font-bold lowercase leading-none tracking-[-0.015em]">
+                        {project.title}
                     </h3>
-                    <span className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--ink-faint)]">
+                    <p className="mt-2.5 max-w-[52ch] text-[0.95rem] leading-relaxed text-[var(--paper-dim)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]">
+                        {project.tagline.replace(/\n/g, " ")}
+                    </p>
+                    <p className="margin-note mt-3 text-[var(--paper-dim)] transition-colors duration-300 group-hover:text-[var(--ink-soft)]">
+                        {project.tech.map((t) => t.toLowerCase()).join(" · ")}
+                        {project.demoUrl && (
+                            <>
+                                {"   "}
+                                <span
+                                    role="link"
+                                    tabIndex={0}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        window.open(project.demoUrl, "_blank", "noopener");
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            window.open(project.demoUrl, "_blank", "noopener");
+                                        }
+                                    }}
+                                    className="sweep-link ml-3 inline-block cursor-pointer text-[var(--coral)] group-hover:text-[var(--ink)]"
+                                >
+                                    demo ↗
+                                </span>
+                            </>
+                        )}
+                    </p>
+                </div>
+
+                <div className="flex flex-col items-end gap-2 self-start text-right">
+                    <span className="font-[family-name:var(--font-mono)] text-[0.72rem] text-[var(--paper)] transition-colors duration-300 group-hover:text-[var(--ink)]">
+                        {project.year}
+                    </span>
+                    <span className="margin-note hidden text-[var(--paper-dim)] transition-colors duration-300 group-hover:text-[var(--ink-soft)] sm:block">
                         {project.category.toLowerCase()}
                     </span>
-                    <StatusBadge status={project.status} />
-                </div>
-
-                <p className="mt-2.5 max-w-[62ch] text-[15px] leading-relaxed text-[var(--ink-muted)]">
-                    {project.description}
-                </p>
-
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
-                    <p className="font-[family-name:var(--font-mono)] text-[11px] text-[var(--ink-faint)]">
-                        {project.tech.map((t) => t.toLowerCase()).join(" · ")}
-                    </p>
-                    <div className="relative z-10 flex items-center gap-4">
-                        <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mono-link inline-flex items-center gap-1.5"
-                            aria-label={`${project.title} source code on GitHub`}
-                        >
-                            <Github size={12} />
-                            source
-                        </a>
-                        {project.demoUrl && (
-                            <a
-                                href={project.demoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mono-link inline-flex items-center gap-1.5"
-                                aria-label={`${project.title} demo`}
-                            >
-                                <ExternalLink size={12} />
-                                demo
-                            </a>
-                        )}
-                    </div>
+                    <ArrowUpRight
+                        size={22}
+                        className="mt-1 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        aria-hidden="true"
+                    />
                 </div>
             </div>
-        </article>
+        </a>
     );
 }
 
 export function Projects() {
     return (
-        <section id="projects">
-            <div className="container-default">
-                <div className="section-head">
-                    <h2>Projects</h2>
+        <section id="projects" className="py-[clamp(5rem,10vw,8.5rem)]">
+            <div className="container-default mb-[clamp(3rem,6vw,5rem)] flex flex-wrap items-end justify-between gap-4">
+                <h2 className="section-word">work</h2>
+                <div className="flex flex-col items-end gap-1.5">
+                    <p className="margin-note text-[var(--paper-dim)]">four picks · 2023 — 2024</p>
                     <a
                         href="https://github.com/sravan1946?tab=repositories"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="section-meta transition-colors hover:text-[var(--accent)]"
+                        className="sweep-link font-[family-name:var(--font-mono)] text-[0.72rem] uppercase tracking-[0.08em] text-[var(--coral)]"
                     >
-                        {PROJECTS.length} selected · all repos on github ↗
+                        all repos ↗
                     </a>
                 </div>
+            </div>
 
-                <div className="scrim border-b border-[var(--line)]">
-                    {PROJECTS.map((project) => (
-                        <ProjectRow key={project.title} project={project} />
-                    ))}
-                </div>
+            <div className="border-b border-[var(--line-on-blue)]">
+                {PROJECTS.map((project, i) => (
+                    <ProjectRow key={project.title} project={project} index={i} />
+                ))}
             </div>
         </section>
     );

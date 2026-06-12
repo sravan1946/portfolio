@@ -1,61 +1,45 @@
 # Design
 
-Terminal-native portfolio. The voice is "quiet competence": one signature effect (text decode), honest content, man-page structure. Decoration that imitates a terminal is banned; the working in-page terminal and command menu are the proof instead.
+A riso-print poster site: three solid inks, oversized type, print-shop details. No WebGL, no scroll hijacking beyond Lenis smoothing; the craft is typographic.
 
 ## Color
 
-OKLCH throughout, defined in `src/index.css`. Phosphor green on green-tinted near-black.
+Three inks used like silkscreen layers (OKLCH in `src/index.css`). Sections are solid color blocks; rhythm comes from flipping ink and paper.
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `oklch(0.16 0.01 160)` | page background |
-| `--surface` | `oklch(0.19 0.012 160)` | panels, cards |
-| `--ink` | `oklch(0.94 0.012 160)` | headings, emphasized text |
-| `--ink-muted` | `oklch(0.74 0.02 160)` | body copy (≥8:1 on bg) |
-| `--ink-faint` | `oklch(0.58 0.02 160)` | metadata, small mono labels |
-| `--accent` | `oklch(0.85 0.21 152)` | phosphor green: links, keys, status |
-| `--accent-ink` | `oklch(0.2 0.03 152)` | text on accent buttons |
-| `--amber` / `--red` | warm signals | git hashes, errors only |
+| `--blue` | `oklch(0.38 0.13 265)` | ultramarine, the site's body (hero, work, log) |
+| `--blue-deep` | `oklch(0.30 0.12 265)` | footer, pressed states |
+| `--paper` | `oklch(0.95 0.012 265)` | cool paper blocks (about, stack); text on blue |
+| `--coral` | `oklch(0.70 0.19 38)` | signal coral: contact block, accents, hover inversion |
+| `--ink` | `oklch(0.24 0.07 265)` | near-black blue, text on paper/coral |
 
-Legacy aliases (`--green-400`, `--slate-*`, `--font-jetbrains-mono`) remap to these tokens so Terminal.tsx and CommandMenu.tsx work unchanged.
+Rules: coral text on blue only at large/bold sizes (3.5:1); body on blue is `--paper`/`--paper-dim`; body on paper/coral is `--ink`/`--ink-soft`. A faint SVG grain (`body::after`, 4.5%) is the print texture over everything.
 
 ## Typography
 
-Two families, hard cap:
+- **Bricolage Grotesque** (300–800, optical sizes): display and body. Lowercase display voice.
+- **Martian Mono** (400/700): margin notes, spec sheets, meta — always small, uppercase, tracked (`.margin-note`).
 
-- **Martian Mono** (400/500/700/800): display (hero name, section heads), all labels, metadata, terminal UI. Structure and data are mono.
-- **Archivo** (400/500/600): paragraphs and descriptions. Prose is sans.
+Section headers are one giant outlined lowercase verb (`.section-word`: stroke = currentColor, fill transparent via `-webkit-text-fill-color`) with a mono margin note at the baseline: about / work / stack / log / hello.
 
-Hero name: lowercase, weight 800, `clamp(2.6rem, 9vw, 5.25rem)`, tracking -0.03em. Section heads: uppercase mono 700 with a green `## ` prefix (man-page system) and a right-aligned mono meta on a hairline rule (`.section-head` / `.section-meta`).
+## Signature elements
 
-## Signature motion
+- **Press mark**: the 12-spoke asterisk (`PressMark.tsx`), spinning slowly next to the name and as the "sent" stamp. `✶` recurs in the ticker, logotype, captions.
+- **Plated photo**: the portrait runs full color on an offset ultramarine plate with a mono caption; the plate, not a filter, carries the print feel.
+- **Catalog rows**: projects are full-bleed index rows that invert to coral with ink text on hover. Cards are banned.
+- **Spec sheets**: hairline-ruled key/value tables (`dt` mono coral, `dd` mono) in hero and about.
+- **Ticker**: one marquee strip in the hero (`.marquee`), items separated by coral `✶`.
+- **Ruled form**: contact inputs are bottom-border-only lines on the coral block, like a print form.
 
-One effect: **text decode** (`DecodeText.tsx`) — characters resolve left to right. Used for the hero boot sequence (`$ whoami` types, name decodes) and on hero-name hover. Nothing else scramble-animates.
+## Motion
 
-Rules:
-- Reveals are state-driven CSS (`revealStyle` in Hero), never rAF-gated visibility; content must land even when animation frames don't run.
-- No scroll-triggered opacity gating on sections; content is visible by default.
-- Everything respects `prefers-reduced-motion` (global kill switch in index.css + `useReducedMotion` checks).
-- Ease: `cubic-bezier(0.22, 1, 0.36, 1)`, 150–500ms.
+Lenis smooth scroll. Hero content rises once on load (framer, reduced-motion aware). Everything else is CSS: marquee, slow spin, `.sweep-link` underline sweeps, row color inversion, arrow nudges. No scroll-triggered opacity gating; content is always visible by default. Eases: `cubic-bezier(0.22, 1, 0.36, 1)`.
 
-## Components & patterns
+## Layout
 
-- **Radii**: 3/6/10px (`--radius-sm/md/lg`). No pills.
-- **Buttons**: `.btn-solid` (green bg, dark text, mono lowercase, verb + object) and `.btn-outline`.
-- **Mono links**: `.mono-link` renders `[label]`; brackets light up on hover.
-- **Hairlines over cards**: projects are border-separated rows with a year gutter, not card grids.
-- **Panels** (neofetch, contact form): 1px `--line-strong` border, `--surface` bg, mono header strip. No macOS traffic lights.
-- **z-scale**: `--z-nav` 40 → `--z-toast` 70. No arbitrary z-indexes.
+`.container-default` 80rem. Section padding `clamp(5rem, 10vw, 8.5rem)`. Surfaces alternate: blue (hero) → paper (about) → blue (work) → paper (stack) → blue (log) → coral (hello) → deep blue (footer). The fixed navbar uses `mix-blend-difference` so it stays legible over every block.
 
 ## Banned
 
-Matrix rain, scanlines, noise overlays, glitch animation, custom cursors, magnetic buttons, glassmorphism, gradient text, fake data (star counts, npm commands, version numbers, "secure connection" theater).
-
-## The 3D world ("/dev/sravan")
-
-Desktop/tablet visitors with WebGL2 (and without reduced-motion) get a full 3D mode: a fixed canvas at `z-0` behind the unchanged DOM, with a scroll-driven camera descending through the machine. Code lives in `src/world/`; the flat site is the permanent fallback (`?flat`, `localStorage.mode`, `mode` command in Terminal/CommandMenu, context loss, phones).
-
-- **Journey**: POST boot grid (hero, grid draws in with the decode) → $HOME directory tree (about, hypr node pulses) → process rack of repo blades (projects, accent trace when abeam; archived blade dim + single amber point) → dependency constellation (stack, scatter→sort on arrival; DOM hover pings nodes via `world:ping`) → riding the git main branch (education, `HEAD -> main` glow, unfinished line ends in a blinking cursor) → network egress port ring (contact, real form success fires `world:packet`: SYN/SYN-ACK/ACK then a streak to a far peer).
-- **Material law**: three tiers only (faint/muted/accent, sRGB values in `src/world/palette.ts`, keep in sync with the OKLCH tokens); accent is focal-only; no bloom/postprocessing (local additive glow sprites); `EdgesGeometry` + line segments, never `wireframe: true`; `FogExp2` colored to `--bg` is the curtain, culling, and contrast guarantee.
-- **Camera**: one Catmull-Rom curve (`src/world/cameraPath.ts`), dwell plateaus via smoothstep keypoint remap, maath-damped scroll following, ≤1.5° cursor look offset, idle sine drift at ~15fps heartbeat. `frameloop="demand"`: renders only on scroll/animation, pauses when the tab is hidden or the Terminal is open (`scrollBus.suspended`).
-- **Readability**: `.scrim` halo (no layout shift) on every text block in 3D mode plus composition-level exclusion zones; scene geometry never sits behind copy at full brightness.
+WebGL/3D, terminal cosplay in the main UI, cards with icon+heading+text, glassmorphism, gradient text, cream/beige backgrounds, fake data. (See PRODUCT.md for the strategic principles.)

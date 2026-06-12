@@ -14,20 +14,21 @@ Personal portfolio for Sravan Krishna C M, a CS student specializing in cybersec
 
 ## Brand Personality
 
-Precise, understated, hacker-native. Quiet competence: the aesthetic of someone who actually uses Arch + Hyprland daily, not a movie set. Three words: terminal-native, restrained, exact.
+A printed object, not a dashboard: confident type, three committed inks, dry wit. Three words: bold, exact, playful. The terminal lives on only as an easter egg, not as the aesthetic.
 
 ## Anti-references
 
-- Movie-hacker cyberpunk: matrix rain, scanlines, noise overlays, glitch effects everywhere, neon glow on every element, custom cursors. The 2024 saturated "hacker portfolio" look.
+- Hacker/terminal cosplay as the visual language: matrix rain, scanlines, phosphor green on black, mono-everything. Done twice, retired.
 - Generic AI portfolio template: centered hero with gradient name, two pill buttons, greyed-out icon row, identical card grids with icon + heading + text.
+- Cream/beige "editorial" defaults and dark-mode-because-dev defaults.
 - Fake credibility props: fabricated npm install commands, version numbers, star counts of 0-1 displayed as social proof.
 
 ## Design Principles
 
-1. One signature effect, executed perfectly. Everything else is carried by typography, spacing, and color.
-2. Real terminal, not terminal cosplay. The working terminal and command menu are the proof of skill; decoration that imitates them is cut.
+1. Type carries the design. Color blocks and one recurring mark (the press asterisk) do the rest; effects never compete with reading.
+2. Print logic on screen: solid inks, ruled lines, margin notes, an index instead of cards.
 3. Honest content is the credibility. Projects presented plainly with real facts beat invented metrics.
-4. Restraint reads as seniority. When in doubt, remove.
+4. Fast by construction. No WebGL, no scroll hijacking; smoothness comes from doing less.
 
 ## Accessibility & Inclusion
 
