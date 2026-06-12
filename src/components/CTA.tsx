@@ -56,6 +56,8 @@ export function CTA() {
             if (response.ok) {
                 setFormState("success");
                 setFormData({ name: "", email: "", message: "" });
+                // the packet leaves the box (3D world reacts; no-op in flat mode)
+                window.dispatchEvent(new CustomEvent("world:packet"));
             } else {
                 setFormState("idle");
                 setSubmitError(result.error || "Something went wrong. Try again, or email me directly.");
@@ -91,7 +93,7 @@ export function CTA() {
 
                 <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
                     {/* Left: pitch + direct channels */}
-                    <div className="flex flex-col gap-8">
+                    <div className="scrim flex flex-col gap-8">
                         <div>
                             <p className="inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] text-[var(--accent)]">
                                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />

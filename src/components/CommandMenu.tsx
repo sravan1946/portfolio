@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Command } from "lucide-react";
 import { PERSONAL_DATA } from "@/lib/data";
+import { setSiteMode } from "@/world/useCapabilities";
 
 export function CommandMenu() {
     const [isOpen, setIsOpen] = useState(false);
@@ -49,6 +50,11 @@ export function CommandMenu() {
         { id: "projects", label: "View Projects", action: () => { window.location.hash = "#projects"; setIsOpen(false); } },
         { id: "about", label: "About Me", action: () => { window.location.hash = "#about"; setIsOpen(false); } },
         { id: "contact", label: "Contact", action: () => { window.open(`mailto:${PERSONAL_DATA.email}`, "_self"); setIsOpen(false); } },
+        {
+            id: "mode",
+            label: document.documentElement.dataset.mode === "3d" ? "Switch to Flat Mode" : "Switch to 3D Mode",
+            action: () => { setSiteMode(document.documentElement.dataset.mode === "3d" ? "flat" : "3d"); },
+        },
     ];
 
     const filteredCommands = commands.filter(cmd =>

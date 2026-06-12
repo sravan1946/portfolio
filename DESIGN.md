@@ -50,3 +50,12 @@ Rules:
 ## Banned
 
 Matrix rain, scanlines, noise overlays, glitch animation, custom cursors, magnetic buttons, glassmorphism, gradient text, fake data (star counts, npm commands, version numbers, "secure connection" theater).
+
+## The 3D world ("/dev/sravan")
+
+Desktop/tablet visitors with WebGL2 (and without reduced-motion) get a full 3D mode: a fixed canvas at `z-0` behind the unchanged DOM, with a scroll-driven camera descending through the machine. Code lives in `src/world/`; the flat site is the permanent fallback (`?flat`, `localStorage.mode`, `mode` command in Terminal/CommandMenu, context loss, phones).
+
+- **Journey**: POST boot grid (hero, grid draws in with the decode) → $HOME directory tree (about, hypr node pulses) → process rack of repo blades (projects, accent trace when abeam; archived blade dim + single amber point) → dependency constellation (stack, scatter→sort on arrival; DOM hover pings nodes via `world:ping`) → riding the git main branch (education, `HEAD -> main` glow, unfinished line ends in a blinking cursor) → network egress port ring (contact, real form success fires `world:packet`: SYN/SYN-ACK/ACK then a streak to a far peer).
+- **Material law**: three tiers only (faint/muted/accent, sRGB values in `src/world/palette.ts`, keep in sync with the OKLCH tokens); accent is focal-only; no bloom/postprocessing (local additive glow sprites); `EdgesGeometry` + line segments, never `wireframe: true`; `FogExp2` colored to `--bg` is the curtain, culling, and contrast guarantee.
+- **Camera**: one Catmull-Rom curve (`src/world/cameraPath.ts`), dwell plateaus via smoothstep keypoint remap, maath-damped scroll following, ≤1.5° cursor look offset, idle sine drift at ~15fps heartbeat. `frameloop="demand"`: renders only on scroll/animation, pauses when the tab is hidden or the Terminal is open (`scrollBus.suspended`).
+- **Readability**: `.scrim` halo (no layout shift) on every text block in 3D mode plus composition-level exclusion zones; scene geometry never sits behind copy at full brightness.

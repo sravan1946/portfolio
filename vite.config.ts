@@ -19,6 +19,7 @@ export default defineConfig({
           'vendor-react': ['react', 'react-dom'],
           'vendor-motion': ['framer-motion'],
           'vendor-lenis': ['lenis'],
+          'vendor-three': ['three'],
         },
       },
     },

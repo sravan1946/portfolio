@@ -10,7 +10,7 @@ export function About() {
                 </div>
 
                 <div className="flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-16 lg:gap-20">
-                    <div className="max-w-[58ch] space-y-5 text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg md:flex-1">
+                    <div className="scrim max-w-[58ch] space-y-5 text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg md:flex-1">
                         <p>
                             I'm a Computer Science student with a passion for{" "}
                             <span className="text-[var(--accent)]">building</span> and{" "}

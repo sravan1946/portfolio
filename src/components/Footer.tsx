@@ -5,7 +5,7 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-[var(--line)] py-8">
+        <footer className="relative z-10 border-t border-[var(--line)] py-8">
             <div className="container-default flex flex-col items-center justify-between gap-6 sm:flex-row">
                 {/* Left: sign-off */}
                 <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--ink-faint)]">

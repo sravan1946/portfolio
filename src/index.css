@@ -251,11 +251,26 @@ section {
   top: 0;
 }
 
+/* ── 3D world mode ──
+   The canvas sits fixed at z-0 behind the in-flow content. Text blocks
+   marked .scrim get a soft dark halo (box-shadow, no layout shift) so
+   copy keeps AA contrast over whatever the scene renders behind it. */
+html[data-mode="3d"] .scrim,
+html[data-mode="3d"] .section-head {
+  --scrim-bg: oklch(0.16 0.01 160 / 0.88);
+  background: var(--scrim-bg);
+  box-shadow: 0 0 2.5rem 1.25rem var(--scrim-bg);
+  border-radius: var(--radius-md);
+}
+
+/* Content visibility breaks waypoint measurement in 3D mode (sections
+   report collapsed heights); only apply it on the flat site. */
+
 /* Content visibility for performance - skip rendering off-screen content */
 @media (min-width: 768px) {
-  #projects,
-  #stack,
-  #education {
+  html[data-mode="flat"] #projects,
+  html[data-mode="flat"] #stack,
+  html[data-mode="flat"] #education {
     content-visibility: auto;
     contain-intrinsic-size: 1px 800px;
   }

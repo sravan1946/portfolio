@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal as TerminalIcon, X } from "lucide-react";
+import { scrollBus } from "@/world/scrollBus";
+import { setSiteMode } from "@/world/useCapabilities";
 
 interface Command {
     cmd: string;
@@ -50,16 +52,19 @@ export function Terminal() {
             document.body.style.overflow = "hidden";
             // @ts-expect-error - lenis is on window
             if (window.lenis) window.lenis.stop();
+            scrollBus.suspended = true; // pause idle 3D rendering under the overlay
         } else {
             document.body.style.overflow = "unset";
             // @ts-expect-error - lenis is on window
             if (window.lenis) window.lenis.start();
+            scrollBus.suspended = false;
         }
-        
+
         return () => {
             document.body.style.overflow = "unset";
             // @ts-expect-error - lenis is on window
             if (window.lenis) window.lenis.start();
+            scrollBus.suspended = false;
         };
     }, [isOpen]);
 
@@ -81,7 +86,7 @@ export function Terminal() {
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [suggestionIndex, setSuggestionIndex] = useState(-1);
 
-    const COMMANDS = ["help", "ls", "whoami", "date", "clear", "exit", "cat", "sudo"];
+    const COMMANDS = ["help", "ls", "whoami", "date", "clear", "exit", "cat", "sudo", "mode"];
 
     // Reset suggestions when input changes manually
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,6 +200,7 @@ export function Terminal() {
                             <span>whoami</span><span>Display current user</span>
                             <span>clear</span><span>Clear terminal screen</span>
                             <span>date</span><span>Show current date/time</span>
+                            <span>mode [3d|flat]</span><span>Switch site rendering mode</span>
                             <span>exit</span><span>Close terminal</span>
                         </div>
                     );
@@ -225,6 +231,20 @@ export function Terminal() {
                     setIsOpen(false);
                     setInput("");
                     return;
+
+                case "mode":
+                    output = (
+                        <span className="text-cyan-200/80">
+                            current mode: {document.documentElement.dataset.mode ?? "flat"}. usage: mode [3d|flat]
+                        </span>
+                    );
+                    break;
+
+                case "mode flat":
+                case "mode 3d":
+                    output = <span className="text-green-400">switching to {lowerCmd.split(" ")[1]} mode...</span>;
+                    setTimeout(() => setSiteMode(lowerCmd.split(" ")[1] as "3d" | "flat"), 400);
+                    break;
 
                 case "sudo access":
                     output = <span className="text-red-500 font-bold blink">PERMISSION DENIED. INCIDENT REPORTED.</span>;

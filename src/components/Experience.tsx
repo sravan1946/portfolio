@@ -19,7 +19,7 @@ export function Experience() {
                     <span className="section-meta">$ git log --oneline</span>
                 </div>
 
-                <ol className="relative max-w-3xl space-y-10 border-l border-[var(--line-strong)] pl-8 sm:pl-10">
+                <ol className="scrim relative max-w-3xl space-y-10 border-l border-[var(--line-strong)] pl-8 sm:pl-10">
                     {EDUCATION.map((entry) => (
                         <li key={entry.period} className="relative">
                             {/* Commit node */}

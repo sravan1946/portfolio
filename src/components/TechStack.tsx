@@ -112,6 +112,7 @@ function StackItem({ item }: { item: (typeof FULL_TECH_STACK)[0] }) {
         >
             <button
                 onClick={() => setFactIndex((i) => (i + 1) % facts.length)}
+                onMouseEnter={() => window.dispatchEvent(new CustomEvent("world:ping", { detail: item.name }))}
                 aria-label={`${item.name}. Activate for a fact.`}
                 aria-expanded={open}
                 className="group flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-2 py-2 -mx-2 text-left transition-colors hover:bg-[var(--accent-tint)]"
@@ -174,7 +175,7 @@ export function TechStack() {
                     <span className="section-meta">click anything for a hot take</span>
                 </div>
 
-                <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-14">
+                <div className="scrim grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-14">
                     {GROUPS.map((group) => (
                         <div key={group.title}>
                             <h3 className="mb-4 border-b border-[var(--line)] pb-2 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.04em] text-[var(--accent)]">

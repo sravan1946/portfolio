@@ -93,7 +93,7 @@ export function Projects() {
                     </a>
                 </div>
 
-                <div className="border-b border-[var(--line)]">
+                <div className="scrim border-b border-[var(--line)]">
                     {PROJECTS.map((project) => (
                         <ProjectRow key={project.title} project={project} />
                     ))}
