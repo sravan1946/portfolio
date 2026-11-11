@@ -1,8 +1,13 @@
+const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
 export async function onRequestPost({ request, env }) {
   try {
-    const { name, email, message } = await request.json();
+    const body = await request.json();
+    const name = String(body.name ?? '').trim().slice(0, 120);
+    const email = String(body.email ?? '').trim().slice(0, 200);
+    const message = String(body.message ?? '').trim().slice(0, 5000);
 
-    if (!name || !email || !message) {
+    if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
@@ -42,17 +47,17 @@ export async function onRequestPost({ request, env }) {
             
             <div class="field">
                 <span class="label">From</span>
-                <div class="value">${name}</div>
+                <div class="value">${esc(name)}</div>
             </div>
             
             <div class="field">
                 <span class="label">Email</span>
-                <div class="value"><a href="mailto:${email}" style="color: #2563eb; text-decoration: none;">${email}</a></div>
+                <div class="value"><a href="mailto:${esc(email)}" style="color: #2563eb; text-decoration: none;">${esc(email)}</a></div>
             </div>
             
             <div class="field">
                 <span class="label">Message</span>
-                <div class="value message-box">${message}</div>
+                <div class="value message-box">${esc(message)}</div>
             </div>
             
             <div class="footer">
@@ -72,7 +77,7 @@ export async function onRequestPost({ request, env }) {
       body: JSON.stringify({
         from: 'Portfolio Contact <contact@mail.p1ng.me>',
         to: ['sravan@p1ng.me'],
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission from ${name.replace(/[\r\n]+/g, ' ')}`,
         text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
         html: emailHtml,
         reply_to: email
@@ -83,13 +88,13 @@ export async function onRequestPost({ request, env }) {
 
     if (!response.ok) {
       console.error('Resend error:', data);
-      return new Response(JSON.stringify({ error: data.message || 'Failed to send email' }), {
+      return new Response(JSON.stringify({ error: 'Failed to send email' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    return new Response(JSON.stringify({ success: true, data }), {
+    return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });

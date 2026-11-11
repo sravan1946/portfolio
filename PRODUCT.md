@@ -14,22 +14,22 @@ Personal portfolio for Sravan Krishna C M, a CS student specializing in cybersec
 
 ## Brand Personality
 
-A printed object, not a dashboard: confident type, three committed inks, dry wit. Three words: bold, exact, playful. The terminal lives on only as an easter egg, not as the aesthetic.
+Dark, sharp and a little loud: chunky type, one hot orange, dry wit. Three words: bold, exact, playful. Techy without terminal cosplay.
 
 ## Anti-references
 
 - Hacker/terminal cosplay as the visual language: matrix rain, scanlines, phosphor green on black, mono-everything. Done twice, retired.
 - Generic AI portfolio template: centered hero with gradient name, two pill buttons, greyed-out icon row, identical card grids with icon + heading + text.
-- Cream/beige "editorial" defaults and dark-mode-because-dev defaults.
+- Cream/beige or white "editorial" minimalism: thin serifs, empty pages, static text.
 - Fake credibility props: fabricated npm install commands, version numbers, star counts of 0-1 displayed as social proof.
 
 ## Design Principles
 
-1. Type carries the design. Color blocks and one recurring mark (the press asterisk) do the rest; effects never compete with reading.
-2. Print logic on screen: solid inks, ruled lines, margin notes, an index instead of cards.
+1. Type carries the design, and something on screen is always alive: the pinging grid, the ticker, rows that react.
+2. The name first, the CV one click away, everything on one page.
 3. Honest content is the credibility. Projects presented plainly with real facts beat invented metrics.
-4. Fast by construction. No WebGL, no scroll hijacking; smoothness comes from doing less.
+4. Fast by construction. No WebGL, no scroll hijacking, no libraries: one small canvas script and the contact form.
 
 ## Accessibility & Inclusion
 
-WCAG AA contrast minimums (4.5:1 body, 3:1 large text). Every animation has a prefers-reduced-motion alternative. Fully keyboard navigable; skip-nav and command menu remain. No information conveyed by color alone.
+WCAG AA contrast minimums (4.5:1 body, 3:1 large text). Every animation has a prefers-reduced-motion alternative. Fully keyboard navigable; skip link remains. No information conveyed by color alone.

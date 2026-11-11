@@ -1,0 +1,295 @@
+---
+import '../site.css';
+import { site, projects, record, stack, stats } from '../data';
+const tools = stack.map((t) => t.name);
+const pad = (i: number) => String(i + 1).padStart(2, '0');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#0a0c0f" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={site.url} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:title" content={site.title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:image" content={`${site.url}/og.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;800&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Scroll-driven rules stay inline: the CSS minifier folds animation-timeline into the shorthand, which browsers reject. -->
+    <style is:inline>
+      @media (prefers-reduced-motion: no-preference) {
+        @supports (animation-timeline: view()) {
+          .rise { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 15%; }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#work">Skip to work</a>
+
+    <header class="bar">
+      <a class="bar__mark" href="#top">p1ng.me</a>
+      <nav aria-label="Main">
+        <a href="#work">work</a>
+        <a href="#about">about</a>
+        <a href="#stack">stack</a>
+        <a href="#contact">contact</a>
+      </nav>
+      <a class="btn btn--small" href={site.cv} download>cv ↓</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-h">
+        <canvas class="hero__grid" id="grid" aria-hidden="true"></canvas>
+        <p class="mono hero__status"><span class="dot"></span>devops intern @ shopdeck · ctf captain · {site.place.toLowerCase()}</p>
+        <h1 id="hero-h" class="hero__name"><span>sravan</span><span>krishna</span></h1>
+        <div class="hero__foot">
+          <p class="hero__line">builds secure systems.<br /><em>breaks</em> insecure ones.</p>
+          <div class="hero__act">
+            <a class="btn" href={site.cv} download>download cv ↓</a>
+            <a class="btn btn--line" href="#contact">ping me →</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker__track">
+          {[0, 1].map(() => (
+            <ul role="list">{tools.map((t) => <li>{t.toLowerCase()}</li>)}</ul>
+          ))}
+        </div>
+      </div>
+
+      <section class="stats" aria-label="In numbers">
+        {stats.map((s) => (
+          <div class="stat rise">
+            <p class="stat__n">{s.n}</p>
+            <p class="stat__what">{s.what}</p>
+            <p class="mono">{s.who}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="work" id="work" aria-labelledby="work-h">
+        <div class="headrow">
+          <h2 id="work-h" class="head">work</h2>
+          <p class="mono">{projects.length} projects · all public · click through to the source</p>
+        </div>
+        <ol class="work__list" role="list">
+          {projects.map((p, i) => (
+            <li class="rise">
+              <a class="proj" href={p.href} target="_blank" rel="noopener">
+                <span class="mono proj__i">{pad(i)}</span>
+                <span class="proj__name">{p.title}</span>
+                <span class="proj__info">
+                  <span>{p.line}</span>
+                  <span class="mono">{[p.meta, p.stack].filter(Boolean).join(' · ').toLowerCase()}</span>
+                </span>
+                <span class="proj__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-h">
+        <div class="headrow">
+          <h2 id="about-h" class="head">about</h2>
+          <p class="mono">how things work, and why they fail</p>
+        </div>
+        <div class="about__row">
+          <div class="about__text rise">
+            <p class="about__lead">I build random stuff, then try to break it.</p>
+            <p>
+              Scripts that automate things nobody asked me to automate, apps for problems I ran into exactly once, and
+              half-finished experiments that taught me more than the finished ones did. Most of it lives on GitHub,
+              some of it even works.
+            </p>
+            <p>
+              The security habit grew out of that: build enough things and you start wanting to know exactly how they
+              break. These days that means keeping production boring at ShopDeck by day, and capture-the-flag weekends
+              with Unemployed Nerds.
+            </p>
+          </div>
+          <div class="log">
+            {record.map((r) => (
+              <div class="rise">
+                <h3 class="mono">{r.word.toLowerCase()}</h3>
+                <ul role="list">
+                  {r.rows.map((row) => (
+                    <li>
+                      <span>{row.what}</span>
+                      <span class="mono">{row.when}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="stack" id="stack" aria-labelledby="stack-h">
+        <div class="headrow">
+          <h2 id="stack-h" class="head">stack</h2>
+          <p class="mono">bill of materials · press a part for a hot take</p>
+        </div>
+        <ol class="parts" role="list" style={`--rows: ${Math.ceil(stack.length / 2)}`}>
+          {stack.map((t, i) => (
+            <li>
+              <button type="button" class="part" data-takes={JSON.stringify(t.takes)} aria-pressed="false" aria-describedby="take">
+                <span class="mono">{String(i + 1).padStart(3, '0')}</span>
+                <span class="part__name">{t.name}</span>
+                <span class="mono part__kind">{t.kind}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <p class="mono take" id="take" aria-live="polite"><span class="take__caret">❯</span> <span id="take-text">awaiting selection…</span></p>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-h">
+        <h2 id="contact-h" class="contact__head">ping me</h2>
+        <div class="contact__row">
+          <div>
+            <p class="contact__lead">Got a project, a CTF team, or a bug worth reporting? I read everything.</p>
+            <a class="contact__mail" href={`mailto:${site.email}`}>{site.email}</a>
+            <ul class="mono contact__links" role="list">
+              {site.socials.map((s) => (
+                <li><a href={s.href} target="_blank" rel="noopener">{s.label.toLowerCase()} ↗</a></li>
+              ))}
+            </ul>
+          </div>
+          <form class="form" id="form" novalidate>
+            <label><span class="mono">name</span><input name="name" type="text" autocomplete="name" required maxlength="120" /></label>
+            <label><span class="mono">email</span><input name="email" type="email" autocomplete="email" required maxlength="200" /></label>
+            <label><span class="mono">message</span><textarea name="message" rows="4" required minlength="10" maxlength="5000"></textarea></label>
+            <div class="form__foot">
+              <button class="btn btn--dark" type="submit">send message →</button>
+              <p class="mono" id="form-status" role="status"></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot mono">
+      <p>© 2026 {site.name.toLowerCase()} · {site.place.toLowerCase()}</p>
+      <a href={site.cv} download>cv ↓</a>
+      <a href="#top">back to top ↑</a>
+    </footer>
+
+    <script>
+      // Contact form: posts JSON to the Pages function; the mailto link is the fallback.
+      const form = document.getElementById('form') as HTMLFormElement;
+      const status = document.getElementById('form-status')!;
+      const button = form.querySelector('button')!;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) return form.reportValidity();
+        button.disabled = true;
+        status.textContent = 'sending…';
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(new FormData(form))),
+          });
+          if (!res.ok) throw new Error();
+          form.reset();
+          status.textContent = 'sent. give me a day to reply.';
+        } catch {
+          status.textContent = 'that did not send. email me directly instead.';
+        }
+        button.disabled = false;
+      });
+
+      // Stack: press a part, its next hot take types out.
+      const takeText = document.getElementById('take-text')!;
+      let typing = 0, current: HTMLElement | null = null, turn = 0;
+      document.querySelectorAll<HTMLButtonElement>('.part').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          turn = btn === current ? turn + 1 : 0;
+          current?.setAttribute('aria-pressed', 'false');
+          btn.setAttribute('aria-pressed', 'true');
+          current = btn;
+          const takes: string[] = JSON.parse(btn.dataset.takes!);
+          const line = `${btn.querySelector('.part__name')!.textContent}: ${takes[turn % takes.length].toLowerCase()}`;
+          clearInterval(typing);
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) { takeText.textContent = line; return; }
+          let n = 0;
+          typing = setInterval(() => {
+            takeText.textContent = line.slice(0, ++n);
+            if (n >= line.length) clearInterval(typing);
+          }, 18);
+        });
+      });
+
+      // Hero: a dot grid that pings. Rings spread from random points, and from the pointer.
+      const canvas = document.getElementById('grid') as HTMLCanvasElement;
+      const hero = canvas.parentElement!;
+      const ctx = canvas.getContext('2d')!;
+      const GAP = 34, SPEED = 0.32, LIFE = 3200, BAND = 70;
+      let w = 0, h = 0, pings: { x: number; y: number; t: number }[] = [], raf = 0, lastAuto = 0, lastMove = 0;
+
+      const resize = () => {
+        const dpr = Math.min(devicePixelRatio, 2);
+        w = hero.clientWidth; h = hero.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw(performance.now());
+      };
+      const draw = (now: number) => {
+        ctx.clearRect(0, 0, w, h);
+        pings = pings.filter((p) => now - p.t < LIFE);
+        for (let x = GAP / 2; x < w; x += GAP) {
+          for (let y = GAP / 2; y < h; y += GAP) {
+            let lit = 0;
+            for (const p of pings) {
+              const age = now - p.t;
+              const off = Math.abs(Math.hypot(x - p.x, y - p.y) - age * SPEED);
+              if (off < BAND) lit = Math.max(lit, (1 - off / BAND) * (1 - age / LIFE));
+            }
+            ctx.fillStyle = lit > 0.02 ? `rgba(255,91,46,${0.25 + lit * 0.75})` : 'rgba(232,236,241,0.13)';
+            const s = 1.5 + lit * 2.5;
+            ctx.fillRect(x - s / 2, y - s / 2, s, s);
+          }
+        }
+      };
+      const loop = (now: number) => {
+        if (now - lastAuto > 2400) { pings.push({ x: Math.random() * w, y: Math.random() * h, t: now }); lastAuto = now; }
+        draw(now);
+        raf = requestAnimationFrame(loop);
+      };
+      addEventListener('resize', resize);
+      resize();
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        hero.addEventListener('pointermove', (e) => {
+          const now = performance.now();
+          if (now - lastMove < 450) return;
+          lastMove = now;
+          const r = hero.getBoundingClientRect();
+          pings.push({ x: e.clientX - r.left, y: e.clientY - r.top, t: now });
+        });
+        // Only animate while the hero is on screen.
+        new IntersectionObserver(([entry]) => {
+          cancelAnimationFrame(raf);
+          if (entry.isIntersecting) raf = requestAnimationFrame(loop);
+        }).observe(hero);
+      }
+    </script>
+  </body>
+</html>
